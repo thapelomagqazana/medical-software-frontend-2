@@ -25,37 +25,40 @@ const TestimonialItem =  styled.div`
 
 const TestimonialImage = styled.img`
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    width: 60px;
     margin-bottom: 20px;
+    object-fit: cover;
+    @media (max-width: 768px) {
+      width: 60px;
+    }
 `;
 
 const testimonials = [
     {
       quote: "This software is amazing and has transformed our practice!",
       name: "Dr. John Doe",
-    //   image: drJohnDoe
+      // image: drJohnDoe
     },
     {
       quote: "The best tool we've ever used for managing patient appointments.",
       name: "Dr. Jane Smith",
-    //   image: drJaneSmith 
+      // image: drJaneSmith 
     },
     {
       quote: "It has made communication with patients so much easier.",
       name: "Dr. Robert Brown",
-    //   image: drRobertBrown
+      // image: drRobertBrown
     },
     {
       quote: "Our staff loves the efficiency this software brings.",
       name: "Dr. Emily White",
-      image: "/assets/images/dr-emily-white.jpg"
+      // image: drJohnDoe
     }
 ];
 
 const TestimonialsSection = () => (
     <TestimonialsContainer>
-      <Typography variant="h4" gutterBottom>Testimonials</Typography>
+      <Typography variant="h4" gutterBottom align="center">Testimonials</Typography>
       <Carousel showThumbs={false} showStatus={false} infiniteLoop useKeyboardArrows autoPlay>
         {testimonials.map((testimonial, index) => (
             <TestimonialItem key={index}>

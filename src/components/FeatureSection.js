@@ -45,7 +45,7 @@ const features = [
 
 const FeaturesSection = () => (
     <FeaturesContainer>
-        <Typography variant="h4" gutterBottom>Features</Typography>
+        <Typography variant="h4" gutterBottom align="center">Features</Typography>
         <Grid container spacing={4} justifyContent="center">
             {features.map((feature, index) => (
                 <Grid item xs={12} sm={6} md={3} key={index}>

@@ -36,8 +36,14 @@ const FooterLink = styled(Link)`
   text-decoration: none;
   color: #ffffff;
   &:hover {
-    text-decoration: underline;
+    color: #007BFF;
   }
+`;
+
+const SocialLink = styled(IconButton)`
+    &:hover {
+        color: #007BFF;
+    }
 `;
 
 const SocialIcons = styled.div`
@@ -56,18 +62,18 @@ const Footer = () => (
       <FooterLink to="/terms-of-service">Terms of Service</FooterLink>
     </FooterLinks>
     <SocialIcons>
-        <IconButton href="https://www.facebook.com" target="_blank" color="inherit">
+        <SocialLink href="https://www.facebook.com" target="_blank" color="inherit">
             <FacebookIcon />
-        </IconButton>
-        <IconButton href="https://www.twitter.com" target="_blank" color="inherit">
+        </SocialLink>
+        <SocialLink href="https://www.twitter.com" target="_blank" color="inherit">
             <TwitterIcon />
-        </IconButton>
-        <IconButton href="https://www.linkedin.com" target="_blank" color="inherit">
+        </SocialLink>
+        <SocialLink href="https://www.linkedin.com" target="_blank" color="inherit">
             <LinkedInIcon />
-        </IconButton>
-        <IconButton href="https://www.instagram.com" target="_blank" color="inherit">
+        </SocialLink>
+        <SocialLink href="https://www.instagram.com" target="_blank" color="inherit">
             <InstagramIcon />
-        </IconButton>
+        </SocialLink>
     </SocialIcons>
   </FooterContainer>
 );

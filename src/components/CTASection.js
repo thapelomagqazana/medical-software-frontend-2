@@ -54,9 +54,29 @@ const CTASection = () => {
         >
           {({ errors, touched }) => (
             <CTAForm>
-              <Field as={TextField} name="name" label="Name" error={touched.name && !!errors.name} helperText={touched.name && errors.name} />
-              <Field as={TextField} name="email" label="Email" error={touched.email && !!errors.email} helperText={touched.email && errors.email} />
-              <Field as={TextField} name="message" label="Message" multiline rows={4} />
+              <Field 
+                as={TextField} 
+                name="name" 
+                label="Name" 
+                error={touched.name && !!errors.name} 
+                helperText={touched.name && errors.name} 
+              />
+
+              <Field 
+                as={TextField} 
+                name="email" 
+                label="Email" 
+                error={touched.email && !!errors.email} 
+                helperText={touched.email && errors.email} 
+              />
+
+              <Field 
+                as={TextField} 
+                name="message" 
+                label="Message" 
+                multiline rows={4} 
+              />
+              
               <CTAButton type="submit" variant="contained" color="primary">Request Demo</CTAButton>
             </CTAForm>
           )}
