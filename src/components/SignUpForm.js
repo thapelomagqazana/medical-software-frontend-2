@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, TextField, Button, Container, Box, MenuItem } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { register } from "../redux/authSlice";
-import { Link } from "react-router-dom";
+import { register, clearRegistrationSuccess } from "../redux/authSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 const FormContainer = styled(Container)`
     display: flex;
@@ -25,13 +25,25 @@ const SignUpSchema = Yup.object().shape({
 
 const SignUp = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const error = useSelector((state) => state.auth.error);
+    const registrationSuccess = useSelector((state) => state.auth.registrationSuccess);
+
+    useEffect(() => {
+        if (registrationSuccess) {
+            setTimeout(() => {
+                dispatch(clearRegistrationSuccess());
+                navigate("/sign-in");
+            }, 2000) // Redirect after 2 seconds
+        }
+    }, [registrationSuccess, dispatch, navigate]);
 
     return (
         <FormContainer maxWidth="sm">
             <Typography variant="h4" gutterBottom>
                 Sign Up
             </Typography>
+            {registrationSuccess && <Box color="success.main" mb={2} style={{ color: 'green' }}>Registration successful! Redirecting to login...</Box>}
             <Formik
                 initialValues={{
                     firstName: "",
@@ -43,7 +55,7 @@ const SignUp = () => {
                 }}
                 validationSchema={SignUpSchema}
                 onSubmit={(values) => {
-                    console.log(values);
+                    // console.log(values);
                     dispatch(register(values));
                 }}
             >
