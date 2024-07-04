@@ -76,7 +76,7 @@ const CTASection = () => {
                 label="Message" 
                 multiline rows={4} 
               />
-              
+
               <CTAButton type="submit" variant="contained" color="primary">Request Demo</CTAButton>
             </CTAForm>
           )}
