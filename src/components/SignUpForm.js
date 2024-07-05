@@ -1,3 +1,14 @@
+/**
+ * Importing necessary libraries and components.
+ * - React, { useEffect }: A JavaScript library for building user interfaces and useEffect hook for side effects.
+ * - styled from "@emotion/styled": A library for writing CSS styles with JavaScript.
+ * - useDispatch, useSelector from "react-redux": Hooks for interacting with the Redux store.
+ * - Typography, TextField, Button, Container, Box, MenuItem from "@mui/material": Material-UI components.
+ * - Formik, Form, Field from "formik": A library for handling forms in React.
+ * - Yup: A library for schema validation.
+ * - register, clearRegistrationSuccess: Actions from the authSlice in Redux.
+ * - Link, useNavigate from "react-router-dom": Components for navigation.
+ */
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +18,13 @@ import * as Yup from "yup";
 import { register, clearRegistrationSuccess } from "../redux/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 
+/**
+ * Styled component for the form container.
+ * - display: Sets the layout to flexbox.
+ * - flex-direction: Aligns items in a column.
+ * - align-items: Centers the items.
+ * - padding: Adds padding inside the container.
+ */
 const FormContainer = styled(Container)`
     display: flex;
     flex-direction: column;
@@ -14,6 +32,16 @@ const FormContainer = styled(Container)`
     padding: 20px;
 `;
 
+
+/**
+ * Validation schema for the sign-up form.
+ * - firstName: Must be provided.
+ * - lastName: Must be provided.
+ * - email: Must be a valid email and is required.
+ * - password: Must be at least 6 characters and is required.
+ * - confirmPassword: Must match the password field and is required.
+ * - role: Must be one of 'patient', 'doctor', or 'admin' and is required.
+ */
 const SignUpSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
@@ -23,6 +51,18 @@ const SignUpSchema = Yup.object().shape({
     role: Yup.string().oneOf(['patient', 'doctor', 'admin'], 'Invalid role').required('Role is required'),
 });
 
+/**
+ * Main component for the sign-up page.
+ * - useDispatch: Hook to get the dispatch function from the Redux store.
+ * - useSelector: Hook to get the error and registrationSuccess states from the auth slice in the Redux store.
+ * - useNavigate: Hook to navigate programmatically.
+ * - useEffect: Hook to handle side effects, here it redirects after successful registration.
+ * - Formik: Handles the form state and validation.
+ * - initialValues: Sets the initial values for the form fields.
+ * - validationSchema: Uses the SignUpSchema for validation.
+ * - onSubmit: Dispatches the register action with the form values.
+ * - errors, touched: Formik properties to handle validation errors and touched fields.
+ */
 const SignUp = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -43,7 +83,7 @@ const SignUp = () => {
             <Typography variant="h4" gutterBottom>
                 Sign Up
             </Typography>
-            {registrationSuccess && <Box color="success.main" mb={2} style={{ color: 'green' }}>Registration successful! Redirecting to login...</Box>}
+            {registrationSuccess && <Box color="success.main" mb={2}>Registration successful! Redirecting to login...</Box>}
             <Formik
                 initialValues={{
                     firstName: "",
@@ -143,5 +183,6 @@ const SignUp = () => {
         </FormContainer>
     );
 };
+
 
 export default SignUp;

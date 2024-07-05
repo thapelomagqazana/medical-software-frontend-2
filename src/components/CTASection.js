@@ -1,9 +1,24 @@
+/**
+ * Importing necessary libraries and components.
+ * - React: A JavaScript library for building user interfaces.
+ * - styled from "@emotion/styled": A library for writing CSS styles with JavaScript.
+ * - Button, TextField, Typography from "@mui/material": Material-UI components.
+ * - Formik, Form, Field from "formik": A library for handling forms in React.
+ * - Yup: A library for schema validation.
+ */
 import React from "react";
 import styled from "@emotion/styled";
 import { Button, TextField, Typography } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
+/**
+ * Styled component for the main container of the call-to-action section.
+ * - padding: Adds space inside the container.
+ * - background-color: Sets the background color.
+ * - text-align: Centers the text inside the container.
+ * - media query: Adjusts the padding for screens with a width of 768px or less.
+ */
 const CTAContainer = styled.section`
     padding: 50px 20px;
     background-color: #f9f9f9;
@@ -14,6 +29,13 @@ const CTAContainer = styled.section`
     }
 `;
 
+/**
+ * Styled component for the call-to-action button.
+ * - margin-top: Adds space above the button.
+ * - padding: Adds space inside the button.
+ * - background-color: Sets the button's background color.
+ * - &:hover: Changes the background color when the button is hovered over.
+ */
 const CTAButton = styled(Button)`
     margin-top: 20px;
     padding: 10px 20px;
@@ -23,6 +45,15 @@ const CTAButton = styled(Button)`
     }
 `;
 
+/**
+ * Styled component for the form inside the call-to-action section.
+ * - display: Sets the display style to flex for flexible box layout.
+ * - flex-direction: Aligns items in a column.
+ * - align-items: Centers the items.
+ * - gap: Adds space between items.
+ * - width: Sets the width of the form to 100%.
+ * - media query: Adjusts the gap for screens with a width of 768px or less.
+ */
 const CTAForm = styled(Form)`
   display: flex;
   flex-direction: column;
@@ -35,6 +66,14 @@ const CTAForm = styled(Form)`
   }
 `;
 
+/**
+ * Main component for the call-to-action section.
+ * - validationSchema: Defines the validation rules using Yup.
+ * - Formik: Handles the form state and validation.
+ * - initialValues: Sets the initial values for the form fields.
+ * - onSubmit: Function to handle form submission.
+ * - errors, touched: Formik properties to handle validation errors and touched fields.
+ */
 const CTASection = () => {
     const validationSchema = Yup.object({
       name: Yup.string().required('Required'),
