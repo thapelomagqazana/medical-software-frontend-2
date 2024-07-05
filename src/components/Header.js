@@ -9,12 +9,13 @@
  */
 import React from 'react';
 import styled from '@emotion/styled/macro';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/authSlice';
+
 
 /**
  * Styled component for individual header links.
@@ -56,6 +57,7 @@ const Header = () => {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -68,6 +70,7 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(logout());
     handleClose();
+    navigate("/");
   };
 
   const toggleDrawer = (open) => () => {

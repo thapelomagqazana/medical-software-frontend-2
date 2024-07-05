@@ -7,7 +7,7 @@
  * - Formik, Form, Field from "formik": A library for handling forms in React.
  * - Yup: A library for schema validation.
  * - login: The login action from the authSlice in Redux.
- * - Link from "react-router-dom": A component for navigation links.
+ * - Link, useNavigate from "react-router-dom": Components for navigation and programmatic navigation.
  */
 import React from "react";
 import styled from "@emotion/styled";
@@ -16,7 +16,7 @@ import { Typography, TextField, Button, Container, Box, Link as MuiLink } from "
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { login } from "../redux/authSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 /**
  * Styled component for the form container.
@@ -24,12 +24,21 @@ import { Link } from "react-router-dom";
  * - flex-direction: Aligns items in a column.
  * - align-items: Centers the items.
  * - padding: Adds padding inside the container.
+ * - max-width: Limits the maximum width of the container.
+ * - box-shadow: Adds a shadow effect to the container.
+ * - border-radius: Rounds the corners of the container.
+ * - background-color: Sets the background color.
  */
 const FormContainer = styled(Container)`
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-top: 50px;
 `;
 
 /**
@@ -54,22 +63,31 @@ const LoginSchema = Yup.object().shape({
  */
 const Login = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const error = useSelector((state) => state.auth.error);
 
     return (
-        <FormContainer maxWidth="sm">
+        <FormContainer>
             <Typography variant="h4" gutterBottom>
                 Sign In
             </Typography>
             <Formik
                 initialValues={{ email: "", password: "" }}
                 validationSchema={LoginSchema}
-                onSubmit={(values) => {
-                    // console.log(values)
-                    dispatch(login(values));
+                onSubmit={async (values, { setSubmitting }) => {
+                    try {
+                        const result = await dispatch(login(values)).unwrap();
+                        if (result.token) {
+                            navigate("/dashboard"); // Redirect to the dashboard
+                        }
+                    } catch (err) {
+                        console.error("Failed to login:", err);
+                    } finally {
+                        setSubmitting(false); // Set submitting to false after submission is complete
+                    }
                 }}
             >
-                {({ errors, touched }) => (
+                {({ errors, touched, isSubmitting }) => (
                     <Form>
                         <Field 
                             as={TextField}
@@ -96,7 +114,7 @@ const Login = () => {
 
 
                         {error && <Box color="error.main" mb={2}>{error.msg}</Box>}
-                        <Button type="submit" variant="contained" color="primary" fullWidth>
+                        <Button type="submit" variant="contained" color="primary" fullWidth disabled={isSubmitting}>
                             Log In
                         </Button>
                     </Form>

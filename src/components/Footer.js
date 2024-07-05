@@ -9,7 +9,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { IconButton } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
@@ -106,6 +106,7 @@ const SocialIcons = styled.div`
  */
 const Footer = () => (
   <FooterContainer>
+    
     <FooterLinks aria-label="Footer Navigation Links">
       <FooterLink to="/privacy-policy">Privacy Policy</FooterLink>
       <FooterLink to="/terms-of-service">Terms of Service</FooterLink>
@@ -124,6 +125,9 @@ const Footer = () => (
             <InstagramIcon />
         </SocialLink>
     </SocialIcons>
+    <Typography variant="body2">
+      © 2024 HealthHub. All rights reserved.
+    </Typography>
   </FooterContainer>
 );
 

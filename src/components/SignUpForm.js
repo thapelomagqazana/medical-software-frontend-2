@@ -24,12 +24,21 @@ import { Link, useNavigate } from "react-router-dom";
  * - flex-direction: Aligns items in a column.
  * - align-items: Centers the items.
  * - padding: Adds padding inside the container.
+ * - max-width: Limits the maximum width of the container.
+ * - box-shadow: Adds a shadow effect to the container.
+ * - border-radius: Rounds the corners of the container.
+ * - background-color: Sets the background color.
  */
 const FormContainer = styled(Container)`
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #ffffff;
+    margin-top: 50px;
 `;
 
 
@@ -79,7 +88,7 @@ const SignUp = () => {
     }, [registrationSuccess, dispatch, navigate]);
 
     return (
-        <FormContainer maxWidth="sm">
+        <FormContainer>
             <Typography variant="h4" gutterBottom>
                 Sign Up
             </Typography>
