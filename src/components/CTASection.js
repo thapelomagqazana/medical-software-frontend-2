@@ -52,6 +52,7 @@ const CTAButton = styled(Button)`
  * - align-items: Centers the items.
  * - gap: Adds space between items.
  * - width: Sets the width of the form to 100%.
+ * - max-width: Limits the maximum width of the form.
  * - media query: Adjusts the gap for screens with a width of 768px or less.
  */
 const CTAForm = styled(Form)`
@@ -60,6 +61,8 @@ const CTAForm = styled(Form)`
   align-items: center;
   gap: 20px;
   width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 
   @media (max-width: 768px) {
     gap: 15px;

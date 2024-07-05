@@ -36,6 +36,15 @@ const FeaturesContainer = styled.section`
 const FeatureItem = styled.div`
     text-align: center;
     margin: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+
+    &:hover {
+        transform: translateY(-10px);
+    }
 `;
 
 /**
