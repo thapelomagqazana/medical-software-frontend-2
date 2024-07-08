@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Card, CardContent, Typography, Button, Box, Grid } from "@mui/material";
+import { Card, CardContent, Typography, Button, Box, Grid, IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
 
 /**
  * AppointmentCard component
@@ -56,21 +58,24 @@ const AppointmentCard = ({ appointment }) => (
 
 const UpcomingAppointments = ({ appointments }) => {
     const [showAll, setShowAll] = useState(false);
+    const navigate = useNavigate();
 
     return (
         <Card sx={{ margin: 2, boxShadow: 3 }}>
             <CardContent>
-                <Typography variant="h5" gutterBottom>
-                    Upcoming Appointments
-                </Typography>
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                    <Typography variant="h5" gutterBottom>
+                        Upcoming Appointments
+                    </Typography>
+                    <IconButton color="primary" onClick={() => navigate('/schedule-appointment')}>
+                        <AddIcon />
+                    </IconButton>
+                </Box>
                 {appointments.length === 0 ? (
                     <Box textAlign="center" my={4}>
                         <Typography variant="h6" color="textSecondary">
                             You have no upcoming appointments.
                         </Typography>
-                        <Button variant="contained" color="primary" sx={{ marginTop: 2 }}>
-                            Schedule Appointment
-                        </Button>
                     </Box>
                 ) : (
                     <Grid container spacing={4}>

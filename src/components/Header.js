@@ -70,7 +70,7 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(logout());
     handleClose();
-    navigate("/");
+    navigate("/sign-in");
   };
 
   const toggleDrawer = (open) => () => {
