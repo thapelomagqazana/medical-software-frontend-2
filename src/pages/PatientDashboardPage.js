@@ -18,9 +18,7 @@ const PatientDashboardPage = () => {
 
     const dispatch = useDispatch();
     const { appointments, loading, error } = useSelector((state) => state.patientData);
-    const user = useSelector((state) => state.auth.user);
-
-    console.log(user);
+    // const user = useSelector((state) => state.auth.user);
 
     useEffect(() => {
         dispatch(fetchAppointments());

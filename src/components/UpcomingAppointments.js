@@ -3,6 +3,23 @@ import { Card, CardContent, Typography, Button, Box, Grid, IconButton } from "@m
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 
+// Helper function to format the time
+const formatTime = (time) => {
+    const date = new Date(time);
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+};
+
+// Helper function to format the date
+const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getUTCFullYear();
+    const month = String(d.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-based, so add 1
+    const day = String(d.getUTCDate()).padStart(2, '0');
+    return `${year}/${month}/${day}`;
+};
+
 /**
  * AppointmentCard component
  * 
@@ -21,13 +38,16 @@ const AppointmentCard = ({ appointment }) => (
     <Card sx={{ margin: 2, boxShadow: 3 }}>
         <CardContent>
             <Typography variant="body2" color="textSecondary">
-                Date: {appointment.date}
+                Date: {formatDate(appointment.startTime)}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-                Time: {appointment.time}
+                Time: {formatTime(appointment.startTime)} - {formatTime(appointment.endTime)}
             </Typography>
             <Typography variant="body2" color="textSecondary">
-                Doctor: {appointment.doctor}
+                Doctor: Dr. {appointment.doctorId.firstName} {appointment.doctorId.lastName}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+                Status: {appointment.status}
             </Typography>
             <Button variant="outlined" color="primary" sx={{ marginTop: 2 }}>
                 View Details
@@ -35,6 +55,8 @@ const AppointmentCard = ({ appointment }) => (
         </CardContent>
     </Card>
 );
+
+
 
 /**
  * UpcomingAppointments component
@@ -55,10 +77,11 @@ const AppointmentCard = ({ appointment }) => (
  *   { id: "2", date: "2024-07-05", time: "11:00 AM", doctor: "Dr. Johnson" }
  * ]} />
  */
-
 const UpcomingAppointments = ({ appointments }) => {
     const [showAll, setShowAll] = useState(false);
     const navigate = useNavigate();
+    
+    const displayedAppointments = showAll ? appointments : appointments.slice(0, 2);
 
     return (
         <Card sx={{ margin: 2, boxShadow: 3 }}>
@@ -79,14 +102,14 @@ const UpcomingAppointments = ({ appointments }) => {
                     </Box>
                 ) : (
                     <Grid container spacing={4}>
-                        {appointments.map((appointment) => (
-                            <Grid item xs={12} md={6} key={appointment.id}>
+                        {displayedAppointments.map((appointment) => (
+                            <Grid item xs={12} md={6} key={appointment._id}>
                                 <AppointmentCard appointment={appointment} />
                             </Grid>
                         ))}
                     </Grid>
                 )}
-                {appointments.length > 1 && (
+                {appointments.length > 2 && (
                     <Box textAlign="center" mt={2}>
                         <Button variant="contained" onClick={() => setShowAll(!showAll)}>
                             {showAll ? "Show Less" : "View All"}

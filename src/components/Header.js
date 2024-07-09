@@ -91,7 +91,7 @@ const Header = () => {
             </IconButton>
             <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
             <List>
-                <ListItem button component={Link} to="/" onClick={toggleDrawer(false)}>
+                <ListItem button component={Link} to="/dashboard" onClick={toggleDrawer(false)}>
                 <ListItemText primary="Home" />
                 </ListItem>
                 <ListItem button component={Link} to="/appointments" onClick={toggleDrawer(false)}>
