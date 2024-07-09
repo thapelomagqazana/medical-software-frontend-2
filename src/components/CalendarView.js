@@ -8,9 +8,9 @@ const localizer = momentLocalizer(moment);
 
 const CalendarView = ({ appointments }) => {
     const events = appointments.map(appointment => ({
-        title: `Appointment with ${appointment.doctor}`,
-        start: new Date(appointment.date + "T" + appointment.time),
-        end: new Date(appointment.date + "T" + appointment.time),
+        title: `Appointment with Doctor: Dr. ${appointment.doctorId.firstName} ${appointment.doctorId.lastName}`,
+        start: new Date(appointment.startTime),
+        end: new Date(appointment.endTime),
     }));
 
     return (
