@@ -1,8 +1,8 @@
 // Importing necessary libraries and components
 import React from "react";
-import Header from "../components/Header";
+import Header from "../components/global/Header";
 import SignUp from "../components/SignUpForm";
-import Footer from "../components/Footer";
+import Footer from "../components/global/Footer";
 
 /**
  * SignUpPage is a React functional component that renders the sign-up page of the application.

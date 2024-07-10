@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container } from "@mui/material";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../components/global/Header";
+import Footer from "../components/global/Footer";
 import WelcomeMessage from "../components/WelcomeMessage";
 import UpcomingAppointments from "../components/UpcomingAppointments";
 import { fetchAppointments } from "../redux/patientDataSlice";

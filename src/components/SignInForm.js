@@ -124,7 +124,7 @@ const Login = () => {
                 Forgot Password?
             </MuiLink>
             <Box mt={2}>
-                <Link to="/sign-up">Don't have an account? Sign Up.</Link>
+                <MuiLink component={Link} to="/sign-up">Don't have an account? Sign Up.</MuiLink>
             </Box>
         </FormContainer>
     );

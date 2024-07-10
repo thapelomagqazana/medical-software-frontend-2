@@ -14,7 +14,7 @@ import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, Drawer
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../redux/authSlice';
+import { logout } from '../../redux/authSlice';
 
 
 /**
@@ -67,6 +67,11 @@ const Header = () => {
     setAnchorEl(null);
   };
 
+  const displayProfile = () => {
+    handleClose();
+    navigate("/profile");
+  };
+
   const handleLogout = () => {
     dispatch(logout());
     handleClose();
@@ -115,7 +120,7 @@ const Header = () => {
               <AccountCircle />
             </IconButton>
             <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={displayProfile}>Profile</MenuItem>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </>

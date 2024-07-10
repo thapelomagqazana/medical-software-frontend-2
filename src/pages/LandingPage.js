@@ -4,12 +4,12 @@
  * - Header, HeroSection, FeaturesSection, TestimonialsSection, CTASection, Footer: Custom components for different sections of the landing page.
  */
 import React from "react";
-import Header from "../components/Header";
+import Header from "../components/global/Header";
 import HeroSection from '../components/HeroSection';
 import FeaturesSection from "../components/FeatureSection";
 import TestimonialsSection from "../components/TestimonialsSection";
 import CTASection from "../components/CTASection";
-import Footer from "../components/Footer";
+import Footer from "../components/global/Footer";
 
 /**
  * LandingPage component.

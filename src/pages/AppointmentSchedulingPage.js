@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CalendarView from "../components/CalendarView";
 import AppointmentForm from "../components/AppointmentForm";
-import Header from "../components/Header";
+import Header from "../components/global/Header";
 import { fetchAppointments } from "../redux/patientDataSlice";
 import { scheduleAppointment } from "../redux/appointmentsSlice";
 import { Box, Typography, CircularProgress, Alert } from "@mui/material";

@@ -12,7 +12,7 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
-import { Typography, TextField, Button, Container, Box, MenuItem } from "@mui/material";
+import { Typography, TextField, Button, Container, Box, MenuItem, Link as MuiLink } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { register, clearRegistrationSuccess } from "../redux/authSlice";
@@ -186,9 +186,8 @@ const SignUp = () => {
 
             </Formik>
             <Box mt={2}>
-                <Link>Already have an account? Log In.</Link>
+                <MuiLink component={Link} to="/sign-in">Already have an account? Log In.</MuiLink>
             </Box>
-
         </FormContainer>
     );
 };

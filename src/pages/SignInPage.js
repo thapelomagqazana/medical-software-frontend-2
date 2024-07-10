@@ -4,9 +4,9 @@
  * - Header, SignIn, Footer: Custom components for different sections of the sign-up page.
  */
 import React from "react";
-import Header from "../components/Header";
+import Header from "../components/global/Header";
 import SignIn from "../components/SignInForm";
-import Footer from "../components/Footer";
+import Footer from "../components/global/Footer";
 
 
 /**

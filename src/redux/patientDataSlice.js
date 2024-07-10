@@ -3,7 +3,8 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/patient";
 
-export const fetchAppointments = createAsyncThunk("patients/fetchAppointments", async  (_, { getState, rejectWithValue }) => {
+export const fetchAppointments = createAsyncThunk(
+    "patients/fetchAppointments", async  (_, { getState, rejectWithValue }) => {
     try {
         // Get token from the state or localStorage
         const token = localStorage.getItem("token");

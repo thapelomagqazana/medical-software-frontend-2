@@ -8,9 +8,14 @@
  */
 import React from "react";
 import styled from "@emotion/styled/macro";
-import { Typography } from "@mui/material";
+import { Typography, Avatar } from "@mui/material";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+import drJohnDoe from "../assets/images/pexels-mikhail-nilov-8942090.jpg";
+import drJaneSmith from "../assets/images/pexels-tessy-agbonome-521343232-18828741.jpg";
+import drRobertBrown from "../assets/images/pexels-gustavo-fring-5622280.jpg";
+import drEmilyWhite from "../assets/images/pexels-olly-3952375.jpg";
 
 // Import images
 // import drJohnDoe from '../assets/images/medium-shot-female-nurse-hospital.jpg';
@@ -57,18 +62,22 @@ const testimonials = [
     {
       quote: "This software is amazing and has transformed our practice!",
       name: "Dr. John Doe",
+      image: drJohnDoe
     },
     {
       quote: "The best tool we've ever used for managing patient appointments.",
       name: "Dr. Jane Smith",
+      image: drJaneSmith
     },
     {
       quote: "It has made communication with patients so much easier.",
       name: "Dr. Robert Brown",
+      image: drRobertBrown
     },
     {
       quote: "Our staff loves the efficiency this software brings.",
       name: "Dr. Emily White",
+      image: drEmilyWhite
     }
 ];
 
@@ -86,6 +95,11 @@ const TestimonialsSection = () => (
       <Carousel showThumbs={false} showStatus={false} infiniteLoop useKeyboardArrows autoPlay>
         {testimonials.map((testimonial, index) => (
             <TestimonialItem key={index}>
+              <Avatar 
+                sx={{ width: 100, height: 100, mx: "auto", mb: 2 }} 
+                src={testimonial.image} 
+                alt={testimonial.name} 
+              />
               <Typography variant="h6">"{testimonial.quote}"</Typography>
               <Typography>- {testimonial.name}</Typography>
             </TestimonialItem>
