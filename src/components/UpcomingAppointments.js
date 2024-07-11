@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent, Typography, Button, Box, Grid, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
@@ -78,16 +78,15 @@ const AppointmentCard = ({ appointment }) => (
  * ]} />
  */
 const UpcomingAppointments = ({ appointments }) => {
-    const [showAll, setShowAll] = useState(false);
     const navigate = useNavigate();
     
-    const displayedAppointments = showAll ? appointments : appointments.slice(0, 2);
+    const displayedAppointments = appointments.slice(0, 2);
 
     return (
         <Card sx={{ margin: 2, boxShadow: 3 }}>
             <CardContent>
                 <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Typography variant="h5" gutterBottom>
+                    <Typography variant="h5" gutterBottom align="center">
                         Upcoming Appointments
                     </Typography>
                     <IconButton color="primary" onClick={() => navigate('/schedule-appointment')}>
@@ -111,8 +110,8 @@ const UpcomingAppointments = ({ appointments }) => {
                 )}
                 {appointments.length > 2 && (
                     <Box textAlign="center" mt={2}>
-                        <Button variant="contained" onClick={() => setShowAll(!showAll)}>
-                            {showAll ? "Show Less" : "View All"}
+                        <Button variant="contained" onClick={() => navigate('/your-appointments')}>
+                            View All
                         </Button>
                     </Box>
                 )}

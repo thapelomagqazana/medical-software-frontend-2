@@ -7,6 +7,7 @@ import Dashboard from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
 import AppointmentSchedulingPage from './pages/AppointmentSchedulingPage';
 import PrivateRoute from './components/PrivateRoute';
+import YourAppointmentsPage from './pages/YourAppointmentsPage';
 
 const App = () => (
   <Router>
@@ -17,6 +18,7 @@ const App = () => (
       <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />}/>
       <Route path="/schedule-appointment" element={<PrivateRoute element={<AppointmentSchedulingPage />} />} />
       <Route path="/profile" element={<PrivateRoute element={<ProfilePage /> } />} />
+      <Route path="/your-appointments" element={<PrivateRoute element={<YourAppointmentsPage />} />} />
       {/* Add more routes here as needed */}
     </Routes>
   </Router>

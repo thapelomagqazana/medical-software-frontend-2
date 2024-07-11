@@ -3,6 +3,26 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/api/patient";
 
+export const fetchUpcomingAppointments = createAsyncThunk(
+    "patients/fetchUpcomingAppointments", async  (_, { getState, rejectWithValue }) => {
+    try {
+        // Get token from the state or localStorage
+        const token = localStorage.getItem("token");
+        
+        // Set up headers
+        const config = {
+            headers: {
+                Authorization: `${token}`
+            }
+        };
+        
+        const response = await axios.get(`${API_URL}/upcoming-appointments`, config);
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response.data);
+    }
+});
+
 export const fetchAppointments = createAsyncThunk(
     "patients/fetchAppointments", async  (_, { getState, rejectWithValue }) => {
     try {
@@ -32,6 +52,17 @@ const patientDataSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(fetchUpcomingAppointments.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(fetchUpcomingAppointments.fulfilled, (state, action) => {
+                state.appointments = action.payload;
+                state.loading = false;
+            })
+            .addCase(fetchUpcomingAppointments.rejected, (state, action) => {
+                state.error = action.error.message;
+                state.loading = false;
+            })
             .addCase(fetchAppointments.pending, (state) => {
                 state.loading = true;
             })
@@ -42,7 +73,7 @@ const patientDataSlice = createSlice({
             .addCase(fetchAppointments.rejected, (state, action) => {
                 state.error = action.error.message;
                 state.loading = false;
-            })
+            });
     },
 });
 

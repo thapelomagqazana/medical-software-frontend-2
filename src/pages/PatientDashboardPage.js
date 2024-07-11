@@ -5,7 +5,7 @@ import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
 import WelcomeMessage from "../components/WelcomeMessage";
 import UpcomingAppointments from "../components/UpcomingAppointments";
-import { fetchAppointments } from "../redux/patientDataSlice";
+import { fetchUpcomingAppointments } from "../redux/patientDataSlice";
 import { CircularProgress, Box, Typography } from '@mui/material';
 
 const PatientDashboardPage = () => {
@@ -21,7 +21,7 @@ const PatientDashboardPage = () => {
     // const user = useSelector((state) => state.auth.user);
 
     useEffect(() => {
-        dispatch(fetchAppointments());
+        dispatch(fetchUpcomingAppointments());
     }, [dispatch]);
 
     if (loading) {

@@ -59,7 +59,7 @@ const AppointmentSchedulingPage = () => {
     return (
         <Box p={3}>
             <Header />
-            <Typography variant="h4" gutterBottom>Your Appointments</Typography>
+            <Typography variant="h4" gutterBottom align="center">View Calendar</Typography>
             <CalendarView appointments={appointments} />
             {successMessage && <Alert severity="success">{successMessage}</Alert>}
             {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
