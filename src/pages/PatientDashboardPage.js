@@ -7,10 +7,12 @@ import ErrorAlert from "../components/global/ErrorAlert";
 import WelcomeMessage from "../components/dashboard/WelcomeMessage";
 import UpcomingAppointments from "../components/dashboard/UpcomingAppointments";
 import { fetchUpcomingAppointments } from "../redux/patientDataSlice";
+import { fetchProfile } from "../redux/profileSlice";
+import { jwtDecode } from "jwt-decode";
 import { CircularProgress, Box } from '@mui/material';
 
 const PatientDashboardPage = () => {
-    const patientName = "John Doe"; // This would be fetched from user data
+    // const patientName = "John Doe"; // This would be fetched from user data
     // const appointments = [];
     // const appointments = [
     //     { id: "1", date: "2024-07-04", time: "10:00 AM", doctor: "Dr. Smith" },
@@ -19,11 +21,16 @@ const PatientDashboardPage = () => {
 
     const dispatch = useDispatch();
     const { appointments, loading, error } = useSelector((state) => state.patientData);
-    // const user = useSelector((state) => state.auth.user);
+    const user = useSelector((state) => state.auth.user);
+    const { profile } = useSelector((state) => state.userProfile);
+    const decodedToken = jwtDecode(user.token);
 
     useEffect(() => {
         dispatch(fetchUpcomingAppointments());
-    }, [dispatch]);
+        if (user && decodedToken) {
+            dispatch(fetchProfile(decodedToken.user.id));
+        }
+    }, [dispatch, user]);
 
     if (loading) {
         return <Box textAlign="center"><CircularProgress /></Box>;
@@ -37,7 +44,7 @@ const PatientDashboardPage = () => {
         <>
             <Header />
             <Container maxWidth="lg">
-                <WelcomeMessage name={patientName} />
+                <WelcomeMessage name={`${profile.firstName} ${profile.lastName}`} message={"Here are your latest health updates"} />
                 <UpcomingAppointments appointments={appointments} />
             </Container>
             <Footer />

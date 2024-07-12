@@ -12,13 +12,13 @@ import { Box, Typography } from "@mui/material";
  * Example usage:
  * <WelcomeMessage name="John Doe" />
  */
-const WelcomeMessage = ({ name }) => (
+const WelcomeMessage = ({ name, message }) => (
     <Box textAlign="center" my={4} p={2} bgcolor="background.paper" borderRadius={1} boxShadow={1}>
         <Typography variant="h4" component="h1" gutterBottom>
             Welcome, {name}
         </Typography>
         <Typography variant="subtitle1" component="p" color="textSecondary">
-            Here are your latest health updates
+            {message}
         </Typography>
     </Box>
 );

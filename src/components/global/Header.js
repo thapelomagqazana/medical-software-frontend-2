@@ -97,12 +97,12 @@ const Header = () => {
             <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
             <List>
                 <ListItem button component={Link} to="/dashboard" onClick={toggleDrawer(false)}>
-                <ListItemText primary="Home" />
+                  <ListItemText primary="Home" />
                 </ListItem>
-                <ListItem button component={Link} to="/appointments" onClick={toggleDrawer(false)}>
-                <ListItemText primary="Appointments" />
+                <ListItem button component={Link} to="/your-appointments" onClick={toggleDrawer(false)}>
+                  <ListItemText primary="Appointments" />
                 </ListItem>
-                <ListItem button component={Link} to="/medications" onClick={toggleDrawer(false)}>
+                {/* <ListItem button component={Link} to="/medications" onClick={toggleDrawer(false)}>
                 <ListItemText primary="Medications" />
                 </ListItem>
                 <ListItem button component={Link} to="/records" onClick={toggleDrawer(false)}>
@@ -113,7 +113,7 @@ const Header = () => {
                 </ListItem>
                 <ListItem button component={Link} to="/settings" onClick={toggleDrawer(false)}>
                 <ListItemText primary="Settings" />
-                </ListItem>
+                </ListItem> */}
             </List>
             </Drawer>
             <IconButton edge="end" color="inherit" onClick={handleMenu}>
