@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, TextField, MenuItem, Typography, CircularProgress } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { fetchDoctors } from "../redux/doctorsSlice";
+import { fetchDoctors } from "../../redux/doctorsSlice";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({

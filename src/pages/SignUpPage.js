@@ -1,7 +1,7 @@
 // Importing necessary libraries and components
 import React from "react";
 import Header from "../components/global/Header";
-import SignUp from "../components/SignUpForm";
+import SignUp from "../components/auth/SignUpForm";
 import Footer from "../components/global/Footer";
 
 /**

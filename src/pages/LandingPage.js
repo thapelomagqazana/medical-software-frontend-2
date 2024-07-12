@@ -5,10 +5,10 @@
  */
 import React from "react";
 import Header from "../components/global/Header";
-import HeroSection from '../components/HeroSection';
-import FeaturesSection from "../components/FeatureSection";
-import TestimonialsSection from "../components/TestimonialsSection";
-import CTASection from "../components/CTASection";
+import HeroSection from '../components/landing/HeroSection';
+import FeaturesSection from "../components/landing/FeatureSection";
+import TestimonialsSection from "../components/landing/TestimonialsSection";
+import CTASection from "../components/landing/CTASection";
 import Footer from "../components/global/Footer";
 
 /**

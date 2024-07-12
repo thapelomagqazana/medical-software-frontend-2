@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CalendarView from "../components/CalendarView";
-import AppointmentForm from "../components/AppointmentForm";
+import CalendarView from "../components/appointments/CalendarView";
+import AppointmentForm from "../components/appointments/AppointmentForm";
 import Header from "../components/global/Header";
+import ErrorAlert from "../components/global/ErrorAlert";
 import { fetchAppointments } from "../redux/patientDataSlice";
 import { scheduleAppointment } from "../redux/appointmentsSlice";
 import { Box, Typography, CircularProgress, Alert } from "@mui/material";
@@ -36,7 +37,7 @@ const AppointmentSchedulingPage = () => {
     }
     
     if (error) {
-        return <Box textAlign="center"><Typography variant="h6" color="error">{error}</Typography></Box>;
+        return <Box textAlign="center"><ErrorAlert message={error} /></Box>;
     }
 
     const handleFormSubmit = (data) => {

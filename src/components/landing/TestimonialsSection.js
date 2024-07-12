@@ -12,10 +12,10 @@ import { Typography, Avatar } from "@mui/material";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-import drJohnDoe from "../assets/images/pexels-mikhail-nilov-8942090.jpg";
-import drJaneSmith from "../assets/images/pexels-tessy-agbonome-521343232-18828741.jpg";
-import drRobertBrown from "../assets/images/pexels-gustavo-fring-5622280.jpg";
-import drEmilyWhite from "../assets/images/pexels-olly-3952375.jpg";
+import drJohnDoe from "../../assets/images/pexels-mikhail-nilov-8942090.jpg";
+import drJaneSmith from "../../assets/images/pexels-tessy-agbonome-521343232-18828741.jpg";
+import drRobertBrown from "../../assets/images/pexels-gustavo-fring-5622280.jpg";
+import drEmilyWhite from "../../assets/images/pexels-olly-3952375.jpg";
 
 // Import images
 // import drJohnDoe from '../assets/images/medium-shot-female-nurse-hospital.jpg';

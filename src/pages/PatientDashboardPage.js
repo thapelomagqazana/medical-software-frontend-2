@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Container } from "@mui/material";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
-import WelcomeMessage from "../components/WelcomeMessage";
-import UpcomingAppointments from "../components/UpcomingAppointments";
+import ErrorAlert from "../components/global/ErrorAlert";
+import WelcomeMessage from "../components/dashboard/WelcomeMessage";
+import UpcomingAppointments from "../components/dashboard/UpcomingAppointments";
 import { fetchUpcomingAppointments } from "../redux/patientDataSlice";
-import { CircularProgress, Box, Typography } from '@mui/material';
+import { CircularProgress, Box } from '@mui/material';
 
 const PatientDashboardPage = () => {
     const patientName = "John Doe"; // This would be fetched from user data
@@ -29,10 +30,8 @@ const PatientDashboardPage = () => {
     }
     
     if (error) {
-        return <Box textAlign="center"><Typography variant="h6" color="error">{error}</Typography></Box>;
+        return <Box textAlign="center"><ErrorAlert message={error} /></Box>;
     }
-
-    
 
     return (
         <>

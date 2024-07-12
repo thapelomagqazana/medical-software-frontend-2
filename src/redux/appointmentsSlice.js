@@ -20,6 +20,28 @@ export const scheduleAppointment = createAsyncThunk("appointments/scheduleAppoin
     }
 });
 
+// Async thunk for updating an appointment
+export const rescheduleAppointment = createAsyncThunk(
+    "appointments/rescheduleAppointment", async ({ id, startTime, endTime, patientId, doctorId }, { rejectWithValue }) => {
+        try {
+            const token = localStorage.getItem("token");
+            const config = {
+                headers: {
+                    Authorization: `${token}`,
+                },
+            };
+            const response = await axios.put(
+                `${API_URL}/${id}`,
+                { startTime, endTime, patientId, doctorId },
+                config
+            );
+
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    });
+
 const appointmentsSlice = createSlice({
     name: "appointments",
     initialState: {
@@ -38,6 +60,21 @@ const appointmentsSlice = createSlice({
                 state.error = null;
             })
             .addCase(scheduleAppointment.rejected, (state, action) => {
+                state.error = action.payload;
+                state.loading = false;
+            })
+            .addCase(rescheduleAppointment.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(rescheduleAppointment.fulfilled, (state, action) => {
+                const index = state.appointments.findIndex(appointment => appointment._id === action.payload._id);
+
+                if (index !== -1) {
+                    state.appointments[index] = action.payload;
+                }
+                state.loading = false;
+            })
+            .addCase(rescheduleAppointment.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             });

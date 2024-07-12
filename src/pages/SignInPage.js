@@ -5,7 +5,7 @@
  */
 import React from "react";
 import Header from "../components/global/Header";
-import SignIn from "../components/SignInForm";
+import SignIn from "../components/auth/SignInForm";
 import Footer from "../components/global/Footer";
 
 

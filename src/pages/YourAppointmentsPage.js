@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAppointments } from "../redux/patientDataSlice";
-import { Box, Typography, CircularProgress, Alert } from "@mui/material";
+import { Box, Typography, CircularProgress } from "@mui/material";
 import Header from "../components/global/Header";
 import Footer from "../components/global/Footer";
+import ErrorAlert from "../components/global/ErrorAlert";
 import AppointmentTable from "../components/appointments/AppointmentTable";
 import SearchBar from "../components/appointments/SearchBar";
 import FilterOptions from "../components/appointments/FilterOptions";
@@ -39,7 +40,7 @@ const YourAppointmentsPage = () => {
     }
     
     if (error) {
-        return <Box textAlign="center"><Alert severity="error">{error}</Alert></Box>;
+        return <Box textAlign="center"><ErrorAlert message={error} /></Box>;
     }
 
     return (

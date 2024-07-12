@@ -8,7 +8,7 @@
 import React from "react";
 import styled from "@emotion/styled/macro";
 import { Button, Typography } from "@mui/material";
-import backgroundVideo from '../assets/videos/5356074-uhd_3840_2160_25fps.mp4';
+import backgroundVideo from '../../assets/videos/5356074-uhd_3840_2160_25fps.mp4';
 
 /**
  * Styled component for the hero container.

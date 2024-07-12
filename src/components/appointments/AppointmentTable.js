@@ -1,30 +1,84 @@
-import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import RescheduleModal from './RescheduleModal';
+import { fetchAppointments } from '../../redux/patientDataSlice';
+import { Alert } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const AppointmentTable = ({ appointments }) => {
+    const [selectedAppointment, setSelectedAppointment] = useState(null);
+    const [successMessage, setSuccessMessage] = useState("");
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleReschedule = (appointment) => {
+        setSelectedAppointment(appointment);
+    };
+
+    const handleClose = () => {
+        setSelectedAppointment(null);
+    };
+
+    const handleSuccess = (message) => {
+        setSuccessMessage(message);
+        handleClose();
+        setTimeout(() => {
+            setSuccessMessage("");
+            dispatch(fetchAppointments()); // Re-fetch the appointments
+            navigate("/your-appointments");
+            
+        }, 2000); // 2-second delay before clearing the message and closing the modal
+    };
+
+    // useEffect(() => {
+    //     dispatch(fetchAppointments());
+    // }, [dispatch]);
+
     return (
-        <TableContainer component={Paper}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Date</TableCell>
-                        <TableCell>Time</TableCell>
-                        <TableCell>Doctor</TableCell>
-                        <TableCell>Status</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {appointments.map((appointment) => (
-                        <TableRow key={appointment._id}>
-                            <TableCell>{formatDate(appointment.startTime)}</TableCell>
-                            <TableCell>{formatTime(appointment.startTime)} - {formatTime(appointment.endTime)}</TableCell>
-                            <TableCell>Dr. {appointment.doctorId.firstName} {appointment.doctorId.lastName}</TableCell>
-                            <TableCell>{appointment.status}</TableCell>
+        <>
+            {successMessage && <Alert severity="success">{successMessage}</Alert>}
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Date</TableCell>
+                            <TableCell>Time</TableCell>
+                            <TableCell>Doctor</TableCell>
+                            <TableCell>Status</TableCell>
+                            <TableCell>Actions</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {appointments.map((appointment) => (
+                            <TableRow key={appointment._id}>
+                                <TableCell>{formatDate(appointment.startTime)}</TableCell>
+                                <TableCell>{formatTime(appointment.startTime)} - {formatTime(appointment.endTime)}</TableCell>
+                                <TableCell>Dr. {appointment.doctorId.firstName} {appointment.doctorId.lastName}</TableCell>
+                                <TableCell>{appointment.status}</TableCell>
+                                <TableCell>
+                                    <Button 
+                                        variant="outlined" 
+                                        color="primary" 
+                                        onClick={() => handleReschedule(appointment)}
+                                    >
+                                        Reschedule
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            {selectedAppointment && (
+                <RescheduleModal
+                    appointment={selectedAppointment}
+                    open={!!selectedAppointment}
+                    handleClose={handleClose}
+                    onSuccess={handleSuccess}
+                />
+            )}
+        </>
     );
 };
 

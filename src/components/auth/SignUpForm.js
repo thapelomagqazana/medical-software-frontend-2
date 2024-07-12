@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Typography, TextField, Button, Container, Box, MenuItem, Link as MuiLink } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { register, clearRegistrationSuccess } from "../redux/authSlice";
+import { register, clearRegistrationSuccess } from "../../redux/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 /**
