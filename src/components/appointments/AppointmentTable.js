@@ -1,43 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import RescheduleModal from './RescheduleModal';
+import CancelModal from './CardModal';
 import { fetchAppointments } from '../../redux/patientDataSlice';
-import { Alert } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 const AppointmentTable = ({ appointments }) => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
-    const [successMessage, setSuccessMessage] = useState("");
-    const navigate = useNavigate();
+    const [openCancelModal, setOpenCancelModal] = useState(false);
     const dispatch = useDispatch();
 
     const handleReschedule = (appointment) => {
         setSelectedAppointment(appointment);
     };
 
+    const handleCancel = (appointment) => {
+        setSelectedAppointment(appointment);
+        setOpenCancelModal(true);
+    };
+
     const handleClose = () => {
         setSelectedAppointment(null);
+        setOpenCancelModal(false);
+        dispatch(fetchAppointments());
     };
-
-    const handleSuccess = (message) => {
-        setSuccessMessage(message);
-        handleClose();
-        setTimeout(() => {
-            setSuccessMessage("");
-            dispatch(fetchAppointments()); // Re-fetch the appointments
-            navigate("/your-appointments");
-            
-        }, 2000); // 2-second delay before clearing the message and closing the modal
-    };
-
-    // useEffect(() => {
-    //     dispatch(fetchAppointments());
-    // }, [dispatch]);
 
     return (
         <>
-            {successMessage && <Alert severity="success">{successMessage}</Alert>}
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
@@ -57,13 +46,21 @@ const AppointmentTable = ({ appointments }) => {
                                 <TableCell>Dr. {appointment.doctorId.firstName} {appointment.doctorId.lastName}</TableCell>
                                 <TableCell>{appointment.status}</TableCell>
                                 <TableCell>
-                                    <Button 
-                                        variant="outlined" 
-                                        color="primary" 
-                                        onClick={() => handleReschedule(appointment)}
-                                    >
-                                        Reschedule
-                                    </Button>
+                                <Button 
+                                    variant="outlined" 
+                                    color="primary" 
+                                    onClick={() => handleReschedule(appointment)}
+                                    sx={{ mr: 1 }}
+                                >
+                                    Reschedule
+                                </Button>
+                                <Button 
+                                    variant="outlined" 
+                                    color="secondary" 
+                                    onClick={() => handleCancel(appointment)}
+                                >
+                                    Cancel
+                                </Button>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -75,7 +72,13 @@ const AppointmentTable = ({ appointments }) => {
                     appointment={selectedAppointment}
                     open={!!selectedAppointment}
                     handleClose={handleClose}
-                    onSuccess={handleSuccess}
+                />
+            )}
+            {selectedAppointment && openCancelModal && (
+                <CancelModal
+                    appointment={selectedAppointment}
+                    open={openCancelModal}
+                    handleClose={handleClose}
                 />
             )}
         </>

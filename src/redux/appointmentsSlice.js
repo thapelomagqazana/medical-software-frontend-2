@@ -21,8 +21,8 @@ export const scheduleAppointment = createAsyncThunk("appointments/scheduleAppoin
 });
 
 // Async thunk for updating an appointment
-export const rescheduleAppointment = createAsyncThunk(
-    "appointments/rescheduleAppointment", async ({ id, startTime, endTime, patientId, doctorId }, { rejectWithValue }) => {
+export const updateAppointment = createAsyncThunk(
+    "appointments/updateAppointment", async ({ id, startTime, endTime, patientId, doctorId, status }, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem("token");
             const config = {
@@ -32,7 +32,7 @@ export const rescheduleAppointment = createAsyncThunk(
             };
             const response = await axios.put(
                 `${API_URL}/${id}`,
-                { startTime, endTime, patientId, doctorId },
+                { startTime, endTime, patientId, doctorId, status },
                 config
             );
 
@@ -40,7 +40,7 @@ export const rescheduleAppointment = createAsyncThunk(
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
-    });
+});
 
 const appointmentsSlice = createSlice({
     name: "appointments",
@@ -63,10 +63,10 @@ const appointmentsSlice = createSlice({
                 state.error = action.payload;
                 state.loading = false;
             })
-            .addCase(rescheduleAppointment.pending, (state) => {
+            .addCase(updateAppointment.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(rescheduleAppointment.fulfilled, (state, action) => {
+            .addCase(updateAppointment.fulfilled, (state, action) => {
                 const index = state.appointments.findIndex(appointment => appointment._id === action.payload._id);
 
                 if (index !== -1) {
@@ -74,7 +74,7 @@ const appointmentsSlice = createSlice({
                 }
                 state.loading = false;
             })
-            .addCase(rescheduleAppointment.rejected, (state, action) => {
+            .addCase(updateAppointment.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             });
