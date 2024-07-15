@@ -1,46 +1,20 @@
 /**
  * Importing necessary libraries and components.
  * - React, { useEffect }: A JavaScript library for building user interfaces and useEffect hook for side effects.
- * - styled from "@emotion/styled": A library for writing CSS styles with JavaScript.
  * - useDispatch, useSelector from "react-redux": Hooks for interacting with the Redux store.
- * - Typography, TextField, Button, Container, Box, MenuItem from "@mui/material": Material-UI components.
+ * - Typography, TextField, Button, Container, Box, MenuItem, Alert from "@mui/material": Material-UI components.
  * - Formik, Form, Field from "formik": A library for handling forms in React.
  * - Yup: A library for schema validation.
  * - register, clearRegistrationSuccess: Actions from the authSlice in Redux.
  * - Link, useNavigate from "react-router-dom": Components for navigation.
  */
 import React, { useEffect } from "react";
-import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
-import { Typography, TextField, Button, Container, Box, MenuItem, Link as MuiLink } from "@mui/material";
+import { TextField, Button, Container, Box, MenuItem, Link as MuiLink, Alert } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { register, clearRegistrationSuccess } from "../../redux/authSlice";
 import { Link, useNavigate } from "react-router-dom";
-
-/**
- * Styled component for the form container.
- * - display: Sets the layout to flexbox.
- * - flex-direction: Aligns items in a column.
- * - align-items: Centers the items.
- * - padding: Adds padding inside the container.
- * - max-width: Limits the maximum width of the container.
- * - box-shadow: Adds a shadow effect to the container.
- * - border-radius: Rounds the corners of the container.
- * - background-color: Sets the background color.
- */
-const FormContainer = styled(Container)`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    max-width: 500px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    background-color: #ffffff;
-    margin-top: 50px;
-`;
-
 
 /**
  * Validation schema for the sign-up form.
@@ -83,16 +57,13 @@ const SignUp = () => {
             setTimeout(() => {
                 dispatch(clearRegistrationSuccess());
                 navigate("/sign-in");
-            }, 2000) // Redirect after 2 seconds
+            }, 2000); // Redirect after 2 seconds
         }
     }, [registrationSuccess, dispatch, navigate]);
 
     return (
-        <FormContainer>
-            <Typography variant="h4" gutterBottom>
-                Sign Up
-            </Typography>
-            {registrationSuccess && <Box color="success.main" mb={2}>Registration successful! Redirecting to login...</Box>}
+        <Container maxWidth="sm">
+            {registrationSuccess && <Alert severity="success" sx={{ mb: 2 }}>Registration successful! Redirecting to login...</Alert>}
             <Formik
                 initialValues={{
                     firstName: "",
@@ -104,7 +75,6 @@ const SignUp = () => {
                 }}
                 validationSchema={SignUpSchema}
                 onSubmit={(values) => {
-                    // console.log(values);
                     dispatch(register(values));
                 }}
             >
@@ -120,7 +90,7 @@ const SignUp = () => {
                             error={touched.firstName && !!errors.firstName}
                             helperText={touched.firstName && errors.firstName}
                         />
-                        <Field 
+                        <Field
                             as={TextField}
                             name="lastName"
                             label="Last Name"
@@ -177,20 +147,18 @@ const SignUp = () => {
                             <MenuItem value="doctor">Doctor</MenuItem>
                             <MenuItem value="admin">Admin</MenuItem>
                         </Field>
-                        {error && <Box color="error.main" mb={2}>{error.msg}</Box>}
+                        {error && <Alert severity="error" sx={{ mb: 2 }}>{error.msg}</Alert>}
                         <Button type="submit" variant="contained" color="primary" fullWidth>
                             Submit
                         </Button>
                     </Form>
                 )}
-
             </Formik>
             <Box mt={2}>
                 <MuiLink component={Link} to="/sign-in">Already have an account? Log In.</MuiLink>
             </Box>
-        </FormContainer>
+        </Container>
     );
 };
-
 
 export default SignUp;

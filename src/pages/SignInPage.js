@@ -4,9 +4,8 @@
  * - Header, SignIn, Footer: Custom components for different sections of the sign-up page.
  */
 import React from "react";
-import Header from "../components/global/Header";
+import { Container, Box, Typography, Paper } from "@mui/material";
 import SignIn from "../components/auth/SignInForm";
-import Footer from "../components/global/Footer";
 
 
 /**
@@ -14,12 +13,30 @@ import Footer from "../components/global/Footer";
  * - Combines the header, sign-in form, and footer sections.
  * - Uses React fragments (<></>) to group multiple elements.
  */
-const SignUpPage = () => (
-    <>
-        <Header />
-        <SignIn />
-        <Footer />
-    </>
-);
+// const SignUpPage = () => (
+//     <>
+//         <Header />
+//         <SignIn />
+//         <Footer />
+//     </>
+// );
 
-export default SignUpPage;
+const SignInPage = () => {
+    return (
+        <Container maxWidth="sm" sx={{ mt: 8 }}>
+            <Paper elevation={3} sx={{ p: 4, textAlign: 'center', boxShadow: 3 }}>
+                <Typography variant="h3" gutterBottom>
+                    Welcome Back
+                </Typography>
+                <Typography variant="h6" color="textSecondary" paragraph>
+                    Sign in to your account
+                </Typography>
+                <Box sx={{ mt: 2 }}>
+                    <SignIn />
+                </Box>
+            </Paper>
+        </Container>
+    );
+};
+
+export default SignInPage;

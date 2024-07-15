@@ -38,8 +38,8 @@ export const login = createAsyncThunk("auth/login", async (user, { rejectWithVal
         localStorage.setItem("token", response.data.token);
         return response.data;
     } catch (error) {
-        console.log(error);
-        return rejectWithValue(error.response.error);
+        console.log(error.response.data.msg);
+        return rejectWithValue(error.response.data.msg);
     }
 });
 

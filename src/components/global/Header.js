@@ -1,142 +1,128 @@
-/**
- * Importing necessary libraries and components.
- * - React: A JavaScript library for building user interfaces.
- * - styled from "@emotion/styled/macro": A library for writing CSS styles with JavaScript.
- * - Link from "react-router-dom": A component for navigation links.
- * - AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, Drawer, List, ListItem, ListItemText from "@mui/material": Material-UI components.
- * - AccountCircle and MenuIcon from "@mui/icons-material": Icons for the user profile and menu.
- * - useSelector and useDispatch from "react-redux": Hooks to access the Redux store's state and dispatch actions.
- */
-import React from 'react';
-import styled from '@emotion/styled/macro';
-import { Link, useNavigate } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import React, { useState } from 'react';
+import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../../redux/authSlice';
+import HomeIcon from '@mui/icons-material/Home';
+import EventIcon from '@mui/icons-material/Event';
+import DescriptionIcon from '@mui/icons-material/Description';
+import LocalPharmacyIcon from '@mui/icons-material/LocalPharmacy';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import MessageIcon from '@mui/icons-material/Message';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LoginIcon from '@mui/icons-material/Login';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useDispatch, useSelector } from 'react-redux';
 
-
-/**
- * Styled component for individual header links.
- * - text-decoration: Removes the underline from the link.
- * - color: Sets the link color.
- * - font-weight: Sets the font weight to bold.
- * - &:hover: Changes the link color on hover.
- */
-const HeaderLink = styled(Link)`
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-  &:hover {
-    color: #007BFF;
-  }
-`;
-
-/**
- * Styled component for the call-to-action buttons.
- * - media query: Adjusts the layout for screens with a width of 768px or less.
- */
-const CTAButtons = styled.div`
-  display: flex;
-  gap: 10px;
-
-`;
-
-/**
- * Main component for the header.
- * - AppBar: The main container for the header.
- * - Toolbar: A container for organizing the header content.
- * - Typography: A styled component for the logo.
- * - IconButton: A button for the user profile menu.
- * - Menu: A dropdown menu for the user profile settings.
- * - Drawer: A sidebar for navigation links on all screen sizes.
- */
 const Header = () => {
-  const dispatch = useDispatch();
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const navigate = useNavigate();
+    const location = useLocation();
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { user, isAuthenticated } = useSelector((state) => state.auth);
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    const toggleDrawer = () => {
+        setDrawerOpen(!drawerOpen);
+    };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+    const handleLogout = () => {
+        console.log("Hi");
+        // dispatch(logout());
+        // navigate('/sign-in');
+    };
 
-  const displayProfile = () => {
-    handleClose();
-    navigate("/profile");
-  };
+    const authMenuItems = [
+        { text: 'Dashboard', icon: <HomeIcon />, link: '/' },
+        { text: 'Appointments', icon: <EventIcon />, link: '/your-appointments' },
+        { text: 'Medical Records', icon: <DescriptionIcon />, link: '/medical-records' },
+        { text: 'Medications', icon: <LocalPharmacyIcon />, link: '/medications' },
+        { text: 'Health Tracking', icon: <FitnessCenterIcon />, link: '/health-tracking' },
+        { text: 'Messages', icon: <MessageIcon />, link: '/messages' },
+        { text: 'Profile', icon: <AccountCircleIcon />, link: '/profile' },
+        { text: 'Log Out', icon: <LogoutIcon />, action: handleLogout },
+    ];
 
-  const handleLogout = () => {
-    dispatch(logout());
-    handleClose();
-    navigate("/sign-in");
-  };
+    const unauthMenuItems = [
+        { text: 'Home', icon: <HomeIcon />, link: '/' },
+        { text: 'Sign In', icon: <LoginIcon />, link: '/sign-in' },
+        { text: 'Sign Up', icon: <AppRegistrationIcon />, link: '/sign-up' },
+    ];
 
-  const toggleDrawer = (open) => () => {
-    setDrawerOpen(open);
-  };
+    const menuItems = isAuthenticated ? authMenuItems : unauthMenuItems;
 
-  return (
-    <AppBar position="sticky" style={{ backgroundColor: '#ffffff', color: '#007BFF' }}>
-      <Toolbar>
-        <Typography variant="h6" style={{ flexGrow: 1 }}>
-          <HeaderLink to="/">HealthHub</HeaderLink>
-        </Typography>
-        
-        {isAuthenticated ? (
-          <>
-            <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
-                <MenuIcon />
-            </IconButton>
-            <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
-            <List>
-                <ListItem button component={Link} to="/dashboard" onClick={toggleDrawer(false)}>
-                  <ListItemText primary="Home" />
-                </ListItem>
-                <ListItem button component={Link} to="/your-appointments" onClick={toggleDrawer(false)}>
-                  <ListItemText primary="Appointments" />
-                </ListItem>
-                {/* <ListItem button component={Link} to="/medications" onClick={toggleDrawer(false)}>
-                <ListItemText primary="Medications" />
-                </ListItem>
-                <ListItem button component={Link} to="/records" onClick={toggleDrawer(false)}>
-                <ListItemText primary="Records" />
-                </ListItem>
-                <ListItem button component={Link} to="/messages" onClick={toggleDrawer(false)}>
-                <ListItemText primary="Messages" />
-                </ListItem>
-                <ListItem button component={Link} to="/settings" onClick={toggleDrawer(false)}>
-                <ListItemText primary="Settings" />
-                </ListItem> */}
-            </List>
-            </Drawer>
-            <IconButton edge="end" color="inherit" onClick={handleMenu}>
-              <AccountCircle />
-            </IconButton>
-            <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-              <MenuItem onClick={displayProfile}>Profile</MenuItem>
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
-            </Menu>
-          </>
-        ) : (
-          <CTAButtons>
-            <Button component={Link} to="/sign-in" variant="outlined" color="primary">
-              Sign In
-            </Button>
-            <Button component={Link} to="/sign-up" variant="contained" color="primary">
-              Sign Up
-            </Button>
-          </CTAButtons>
-        )}
-      </Toolbar>
-    </AppBar>
-  );
+    return (
+        <AppBar position="static">
+            <Toolbar>
+                <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                    HealthHub
+                </Typography>
+                <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                        {menuItems.map((item) => (
+                            item.link ? (
+                                <Button
+                                    key={item.text}
+                                    color="inherit"
+                                    component={Link}
+                                    to={item.link}
+                                    sx={{ fontWeight: location.pathname === `${item.link}` ? 'bold' : 'normal', margin: '0 8px', mx: 2, 
+                                        textDecoration: 'none', 
+                                        '&:hover': {
+                                            textDecoration: 'underline',
+                                    } }}
+                                >
+                                    {item.text}
+                                </Button>
+                            ) : (
+                                <Button
+                                    key={item.text}
+                                    color="inherit"
+                                    onClick={item.action}
+                                    sx={{ fontWeight: location.pathname === `${item.link}` ? 'bold' : 'normal', margin: '0 8px', mx: 2, 
+                                        textDecoration: 'none', 
+                                        '&:hover': {
+                                            textDecoration: 'underline',
+                                    } }}
+                                >
+                                    {item.text}
+                                </Button>
+                            )
+                        ))}
+                </Box>
+                <IconButton
+                    color="inherit"
+                    edge="start"
+                    sx={{ display: { xs: 'block', md: 'none' } }}
+                    onClick={toggleDrawer}
+                >
+                    <MenuIcon />
+                </IconButton>
+                <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
+                    <Box
+                        sx={{ width: 250 }}
+                        role="presentation"
+                        onClick={toggleDrawer}
+                        onKeyDown={toggleDrawer}
+                    >
+                        <List>
+                            {menuItems.map((item) => (
+                                item.link ? (
+                                    <ListItem button key={item.text} component={Link} to={item.link}>
+                                        <ListItemIcon>{item.icon}</ListItemIcon>
+                                        <ListItemText primary={item.text} />
+                                    </ListItem>
+                                ) : (
+                                    <ListItem button key={item.text} onClick={item.action}>
+                                        <ListItemIcon>{item.icon}</ListItemIcon>
+                                        <ListItemText primary={item.text} />
+                                    </ListItem>
+                                )
+                            ))}
+                        </List>
+                    </Box>
+                </Drawer>
+            </Toolbar>
+        </AppBar>
+    );
 };
 
 export default Header;
