@@ -7,8 +7,7 @@
  * - "carousel.min.css": The CSS file for styling the carousel.
  */
 import React from "react";
-import styled from "@emotion/styled/macro";
-import { Typography, Avatar } from "@mui/material";
+import { Typography, Avatar, Box, Paper } from "@mui/material";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -16,40 +15,6 @@ import drJohnDoe from "../../assets/images/pexels-mikhail-nilov-8942090.jpg";
 import drJaneSmith from "../../assets/images/pexels-tessy-agbonome-521343232-18828741.jpg";
 import drRobertBrown from "../../assets/images/pexels-gustavo-fring-5622280.jpg";
 import drEmilyWhite from "../../assets/images/pexels-olly-3952375.jpg";
-
-// Import images
-// import drJohnDoe from '../assets/images/medium-shot-female-nurse-hospital.jpg';
-// import drJaneSmith from '../assets/images/pexels-tessy-agbonome-521343232-18828741.jpg';
-// import drRobertBrown from '../assets/images/pexels-tessy-agbonome-521343232-18828741.jpg';
-
-/**
- * Styled component for the testimonials container.
- * - padding: Adds space inside the container.
- * - background-color: Sets the background color.
- * - media query: Adjusts the padding for screens with a width of 768px or less.
- */
-const TestimonialsContainer = styled.section`
-    padding: 50px 20px;
-    background-color: #ffffff;
-
-    @media (max-width: 768px) {
-        padding: 30px 10px;
-    }
-`;
-
-/**
- * Styled component for individual testimonial items.
- * - text-align: Centers the text inside the testimonial item.
- * - margin: Adds space around the testimonial item.
- */
-const TestimonialItem =  styled.div`
-    text-align: center;
-    margin: 20px;
-    padding: 20px;
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
 
 
 /**
@@ -89,23 +54,51 @@ const testimonials = [
  * - TestimonialItem: A styled component for each testimonial.
  * - testimonials.map: Iterates over the testimonials array to create carousel items for each testimonial.
  */
-const TestimonialsSection = () => (
-    <TestimonialsContainer>
-      <Typography variant="h4" gutterBottom align="center">Testimonials</Typography>
-      <Carousel showThumbs={false} showStatus={false} infiniteLoop useKeyboardArrows autoPlay>
-        {testimonials.map((testimonial, index) => (
-            <TestimonialItem key={index}>
-              <Avatar 
-                sx={{ width: 100, height: 100, mx: "auto", mb: 2 }} 
-                src={testimonial.image} 
-                alt={testimonial.name} 
-              />
-              <Typography variant="h6">"{testimonial.quote}"</Typography>
-              <Typography>- {testimonial.name}</Typography>
-            </TestimonialItem>
-        ))}
-      </Carousel>
-    </TestimonialsContainer>
-);
+const TestimonialsSection = () => {
+  return (
+      <Box py={8} bgcolor="background.default">
+          <Typography variant="h4" align="center" gutterBottom>
+              Testimonials
+          </Typography>
+          <Box mx="auto" maxWidth="md">
+              <Carousel
+                  showThumbs={false}
+                  showStatus={false}
+                  autoPlay
+                  infiniteLoop
+              >
+                  {testimonials.map((testimonial, index) => (
+                      <Box key={index} p={2}>
+                          <Paper 
+                              sx={{ 
+                                  padding: 4, 
+                                  textAlign: 'center', 
+                                  transition: 'transform 0.3s, box-shadow 0.3s',
+                                  '&:hover': {
+                                      transform: 'translateY(-8px)',
+                                      boxShadow: 3,
+                                  },
+                                  minHeight: '300px', 
+                                  display: 'flex', 
+                                  flexDirection: 'column', 
+                                  justifyContent: 'center',
+                                  alignItems: 'center'
+                              }}
+                          >
+                              <Avatar 
+                                  src={testimonial.image} 
+                                  alt={testimonial.name} 
+                                  sx={{ width: 80, height: 80, mb: 2 }} 
+                              />
+                              <Typography variant="body1" mb={2}>"{testimonial.quote}"</Typography>
+                              <Typography variant="body2" color="textSecondary">- {testimonial.name}</Typography>
+                          </Paper>
+                      </Box>
+                  ))}
+              </Carousel>
+          </Box>
+      </Box>
+  );
+};
   
 export default TestimonialsSection;

@@ -22,10 +22,27 @@ export const fetchDoctors = createAsyncThunk("doctors/fetchDoctors", async (_, {
     }
 });
 
+export const fetchPatients = createAsyncThunk("doctors/fetchPatients", 
+    async (_, { rejectWithValue }) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.get(`${API_URL}/patients`, {
+                headers: {
+                    Authorization: `${token}`,
+                },
+            });
+
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+});
+
 const doctorsSlice = createSlice({
     name: "doctors",
     initialState: {
         doctors: [],
+        patients: [],
         loading: false,
         error: null,
     },
@@ -39,6 +56,17 @@ const doctorsSlice = createSlice({
             state.loading = false;
         })
         .addCase(fetchDoctors.rejected, (state, action) => {
+            state.error = action.payload;
+            state.loading = false;
+        })
+        .addCase(fetchPatients.pending, (state) => {
+            state.loading = true;
+        })
+        .addCase(fetchPatients.fulfilled, (state, action) => {
+            state.patients = action.payload;
+            state.loading = false;
+        })
+        .addCase(fetchPatients.rejected, (state, action) => {
             state.error = action.payload;
             state.loading = false;
         });

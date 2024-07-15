@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container } from "@mui/material";
 import Header from "../components/global/Header";
+import Navigation from "../components/global/Navigation";
 import Footer from "../components/global/Footer";
 import ErrorAlert from "../components/global/ErrorAlert";
 import WelcomeMessage from "../components/dashboard/WelcomeMessage";
@@ -42,7 +43,8 @@ const PatientDashboardPage = () => {
 
     return (
         <>
-            <Header />
+            {/* <Header /> */}
+            <Navigation />
             <Container maxWidth="lg">
                 <WelcomeMessage name={`${profile.firstName} ${profile.lastName}`} message={"Here are your latest health updates"} />
                 <UpcomingAppointments appointments={appointments} />

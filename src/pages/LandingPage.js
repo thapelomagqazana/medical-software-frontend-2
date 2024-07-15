@@ -5,6 +5,8 @@
  */
 import React from "react";
 import Header from "../components/global/Header";
+import Navigation from "../components/global/Navigation";
+import Header2 from "../components/global/Header2";
 import HeroSection from '../components/landing/HeroSection';
 import FeaturesSection from "../components/landing/FeatureSection";
 import TestimonialsSection from "../components/landing/TestimonialsSection";
@@ -18,11 +20,13 @@ import Footer from "../components/global/Footer";
  */
 const LandingPage = () => (
     <>
-        <Header />
+        {/* <Header /> */}
+        {/* <Navigation /> */}
+        <Header2 />
         <HeroSection />
         <FeaturesSection />
         <TestimonialsSection />
-        <CTASection />
+        {/* <CTASection /> */}
         <Footer />
     </>
 );

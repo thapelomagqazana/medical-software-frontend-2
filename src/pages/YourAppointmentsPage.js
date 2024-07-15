@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAppointments } from "../redux/patientDataSlice";
 import { Box, Typography, CircularProgress } from "@mui/material";
 import Header from "../components/global/Header";
+import Navigation from "../components/global/Navigation";
 import Footer from "../components/global/Footer";
 import ErrorAlert from "../components/global/ErrorAlert";
 import AppointmentTable from "../components/appointments/AppointmentTable";
@@ -45,7 +46,8 @@ const YourAppointmentsPage = () => {
 
     return (
         <>
-            <Header />
+            {/* <Header /> */}
+            <Navigation />
             <Box p={3}>
                 <Typography variant="h4" gutterBottom align="center">Your Appointments</Typography>
                 <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
