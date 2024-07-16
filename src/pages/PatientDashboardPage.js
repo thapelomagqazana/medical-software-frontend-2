@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container } from "@mui/material";
-import Header from "../components/global/Header";
-import Navigation from "../components/global/Navigation";
-import Footer from "../components/global/Footer";
 import ErrorAlert from "../components/global/ErrorAlert";
 import WelcomeMessage from "../components/dashboard/WelcomeMessage";
-import UpcomingAppointments from "../components/dashboard/UpcomingAppointments";
+import AppointmentsOverview from "../components/dashboard/AppointmentsOverview";
+import MedicationsOverview from "../components/dashboard/MedicationsOverview";
+import MessagesOverview from "../components/dashboard/MessagesOverview";
 import { fetchUpcomingAppointments } from "../redux/patientDataSlice";
 import { fetchProfile } from "../redux/profileSlice";
 import { jwtDecode } from "jwt-decode";
@@ -19,6 +18,16 @@ const PatientDashboardPage = () => {
     //     { id: "1", date: "2024-07-04", time: "10:00 AM", doctor: "Dr. Smith" },
     //     { id: "2", date: "2024-07-05", time: "11:00 AM", doctor: "Dr. Johnson" }
     // ];
+
+    const medications = [
+        { id: 1, name: 'Medicine A', dosage: '2x daily' },
+        { id: 2, name: 'Medicine B', dosage: '1x daily' },
+    ];
+
+    const messages = [
+        { id: 1, doctorName: 'Smith', content: 'Your lab results are ready.' },
+        { id: 2, doctorName: 'Johnson', content: 'Please schedule a follow-up appointment.' },
+    ];
 
     const dispatch = useDispatch();
     const { appointments, loading, error } = useSelector((state) => state.patientData);
@@ -43,13 +52,12 @@ const PatientDashboardPage = () => {
 
     return (
         <>
-            {/* <Header /> */}
-            <Navigation />
             <Container maxWidth="lg">
                 <WelcomeMessage name={`${profile.firstName} ${profile.lastName}`} message={"Here are your latest health updates"} />
-                <UpcomingAppointments appointments={appointments} />
+                <AppointmentsOverview appointments={appointments} />
+                <MedicationsOverview medications={medications} />
+                <MessagesOverview messages={messages} />
             </Container>
-            <Footer />
         </>
     );
 };

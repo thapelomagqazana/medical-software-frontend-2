@@ -4,8 +4,6 @@ import { fetchProfile } from "../redux/profileSlice";
 import { CircularProgress, Box } from "@mui/material";
 import ProfileDisplay from "../components/profile/ProfileDisplay";
 import ProfileEditForm from "../components/profile/ProfileEditForm";
-import Header from "../components/global/Header";
-import Footer from "../components/global/Footer";
 import SuccessAlert from "../components/global/SuccessAlert";
 import ErrorAlert from "../components/global/ErrorAlert";
 import { jwtDecode } from "jwt-decode";
@@ -52,7 +50,6 @@ const ProfilePage = () => {
 
     return (
         <>
-            <Header />
             <Box p={3}>
                 {editMode ? (
                     <ProfileEditForm profileData={profile} onSubmit={handleSubmit} onCancel={handleCancel} />
@@ -61,7 +58,6 @@ const ProfilePage = () => {
                 )}
                 {successMessage && <SuccessAlert message={successMessage} />}
             </Box>
-            <Footer />
         </>
         
     );

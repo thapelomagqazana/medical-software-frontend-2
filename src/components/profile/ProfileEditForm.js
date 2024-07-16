@@ -86,7 +86,7 @@ const ProfileEditForm = ({ profileData, onSubmit, onCancel }) => {
                     <Button variant="contained" color="primary" type="submit" sx={{ mr: 2 }}>
                         Save
                     </Button>
-                    <Button variant="outlined" color="primary" onClick={onCancel}>
+                    <Button variant="outlined" color="secondary" onClick={onCancel}>
                         Cancel
                     </Button>
                 </Box>

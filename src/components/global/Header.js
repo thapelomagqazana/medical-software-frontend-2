@@ -13,6 +13,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux/authSlice';
 
 const Header = () => {
     const location = useLocation();
@@ -26,13 +27,12 @@ const Header = () => {
     };
 
     const handleLogout = () => {
-        console.log("Hi");
-        // dispatch(logout());
-        // navigate('/sign-in');
+        dispatch(logout());
+        navigate('/');
     };
 
     const authMenuItems = [
-        { text: 'Dashboard', icon: <HomeIcon />, link: '/' },
+        { text: 'Dashboard', icon: <HomeIcon />, link: '/dashboard' },
         { text: 'Appointments', icon: <EventIcon />, link: '/your-appointments' },
         { text: 'Medical Records', icon: <DescriptionIcon />, link: '/medical-records' },
         { text: 'Medications', icon: <LocalPharmacyIcon />, link: '/medications' },
@@ -51,42 +51,42 @@ const Header = () => {
     const menuItems = isAuthenticated ? authMenuItems : unauthMenuItems;
 
     return (
-        <AppBar position="static">
+        <AppBar position="sticky">
             <Toolbar>
                 <Typography variant="h6" sx={{ flexGrow: 1 }}>
                     HealthHub
                 </Typography>
                 <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                        {menuItems.map((item) => (
-                            item.link ? (
-                                <Button
-                                    key={item.text}
-                                    color="inherit"
-                                    component={Link}
-                                    to={item.link}
-                                    sx={{ fontWeight: location.pathname === `${item.link}` ? 'bold' : 'normal', margin: '0 8px', mx: 2, 
-                                        textDecoration: 'none', 
-                                        '&:hover': {
-                                            textDecoration: 'underline',
-                                    } }}
-                                >
-                                    {item.text}
-                                </Button>
-                            ) : (
-                                <Button
-                                    key={item.text}
-                                    color="inherit"
-                                    onClick={item.action}
-                                    sx={{ fontWeight: location.pathname === `${item.link}` ? 'bold' : 'normal', margin: '0 8px', mx: 2, 
-                                        textDecoration: 'none', 
-                                        '&:hover': {
-                                            textDecoration: 'underline',
-                                    } }}
-                                >
-                                    {item.text}
-                                </Button>
-                            )
-                        ))}
+                    {menuItems.map((item) => (
+                        item.link ? (
+                            <Button
+                                key={item.text}
+                                color="inherit"
+                                component={Link}
+                                to={item.link}
+                                sx={{ fontWeight: location.pathname === `${item.link}` ? 'bold' : 'normal', margin: '0 8px', mx: 2, 
+                                    textDecoration: 'none', 
+                                    '&:hover': {
+                                        textDecoration: 'underline',
+                                } }}
+                            >
+                                {item.text}
+                            </Button>
+                        ) : (
+                            <Button
+                                key={item.text}
+                                color="inherit"
+                                onClick={item.action}
+                                sx={{ fontWeight: location.pathname === `${item.link}` ? 'bold' : 'normal', margin: '0 8px', mx: 2, 
+                                    textDecoration: 'none', 
+                                    '&:hover': {
+                                        textDecoration: 'underline',
+                                } }}
+                            >
+                                {item.text}
+                            </Button>
+                        )
+                    ))}
                 </Box>
                 <IconButton
                     color="inherit"
@@ -124,5 +124,6 @@ const Header = () => {
         </AppBar>
     );
 };
+
 
 export default Header;

@@ -8,10 +8,10 @@ import SignInPage from "./pages/SignInPage";
 import Dashboard from './pages/DashboardPage';
 import Header from './components/global/Header';
 import Footer from './components/global/Footer';
-// import ProfilePage from './pages/ProfilePage';
-// import AppointmentSchedulingPage from './pages/AppointmentSchedulingPage';
+import ProfilePage from './pages/ProfilePage';
+import AppointmentSchedulingPage from './pages/AppointmentSchedulingPage';
 // import PrivateRoute from './components/PrivateRoute';
-// import YourAppointmentsPage from './pages/YourAppointmentsPage';
+import YourAppointmentsPage from './pages/YourAppointmentsPage';
 
 const App = () => (
   <Provider store={store}>
@@ -21,8 +21,10 @@ const App = () => (
         <Route exact path="/" element={<LandingPage />} />
         <Route path='/sign-up' element={<SignUpPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
-        {/* <Route path="/dashboard" element={<PatientDashboardPage />} /> */}
-        {/* <Route path="/your-appointments" element={<YourAppointmentsPage />} /> */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/your-appointments" element={<YourAppointmentsPage />} />
+        <Route path='/profile' element={<ProfilePage />}/>
+        <Route path="/schedule-appointment" element={<AppointmentSchedulingPage />} />
       </Routes>
       <Footer />
     </Router>

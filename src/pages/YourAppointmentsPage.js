@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAppointments } from "../redux/patientDataSlice";
 import { Box, Typography, CircularProgress } from "@mui/material";
-import Header from "../components/global/Header";
-import Navigation from "../components/global/Navigation";
-import Footer from "../components/global/Footer";
 import ErrorAlert from "../components/global/ErrorAlert";
 import AppointmentTable from "../components/appointments/AppointmentTable";
 import SearchBar from "../components/appointments/SearchBar";
@@ -46,16 +43,13 @@ const YourAppointmentsPage = () => {
 
     return (
         <>
-            {/* <Header /> */}
-            <Navigation />
             <Box p={3}>
-                <Typography variant="h4" gutterBottom align="center">Your Appointments</Typography>
+                <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: "bold", color: 'primary.main' }}>Your Appointments</Typography>
                 <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                 <FilterOptions filter={filter} setFilter={setFilter} />
                 <AppointmentTable appointments={paginatedAppointments} />
                 <Pagination page={page} setPage={setPage} totalPages={totalPages} />
             </Box>
-            <Footer />
         </>
     );
 };

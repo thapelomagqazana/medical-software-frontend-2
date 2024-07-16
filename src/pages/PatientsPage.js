@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Grid, TextField, Box, Typography } from "@mui/material";
+import { Grid, TextField, Box } from "@mui/material";
 import PatientCard from "../components/patients/PatientCard";
 import PatientDetailModal from "../components/patients/PatientDetailModal";
 

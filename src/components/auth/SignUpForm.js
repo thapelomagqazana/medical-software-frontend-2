@@ -63,7 +63,6 @@ const SignUp = () => {
 
     return (
         <Container maxWidth="sm">
-            {registrationSuccess && <Alert severity="success" sx={{ mb: 2 }}>Registration successful! Redirecting to login...</Alert>}
             <Formik
                 initialValues={{
                     firstName: "",
@@ -147,6 +146,7 @@ const SignUp = () => {
                             <MenuItem value="doctor">Doctor</MenuItem>
                             <MenuItem value="admin">Admin</MenuItem>
                         </Field>
+                        {registrationSuccess && <Alert severity="success" sx={{ mb: 2 }}>Registration successful! Redirecting to login...</Alert>}
                         {error && <Alert severity="error" sx={{ mb: 2 }}>{error.msg}</Alert>}
                         <Button type="submit" variant="contained" color="primary" fullWidth>
                             Submit

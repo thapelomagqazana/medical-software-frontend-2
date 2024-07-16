@@ -101,7 +101,7 @@ const AppointmentForm = ({ onSubmit, initialData = {}, patientId, isSubmitting }
                             ))}
                         </Field>
                     )}
-                    <Field
+                    {/* <Field
                         as={TextField}
                         label="Status"
                         name="status"
@@ -114,7 +114,7 @@ const AppointmentForm = ({ onSubmit, initialData = {}, patientId, isSubmitting }
                         <MenuItem value="scheduled">Scheduled</MenuItem>
                         <MenuItem value="cancelled">Cancelled</MenuItem>
                         <MenuItem value="completed">Completed</MenuItem>
-                    </Field>
+                    </Field> */}
                     <Button type="submit" variant="contained" color="primary" fullWidth disabled={isSubmitting}>
                         {initialData.id ? 'Update Appointment' : 'Create Appointment'}
                     </Button>

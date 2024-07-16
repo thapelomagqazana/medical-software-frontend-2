@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CalendarView from "../components/appointments/CalendarView";
 import AppointmentForm from "../components/appointments/AppointmentForm";
-import Header from "../components/global/Header";
 import ErrorAlert from "../components/global/ErrorAlert";
 import { fetchAppointments } from "../redux/patientDataSlice";
 import { scheduleAppointment } from "../redux/appointmentsSlice";
-import { Box, Typography, CircularProgress, Alert } from "@mui/material";
+import { Box, CircularProgress, Alert } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
@@ -59,8 +58,6 @@ const AppointmentSchedulingPage = () => {
 
     return (
         <Box p={3}>
-            <Header />
-            <Typography variant="h4" gutterBottom align="center">View Calendar</Typography>
             <CalendarView appointments={appointments} />
             {successMessage && <Alert severity="success">{successMessage}</Alert>}
             {errorMessage && <Alert severity="error">{errorMessage}</Alert>}

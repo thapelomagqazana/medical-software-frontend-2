@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, Typography, Button, Box, Grid, IconButton } from "@mui/material";
+import { Card, CardContent, Typography, Button, Box, Grid, IconButton, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 
@@ -35,7 +35,7 @@ const formatDate = (date) => {
  * <AppointmentCard appointment={{ date: "2024-07-04", time: "10:00 AM", doctor: "Dr. Smith" }} />
  */
 const AppointmentCard = ({ appointment }) => (
-    <Card sx={{ margin: 2, boxShadow: 3 }}>
+    <Card sx={{ margin: 2, boxShadow: 3, transition: '0.3s', '&:hover': { boxShadow: 6 } }}>
         <CardContent>
             <Typography variant="body2" color="textSecondary">
                 Date: {formatDate(appointment.startTime)}
@@ -56,10 +56,8 @@ const AppointmentCard = ({ appointment }) => (
     </Card>
 );
 
-
-
 /**
- * UpcomingAppointments component
+ * AppointmentsOverview component
  * 
  * This component displays a list of upcoming appointments using AppointmentCard components.
  * It shows a few recent appointments by default with options to view all, search, and filter.
@@ -72,12 +70,12 @@ const AppointmentCard = ({ appointment }) => (
  *   - doctor (string): The name of the doctor for the appointment.
  *
  * Example usage:
- * <UpcomingAppointments appointments={[
+ * <AppointmentsOverview appointments={[
  *   { id: "1", date: "2024-07-04", time: "10:00 AM", doctor: "Dr. Smith" },
  *   { id: "2", date: "2024-07-05", time: "11:00 AM", doctor: "Dr. Johnson" }
  * ]} />
  */
-const UpcomingAppointments = ({ appointments }) => {
+const AppointmentsOverview = ({ appointments }) => {
     const navigate = useNavigate();
     
     const displayedAppointments = appointments.slice(0, 2);
@@ -85,13 +83,15 @@ const UpcomingAppointments = ({ appointments }) => {
     return (
         <Card sx={{ margin: 2, boxShadow: 3 }}>
             <CardContent>
-                <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Typography variant="h5" gutterBottom align="center">
+                <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                    <Typography variant="h5" sx={{ fontWeight: "bold", color: 'primary.main' }} gutterBottom>
                         Upcoming Appointments
                     </Typography>
-                    <IconButton color="primary" onClick={() => navigate('/schedule-appointment')}>
-                        <AddIcon />
-                    </IconButton>
+                    <Tooltip title="Schedule a new appointment">
+                        <IconButton color="primary" onClick={() => navigate('/schedule-appointment')}>
+                            <AddIcon />
+                        </IconButton>
+                    </Tooltip>
                 </Box>
                 {appointments.length === 0 ? (
                     <Box textAlign="center" my={4}>
@@ -120,4 +120,4 @@ const UpcomingAppointments = ({ appointments }) => {
     );
 };
 
-export default UpcomingAppointments;
+export default AppointmentsOverview;
