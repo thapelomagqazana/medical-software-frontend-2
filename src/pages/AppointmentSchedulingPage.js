@@ -48,7 +48,7 @@ const AppointmentSchedulingPage = () => {
                 setTimeout(() => {
                     setSuccessMessage("");
                     navigate("/dashboard");
-                }, 3000); // Delay of 3 seconds
+                }, 2000); // Delay of 2 seconds
             } else {
                 setFormSubmitting(false);
                 setErrorMessage(response.payload.msg);

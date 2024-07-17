@@ -4,12 +4,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import profileIcon from "../../assets/images/pexels-pixabay-256514.jpg";
 
 const ProfileDisplay = ({ profile, onEdit }) => (
-    <Paper elevation={3} sx={{ p: 3, maxWidth: 400, mx: "auto", textAlign: "center" }}>
+    <Paper elevation={3} sx={{ p: 3, maxWidth: 400, mx: "auto", textAlign: "center", mt: 4, borderRadius: 2 }}>
         <Box mb={2}>
             <Avatar 
-                sx={{ width: 100, height: 100, mx: "auto", mb: 2 }} 
+                sx={{ width: 120, height: 120, mx: "auto", mb: 2 }} 
                 src={profile.avatar || profileIcon} 
-                alt={profile.firstName} 
+                alt={`${profile.firstName} ${profile.lastName}`} 
             />
             <Typography variant="h5" gutterBottom>
                 {profile.firstName} {profile.lastName}
@@ -23,7 +23,7 @@ const ProfileDisplay = ({ profile, onEdit }) => (
             color="primary" 
             startIcon={<EditIcon />} 
             onClick={onEdit} 
-            sx={{ mt: 2 }}
+            sx={{ mt: 2, py: 1, px: 3 }}
         >
             Edit Profile
         </Button>

@@ -67,7 +67,7 @@ const AppointmentForm = ({ onSubmit, initialData = {}, patientId, isSubmitting }
         >
             {({ errors, touched }) => (
                 <Box component={Form} mt={4} p={2} boxShadow={3} borderRadius={2} maxWidth="400px" mx="auto">
-                    <Typography variant="h6" mb={2} align="center">Schedule Appointment</Typography>
+                    <Typography variant="h6" mb={2} align="center" sx={{ fontWeight: "bold", color: 'primary.main' }}>Schedule Appointment</Typography>
                     <Field
                         as={TextField}
                         label="Start Time"

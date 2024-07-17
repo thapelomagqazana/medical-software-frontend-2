@@ -15,7 +15,7 @@ const CalendarView = ({ appointments }) => {
 
     return (
         <Box>
-            <Typography variant="h4" gutterBottom align="center">View Calendar</Typography>
+            <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: "bold", color: 'primary.main' }}>View Calendar</Typography>
             <Calendar 
                 localizer={localizer}
                 events={events}

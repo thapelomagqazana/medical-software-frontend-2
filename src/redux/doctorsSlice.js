@@ -11,7 +11,7 @@ export const fetchDoctors = createAsyncThunk("doctors/fetchDoctors", async (_, {
         // Set up headers
         const config = {
             headers: {
-                Authorization: `${token}`
+                Authorization: `Bearer ${token}`
             }
         };
 
@@ -28,7 +28,7 @@ export const fetchPatients = createAsyncThunk("doctors/fetchPatients",
             const token = localStorage.getItem("token");
             const response = await axios.get(`${API_URL}/patients`, {
                 headers: {
-                    Authorization: `${token}`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
 

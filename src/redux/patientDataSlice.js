@@ -12,7 +12,7 @@ export const fetchUpcomingAppointments = createAsyncThunk(
         // Set up headers
         const config = {
             headers: {
-                Authorization: `${token}`
+                Authorization: `Bearer ${token}`
             }
         };
         
@@ -32,7 +32,7 @@ export const fetchAppointments = createAsyncThunk(
         // Set up headers
         const config = {
             headers: {
-                Authorization: `${token}`
+                Authorization: `Bearer ${token}`
             }
         };
         

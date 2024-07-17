@@ -9,7 +9,7 @@ export const fetchProfile = createAsyncThunk(
             const token = localStorage.getItem("token");
             const response = await axios.get(`${API_URL}/me/${userId}`, {
                 headers: {
-                  Authorization: `${token}`
+                  Authorization: `Bearer ${token}`
                 }
             });
 

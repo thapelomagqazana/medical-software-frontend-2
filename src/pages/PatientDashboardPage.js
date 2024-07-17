@@ -8,6 +8,7 @@ import MedicationsOverview from "../components/dashboard/MedicationsOverview";
 import MessagesOverview from "../components/dashboard/MessagesOverview";
 import { fetchUpcomingAppointments } from "../redux/patientDataSlice";
 import { fetchProfile } from "../redux/profileSlice";
+import { fetchPrescriptions } from "../redux/medicationsSlice";
 import { jwtDecode } from "jwt-decode";
 import { CircularProgress, Box } from '@mui/material';
 
@@ -19,11 +20,39 @@ const PatientDashboardPage = () => {
     //     { id: "2", date: "2024-07-05", time: "11:00 AM", doctor: "Dr. Johnson" }
     // ];
 
+    // Sample hardcoded prescriptions for testing
     const medications = [
-        { id: 1, name: 'Medicine A', dosage: '2x daily' },
-        { id: 2, name: 'Medicine B', dosage: '1x daily' },
+        {
+            id: "1",
+            name: "Aspirin",
+            dosage: "100mg",
+            frequency: "Once daily",
+            doctor: {
+                firstName: "John",
+                lastName: "Doe"
+            }
+        },
+        {
+            id: "2",
+            name: "Metformin",
+            dosage: "500mg",
+            frequency: "Twice daily",
+            doctor: {
+                firstName: "Jane",
+                lastName: "Smith"
+            }
+        },
+        {
+            id: "3",
+            name: "Lisinopril",
+            dosage: "20mg",
+            frequency: "Once daily",
+            doctor: {
+                firstName: "Robert",
+                lastName: "Brown"
+            }
+        }
     ];
-
     const messages = [
         { id: 1, doctorName: 'Smith', content: 'Your lab results are ready.' },
         { id: 2, doctorName: 'Johnson', content: 'Please schedule a follow-up appointment.' },
@@ -33,13 +62,18 @@ const PatientDashboardPage = () => {
     const { appointments, loading, error } = useSelector((state) => state.patientData);
     const user = useSelector((state) => state.auth.user);
     const { profile } = useSelector((state) => state.userProfile);
+    // const { medications } = useSelector((state) => state.medications);
     const decodedToken = jwtDecode(user.token);
 
+    const patientId = decodedToken.user.id;
+
     useEffect(() => {
-        dispatch(fetchUpcomingAppointments());
         if (user && decodedToken) {
-            dispatch(fetchProfile(decodedToken.user.id));
+            dispatch(fetchUpcomingAppointments());
+            dispatch(fetchProfile(patientId));
+            // dispatch(fetchPrescriptions(patientId));
         }
+        
     }, [dispatch, user]);
 
     if (loading) {

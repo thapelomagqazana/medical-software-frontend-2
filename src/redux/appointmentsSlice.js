@@ -9,7 +9,7 @@ export const scheduleAppointment = createAsyncThunk("appointments/scheduleAppoin
         const token = localStorage.getItem("token");
         const config = {
             headers: {
-                Authorization: `${token}`,
+                Authorization: `Bearer ${token}`,
             },
         };
 
@@ -27,7 +27,7 @@ export const updateAppointment = createAsyncThunk(
             const token = localStorage.getItem("token");
             const config = {
                 headers: {
-                    Authorization: `${token}`,
+                    Authorization: `Bearer ${token}`,
                 },
             };
             const response = await axios.put(
