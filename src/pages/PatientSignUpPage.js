@@ -7,7 +7,7 @@ import { Container, Box, Typography, Paper } from "@mui/material";
  * SignUpPage is a React functional component that renders the sign-up page of the application.
  * It includes a header, a sign-up form, and a footer.
  */
-const SignUpPage = () => {
+const PatientSignUpPage = () => {
     return (
         <Container maxWidth="sm" sx={{ mt: 8 }}>
             <Paper elevation={3} sx={{ p: 4, textAlign: 'center', boxShadow: 3 }}>
@@ -26,4 +26,4 @@ const SignUpPage = () => {
 };
 
 // Exporting the SignUpPage component as the default export of this module.
-export default SignUpPage;
+export default PatientSignUpPage;

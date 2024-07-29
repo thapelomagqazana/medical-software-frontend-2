@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Provider } from "react-redux";
 import store from './redux/store';
 import LandingPage from './pages/LandingPage';
-import SignUpPage from './pages/SignUpPage';
+import PatientSignUpPage from './pages/PatientSignUpPage';
 import SignInPage from "./pages/SignInPage";
-import Dashboard from './pages/DashboardPage';
+import PatientDashboardPage from './pages/PatientDashboardPage';
 import Header from './components/global/Header';
 import Footer from './components/global/Footer';
 import ProfilePage from './pages/ProfilePage';
@@ -19,9 +19,9 @@ const App = () => (
       < Header/>
       <Routes>
         <Route exact path="/" element={<LandingPage />} />
-        <Route path='/sign-up' element={<SignUpPage />} />
+        <Route path='/patient/sign-up' element={<PatientSignUpPage />} />
         <Route path="/sign-in" element={<SignInPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/patient/dashboard" element={<PatientDashboardPage />} />
         <Route path="/your-appointments" element={<YourAppointmentsPage />} />
         <Route path='/profile' element={<ProfilePage />}/>
         <Route path="/schedule-appointment" element={<AppointmentSchedulingPage />} />

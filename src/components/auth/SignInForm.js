@@ -18,7 +18,7 @@ const LoginForm = () => {
 
     useEffect(() => {
         if (isAuthenticated) {
-            navigate("/dashboard");
+            navigate("/patient/dashboard");
         }
     }, [isAuthenticated, navigate]);
 
@@ -34,6 +34,7 @@ const LoginForm = () => {
         >
             {({ errors, touched, isSubmitting }) => (
                 <Box component={Form} sx={{ maxWidth: 400, mx: "auto", mt: 8, p: 4 }}>
+                    {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
                     <Field
                         as={TextField}
                         name="email"
@@ -53,7 +54,7 @@ const LoginForm = () => {
                         error={touched.password && !!errors.password}
                         helperText={touched.password && errors.password}
                     />
-                    {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+                    
                     <Button type="submit" variant="contained" color="primary" fullWidth disabled={isSubmitting} sx={{ mt: 2 }}>
                         {isSubmitting ? <CircularProgress size={24} /> : "Log In"}
                     </Button>
@@ -61,7 +62,7 @@ const LoginForm = () => {
             )}
             </Formik>
             <Box mt={2}>
-                <MuiLink component={Link} to="/sign-up">Don't have an account? Sign Up.</MuiLink>
+                <MuiLink component={Link} to="/patient/sign-up">Don't have an account? Sign Up.</MuiLink>
             </Box>
         </Container>
         

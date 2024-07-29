@@ -75,7 +75,7 @@ const HeroSection = () => {
                     variant="contained" 
                     color="primary" 
                     component={Link} 
-                    to="/sign-up" 
+                    to="/patient/sign-up" 
                     sx={{ 
                         mt: 4, 
                         px: 4, 

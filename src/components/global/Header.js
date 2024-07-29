@@ -32,7 +32,7 @@ const Header = () => {
     };
 
     const authMenuItems = [
-        { text: 'Dashboard', icon: <HomeIcon />, link: '/dashboard' },
+        { text: 'Dashboard', icon: <HomeIcon />, link: '/patient/dashboard' },
         { text: 'Appointments', icon: <EventIcon />, link: '/your-appointments' },
         { text: 'Medical Records', icon: <DescriptionIcon />, link: '/medical-records' },
         { text: 'Medications', icon: <LocalPharmacyIcon />, link: '/medications' },
@@ -45,7 +45,7 @@ const Header = () => {
     const unauthMenuItems = [
         { text: 'Home', icon: <HomeIcon />, link: '/' },
         { text: 'Sign In', icon: <LoginIcon />, link: '/sign-in' },
-        { text: 'Sign Up', icon: <AppRegistrationIcon />, link: '/sign-up' },
+        { text: 'Sign Up', icon: <AppRegistrationIcon />, link: '/patient/sign-up' },
     ];
 
     const menuItems = isAuthenticated ? authMenuItems : unauthMenuItems;

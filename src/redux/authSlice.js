@@ -9,7 +9,7 @@ import axios from "axios";
 /**
  * API URL for authentication endpoints.
  */
-const API_URL = "http://localhost:5000/api/auth"
+const API_URL = "http://localhost:5000/api/patients"
 
 /**
  * Async thunk for user registration.
@@ -22,6 +22,7 @@ export const register = createAsyncThunk("auth/register", async (user, { rejectW
         const response = await axios.post(`${API_URL}/register`, user);
         return response.data;
     } catch (error) {
+        console.log(error.response.data);
         return rejectWithValue(error.response.data);
     }
 });
@@ -35,11 +36,12 @@ export const register = createAsyncThunk("auth/register", async (user, { rejectW
 export const login = createAsyncThunk("auth/login", async (user, { rejectWithValue }) => {
     try {
         const response = await axios.post(`${API_URL}/login`, user);
+        // console.log(response.data.token);
         localStorage.setItem("token", response.data.token);
         return response.data;
     } catch (error) {
-        console.log(error.response.data.msg);
-        return rejectWithValue(error.response.data.msg);
+        // console.log(error.response.data.message);
+        return rejectWithValue(error.response.data.message);
     }
 });
 
