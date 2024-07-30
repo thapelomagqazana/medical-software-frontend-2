@@ -4,12 +4,13 @@
  * - axios: A library for making HTTP requests.
  */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 /**
  * API URL for authentication endpoints.
  */
-const API_URL = "http://localhost:5000/api/patients"
+const API_URL = "http://localhost:5000/api/patients";
 
 /**
  * Async thunk for user registration.
@@ -54,8 +55,8 @@ export const login = createAsyncThunk("auth/login", async (user, { rejectWithVal
 const authSlice = createSlice({
     name: "auth",
     initialState: {
-        user: null,
-        isAuthenticated: false,
+        user: localStorage.getItem("token") ? jwtDecode(localStorage.getItem("token")) : null,
+        isAuthenticated: !!localStorage.getItem("token"),
         error: null,
         registrationSuccess: false,
     },
@@ -77,6 +78,10 @@ const authSlice = createSlice({
         clearRegistrationSuccess: (state) => {
             state.registrationSuccess = false;
         },
+        setUserFromToken: (state, action) => {
+            state.user = jwtDecode(action.payload);
+            state.isAuthenticated = true;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -88,7 +93,9 @@ const authSlice = createSlice({
                 state.error = action.payload;
             })
             .addCase(login.fulfilled, (state, action) => {
-                state.user = action.payload;
+                // state.user = action.payload;
+                // console.log(state.user);
+                state.user = jwtDecode(action.payload.token);
                 state.isAuthenticated = true;
                 state.error = null;
             })
@@ -101,7 +108,7 @@ const authSlice = createSlice({
 /**
  * Exporting actions for logout and clearRegistrationSuccess.
  */
-export const { logout, clearRegistrationSuccess } = authSlice.actions;
+export const { logout, clearRegistrationSuccess, setUserFromToken } = authSlice.actions;
 
 /**
  * Exporting the auth reducer as the default export.

@@ -15,14 +15,9 @@ import TestimonialsSection from "../components/landing/TestimonialsSection";
  */
 const LandingPage = () => (
     <>
-        {/* <Header /> */}
-        {/* <Navigation /> */}
-        {/* <Header2 /> */}
         <HeroSection />
         <FeaturesSection />
         <TestimonialsSection />
-        {/* <CTASection /> */}
-        {/* <Footer /> */}
     </>
 );
 

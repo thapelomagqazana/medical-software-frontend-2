@@ -15,6 +15,10 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/authSlice';
 
+/**
+ * Header component for the HealthHub application.
+ * Displays navigation options based on authentication status.
+ */
 const Header = () => {
     const location = useLocation();
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -22,15 +26,23 @@ const Header = () => {
     const navigate = useNavigate();
     const { user, isAuthenticated } = useSelector((state) => state.auth);
 
+    /**
+     * Toggles the state of the drawer (open/close).
+     */
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
     };
 
+    /**
+     * Handles user logout action.
+     * Dispatches logout action and navigates to home page.
+     */
     const handleLogout = () => {
         dispatch(logout());
         navigate('/');
     };
 
+    // Menu items for authenticated users
     const authMenuItems = [
         { text: 'Dashboard', icon: <HomeIcon />, link: '/patient/dashboard' },
         { text: 'Appointments', icon: <EventIcon />, link: '/your-appointments' },
@@ -42,12 +54,14 @@ const Header = () => {
         { text: 'Log Out', icon: <LogoutIcon />, action: handleLogout },
     ];
 
+    // Menu items for unauthenticated users 
     const unauthMenuItems = [
         { text: 'Home', icon: <HomeIcon />, link: '/' },
         { text: 'Sign In', icon: <LoginIcon />, link: '/sign-in' },
         { text: 'Sign Up', icon: <AppRegistrationIcon />, link: '/patient/sign-up' },
     ];
 
+    // Determine which menu items to display based on authentication status
     const menuItems = isAuthenticated ? authMenuItems : unauthMenuItems;
 
     return (

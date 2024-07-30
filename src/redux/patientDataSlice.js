@@ -1,14 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/patient";
+const API_URL = "http://localhost:5000/api/patients";
 
 export const fetchUpcomingAppointments = createAsyncThunk(
-    "patients/fetchUpcomingAppointments", async  (_, { getState, rejectWithValue }) => {
+    "patients/fetchUpcomingAppointments", async  (userId, { getState, rejectWithValue }) => {
     try {
         // Get token from the state or localStorage
-        const token = localStorage.getItem("token");
-        
+        const token = localStorage.getItem("token");        
         // Set up headers
         const config = {
             headers: {
@@ -16,7 +15,7 @@ export const fetchUpcomingAppointments = createAsyncThunk(
             }
         };
         
-        const response = await axios.get(`${API_URL}/upcoming-appointments`, config);
+        const response = await axios.get(`${API_URL}/${userId}/appointments/upcoming`, config);
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CalendarView from "../components/appointments/CalendarView";
+import CalendarView from "../components/appointments/CalendarView2";
 import AppointmentForm from "../components/appointments/AppointmentForm";
 import ErrorAlert from "../components/global/ErrorAlert";
 import { fetchAppointments } from "../redux/patientDataSlice";

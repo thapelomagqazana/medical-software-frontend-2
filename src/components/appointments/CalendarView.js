@@ -1,28 +1,75 @@
 import React, { useState } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
+import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay } from "date-fns";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-const localizer = momentLocalizer(moment);
+const CalendarView = ({ selectedDate, setSelectedDate, availableDates }) => {
+    const [currentMonth, setCurrentMonth] = useState(new Date());
 
-const CalendarView = ({ appointments }) => {
-    const events = appointments.map(appointment => ({
-        title: `Appointment with Doctor: Dr. ${appointment.doctorId.firstName} ${appointment.doctorId.lastName}`,
-        start: new Date(appointment.startTime),
-        end: new Date(appointment.endTime),
-    }));
+    const handlePrevMonth = () => {
+        setCurrentMonth(subMonths(currentMonth, 1));
+    };
+
+    const handleNextMonth = () => {
+        setCurrentMonth(addMonths(currentMonth, 1));
+    };
+
+    const handleDateClick = (day) => {
+        setSelectedDate(day);
+    };
+
+    const renderHeader = () => {
+        return (
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <IconButton onClick={handlePrevMonth}>
+                    <ArrowBackIcon />
+                </IconButton>
+                <Typography variant="h6">{format(currentMonth, 'MMMM yyyy')}</Typography>
+                <IconButton onClick={handleNextMonth}>
+                    <ArrowForwardIcon />
+                </IconButton>
+            </Box>
+        );
+    };
+
+    const renderDays = () => {
+        const days = [];
+        const startDate = startOfWeek(startOfMonth(currentMonth));
+        const endDate = endOfWeek(endOfMonth(currentMonth));
+
+        let day = startDate;
+        while (day <= endDate) {
+            days.push(day);
+            day = addDays(day, 1);
+        }
+
+        return (
+            <Box display="grid" gridTemplateColumns="repeat(7, 1fr)" gap={1}>
+                {days.map((day, index) => (
+                    <Box
+                        key={index}
+                        onClick={() => handleDateClick(day)}
+                        sx={{
+                            padding: 2,
+                            textAlign: 'center',
+                            cursor: 'pointer',
+                            backgroundColor: isSameMonth(day, currentMonth) ? (isSameDay(day, selectedDate) ? 'primary.main' : (availableDates.some(date => isSameDay(date, day)) ? 'success.light' : 'grey.300')) : 'grey.100',
+                            color: isSameMonth(day, currentMonth) ? 'text.primary' : 'text.disabled',
+                            borderRadius: 2
+                        }}
+                    >
+                        {format(day, 'd')}
+                    </Box>
+                ))}
+            </Box>
+        );
+    };
 
     return (
         <Box>
-            <Typography variant="h4" gutterBottom align="center" sx={{ fontWeight: "bold", color: 'primary.main' }}>View Calendar</Typography>
-            <Calendar 
-                localizer={localizer}
-                events={events}
-                startAccessor="start"
-                endAccessor="end"
-                style={{ height: 500 }}
-            />
+            {renderHeader()}
+            {renderDays()}
         </Box>
     );
 };

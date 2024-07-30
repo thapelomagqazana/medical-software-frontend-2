@@ -3,9 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Container } from "@mui/material";
 import ErrorAlert from "../components/global/ErrorAlert";
 import WelcomeMessage from "../components/dashboard/WelcomeMessage";
-import AppointmentsOverview from "../components/dashboard/AppointmentsOverview";
-import MedicationsOverview from "../components/dashboard/MedicationsOverview";
-import MessagesOverview from "../components/dashboard/MessagesOverview";
 import SummaryOfAppointments from "../components/dashboard/SummaryOfAppointments";
 import MedicationReminders from "../components/dashboard/MedicationReminders";
 import LatestMessages from "../components/dashboard/LatestMessages";
@@ -25,49 +22,48 @@ const handleCancel = (appointment) => {
 };
 
 const PatientDashboardPage = () => {
-    // const patientName = "John Doe"; // This would be fetched from user data
     // const appointments = [];
-    const appointments = [
-        {
-            _id: "1",
-            patientId: "60c72b2f5f1b2c001c8e4b1a",
-            doctorId: {
-                _id: "doctor1",
-                firstName: "Alice",
-                lastName: "Smith"
-            },
-            startTime: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
-            endTime: new Date(new Date().setDate(new Date().getDate() + 1) + 3600000).toISOString(), // 1 hour later
-            reason: "General Checkup",
-            status: "scheduled"
-        },
-        {
-            _id: "2",
-            patientId: "60c72b2f5f1b2c001c8e4b1a",
-            doctorId: {
-                _id: "doctor2",
-                firstName: "Bob",
-                lastName: "Johnson"
-            },
-            startTime: new Date(new Date().setDate(new Date().getDate() + 3)).toISOString(),
-            endTime: new Date(new Date().setDate(new Date().getDate() + 3) + 3600000).toISOString(),
-            reason: "Follow-up",
-            status: "pending"
-        },
-        {
-            _id: "3",
-            patientId: "60c72b2f5f1b2c001c8e4b1a",
-            doctorId: {
-                _id: "doctor3",
-                firstName: "Carol",
-                lastName: "Williams"
-            },
-            startTime: new Date(new Date().setDate(new Date().getDate() + 5)).toISOString(),
-            endTime: new Date(new Date().setDate(new Date().getDate() + 5) + 3600000).toISOString(),
-            reason: "Dental Cleaning",
-            status: "completed"
-        }
-    ];
+    // const appointments = [
+    //     {
+    //         _id: "1",
+    //         patientId: "60c72b2f5f1b2c001c8e4b1a",
+    //         doctorId: {
+    //             _id: "doctor1",
+    //             firstName: "Alice",
+    //             lastName: "Smith"
+    //         },
+    //         startTime: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
+    //         endTime: new Date(new Date().setDate(new Date().getDate() + 1) + 3600000).toISOString(), // 1 hour later
+    //         reason: "General Checkup",
+    //         status: "scheduled"
+    //     },
+    //     {
+    //         _id: "2",
+    //         patientId: "60c72b2f5f1b2c001c8e4b1a",
+    //         doctorId: {
+    //             _id: "doctor2",
+    //             firstName: "Bob",
+    //             lastName: "Johnson"
+    //         },
+    //         startTime: new Date(new Date().setDate(new Date().getDate() + 3)).toISOString(),
+    //         endTime: new Date(new Date().setDate(new Date().getDate() + 3) + 3600000).toISOString(),
+    //         reason: "Follow-up",
+    //         status: "pending"
+    //     },
+    //     {
+    //         _id: "3",
+    //         patientId: "60c72b2f5f1b2c001c8e4b1a",
+    //         doctorId: {
+    //             _id: "doctor3",
+    //             firstName: "Carol",
+    //             lastName: "Williams"
+    //         },
+    //         startTime: new Date(new Date().setDate(new Date().getDate() + 5)).toISOString(),
+    //         endTime: new Date(new Date().setDate(new Date().getDate() + 5) + 3600000).toISOString(),
+    //         reason: "Dental Cleaning",
+    //         status: "completed"
+    //     }
+    // ];
     
 
     // Sample hardcoded prescriptions for testing
@@ -186,14 +182,9 @@ const PatientDashboardPage = () => {
         console.log('Mark as read:', message);
     };
 
-    // const messages = [
-    //     { id: 1, doctorName: 'Smith', content: 'Your lab results are ready.' },
-    //     { id: 2, doctorName: 'Johnson', content: 'Please schedule a follow-up appointment.' },
-    // ];
-
     const dispatch = useDispatch();
-    // const { appointments, loading, error } = useSelector((state) => state.patientData);
-    const { loading, error } = useSelector((state) => state.patientData);
+    const { appointments, loading, error } = useSelector((state) => state.patientData);
+    // const { loading, error } = useSelector((state) => state.patientData);
     const user = useSelector((state) => state.auth.user);
     const { profile } = useSelector((state) => state.userProfile);
     // const { medications } = useSelector((state) => state.medications);
@@ -206,7 +197,7 @@ const PatientDashboardPage = () => {
 
     useEffect(() => {
         if (user && decodedToken) {
-            // dispatch(fetchUpcomingAppointments());
+            dispatch(fetchUpcomingAppointments(patientId));
             dispatch(fetchProfile(patientId));
             // dispatch(fetchPrescriptions(patientId));
         }
@@ -221,57 +212,10 @@ const PatientDashboardPage = () => {
         return <Box textAlign="center"><ErrorAlert message={error} /></Box>;
     }
 
-    // return (
-    //     <Box sx={{ p: 2 }}>
-    //         <Grid container spacing={3}>
-    //             <Grid item xs={12}>
-    //                 <WelcomeMessage 
-    //                     name={`${profile.firstName} ${profile.lastName}`} 
-    //                     message={"Here are your latest health updates"} 
-    //                     appointmentsCount={2} 
-    //                     newMessagesCount={1} 
-    //                 />
-    //             </Grid>
-    //             <Grid item xs={12}>
-    //                 <SummaryOfAppointments 
-    //                     appointments={appointments} 
-    //                     onReschedule={handleReschedule} 
-    //                     onCancel={handleCancel} 
-    //                 />
-    //             </Grid>
-    //             <Grid item xs={12} md={6}>
-    //                 <MedicationReminders 
-    //                     medications={medications} 
-    //                     onMarkAsTaken={handleMarkAsTaken} 
-    //                     onReorder={handleReorder} 
-    //                 />
-    //             </Grid>
-    //             <Grid item xs={12} md={6}>
-    //                 <LatestMessages 
-    //                     messages={messages} 
-    //                     onReply={handleReply} 
-    //                     onMarkAsRead={handleMarkAsRead} 
-    //                 />
-    //             </Grid>
-
-    //         </Grid>
-    //         {/* <Snackbar
-    //             open={notification.open}
-    //             autoHideDuration={6000}
-    //             onClose={handleCloseNotification}
-    //             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-    //         >
-    //             <Alert onClose={handleCloseNotification} severity={notification.severity} sx={{ width: '100%' }}>
-    //                 {notification.message}
-    //             </Alert>
-    //         </Snackbar> */}
-    //     </Box>
-    // );
-
     return (
         <>
             <Container maxWidth="lg">
-                <WelcomeMessage name={`${profile.firstName} ${profile.lastName}`} message={"Here are your latest health updates"} appointmentsCount={2} newMessagesCount={1} />
+                <WelcomeMessage name={`${profile.firstName} ${profile.lastName}`} message={"Here are your latest health updates"} appointmentsCount={appointments.length} newMessagesCount={messages.length} />
                 <SummaryOfAppointments 
                     appointments={appointments} 
                     onReschedule={handleReschedule} 

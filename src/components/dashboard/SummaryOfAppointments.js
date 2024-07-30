@@ -60,50 +60,56 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel }) => {
                 <CalendarTodayIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
                 Your Upcoming Appointments
             </Typography>
-            <List>
-                {appointments.slice(0, 3).map((appointment, index) => (
-                    <ListItem 
-                        key={index} 
-                        divider 
-                        button
-                        onClick={() => handleViewDetails(appointment)}
-                        sx={{ 
-                            cursor: 'pointer', 
-                            '&:hover': { bgcolor: 'action.hover' },
-                            '&:focus': { outline: 'none', bgcolor: 'action.selected' },
-                            '&:active': { bgcolor: 'action.selected' }
-                        }}
-                    >
-                        <ListItemText
-                            primary={`${format(new Date(appointment.startTime), 'PPP')} at ${format(new Date(appointment.startTime), 'p')}`}
-                            secondary={`with Dr. ${appointment.doctorId.firstName} ${appointment.doctorId.lastName}`}
-                        />
-                        <ListItemSecondaryAction>
-                            {getStatusChip(appointment.status)}
-                            {appointment.status === 'scheduled' && (
-                                <>
-                                    <IconButton 
-                                        edge="end" 
-                                        color="primary"
-                                        onClick={(e) => { e.stopPropagation(); onReschedule(appointment); }}
-                                        sx={{ ml: 1 }}
-                                    >
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton 
-                                        edge="end" 
-                                        color="secondary"
-                                        onClick={(e) => { e.stopPropagation(); onCancel(appointment); }}
-                                        sx={{ ml: 1 }}
-                                    >
-                                        <CancelIcon />
-                                    </IconButton>
-                                </>
-                            )}
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                ))}
-            </List>
+            {appointments.length > 0 ? (
+                <List>
+                    {appointments.slice(0, 3).map((appointment, index) => (
+                        <ListItem 
+                            key={index} 
+                            divider 
+                            button
+                            onClick={() => handleViewDetails(appointment)}
+                            sx={{ 
+                                cursor: 'pointer', 
+                                '&:hover': { bgcolor: 'action.hover' },
+                                '&:focus': { outline: 'none', bgcolor: 'action.selected' },
+                                '&:active': { bgcolor: 'action.selected' }
+                            }}
+                        >
+                            <ListItemText
+                                primary={`${format(new Date(appointment.startTime), 'PPP')} at ${format(new Date(appointment.startTime), 'p')}`}
+                                secondary={`with Dr. ${appointment.doctorId.firstName} ${appointment.doctorId.lastName}`}
+                            />
+                            <ListItemSecondaryAction>
+                                {getStatusChip(appointment.status)}
+                                {appointment.status === 'scheduled' && (
+                                    <>
+                                        <IconButton 
+                                            edge="end" 
+                                            color="primary"
+                                            onClick={(e) => { e.stopPropagation(); onReschedule(appointment); }}
+                                            sx={{ ml: 1 }}
+                                        >
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton 
+                                            edge="end" 
+                                            color="secondary"
+                                            onClick={(e) => { e.stopPropagation(); onCancel(appointment); }}
+                                            sx={{ ml: 1 }}
+                                        >
+                                            <CancelIcon />
+                                        </IconButton>
+                                    </>
+                                )}
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    ))}
+                </List>
+            ) : (
+                <Typography variant="body1" color="textSecondary">
+                    You have no upcoming appointments.
+                </Typography>
+            )}
 
             <Modal open={!!selectedAppointment} onClose={handleCloseDetails}>
                 <Paper sx={{ maxWidth: 400, mx: 'auto', mt: 4, p: 2 }}>
