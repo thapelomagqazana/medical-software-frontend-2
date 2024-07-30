@@ -8,6 +8,7 @@ import MedicationsOverview from "../components/dashboard/MedicationsOverview";
 import MessagesOverview from "../components/dashboard/MessagesOverview";
 import SummaryOfAppointments from "../components/dashboard/SummaryOfAppointments";
 import MedicationReminders from "../components/dashboard/MedicationReminders";
+import LatestMessages from "../components/dashboard/LatestMessages";
 import { fetchUpcomingAppointments } from "../redux/patientDataSlice";
 import { fetchProfile } from "../redux/profileSlice";
 import { fetchPrescriptions } from "../redux/medicationsSlice";
@@ -104,43 +105,91 @@ const PatientDashboardPage = () => {
     // ];
 
     // Mock data for medications
-const medications = [
-    {
-        _id: "1",
-        name: "Aspirin",
-        dosage: "100mg",
-        time: "08:00 AM",
-        taken: false,
-    },
-    {
-        _id: "2",
-        name: "Vitamin D",
-        dosage: "50mg",
-        time: "12:00 PM",
-        taken: false,
-    },
-    {
-        _id: "3",
-        name: "Metformin",
-        dosage: "500mg",
-        time: "06:00 PM",
-        taken: false,
-    }
-];
-
-// Mock functions for marking as taken and reordering
-const handleMarkAsTaken = (medication) => {
-    console.log('Mark as taken:', medication);
-};
-
-const handleReorder = (medication) => {
-    console.log('Reorder medication:', medication);
-};
-
-    const messages = [
-        { id: 1, doctorName: 'Smith', content: 'Your lab results are ready.' },
-        { id: 2, doctorName: 'Johnson', content: 'Please schedule a follow-up appointment.' },
+    const medications = [
+        {
+            _id: "1",
+            name: "Aspirin",
+            dosage: "100mg",
+            time: "08:00 AM",
+            taken: false,
+        },
+        {
+            _id: "2",
+            name: "Vitamin D",
+            dosage: "50mg",
+            time: "12:00 PM",
+            taken: false,
+        },
+        {
+            _id: "3",
+            name: "Metformin",
+            dosage: "500mg",
+            time: "06:00 PM",
+            taken: false,
+        }
     ];
+
+    // Mock data for messages
+    const messages = [
+        {
+            _id: "1",
+            doctorName: "Dr. Alice Smith",
+            content: "Please remember to take your medication before breakfast.",
+            timestamp: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(),
+            read: false,
+        },
+        {
+            _id: "2",
+            doctorName: "Dr. Bob Johnson",
+            content: "Your lab results are ready. Please check the portal.",
+            timestamp: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(),
+            read: false,
+        },
+        {
+            _id: "3",
+            doctorName: "Dr. Carol Williams",
+            content: "We need to reschedule your appointment to next week.",
+            timestamp: new Date(new Date().setDate(new Date().getDate() - 3)).toISOString(),
+            read: true,
+        },
+        {
+            _id: "4",
+            doctorName: "Dr. Daniel Brown",
+            content: "How are you feeling after the last treatment?",
+            timestamp: new Date(new Date().setDate(new Date().getDate() - 4)).toISOString(),
+            read: true,
+        },
+        {
+            _id: "5",
+            doctorName: "Dr. Emily White",
+            content: "Your prescription for Metformin has been updated.",
+            timestamp: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(),
+            read: true,
+        }
+    ];
+
+
+    // Mock functions for marking as taken and reordering
+    const handleMarkAsTaken = (medication) => {
+        console.log('Mark as taken:', medication);
+    };
+
+    const handleReorder = (medication) => {
+        console.log('Reorder medication:', medication);
+    };
+
+    const handleReply = (message) => {
+        console.log('Reply to message:', message);
+    };
+    
+    const handleMarkAsRead = (message) => {
+        console.log('Mark as read:', message);
+    };
+
+    // const messages = [
+    //     { id: 1, doctorName: 'Smith', content: 'Your lab results are ready.' },
+    //     { id: 2, doctorName: 'Johnson', content: 'Please schedule a follow-up appointment.' },
+    // ];
 
     const dispatch = useDispatch();
     // const { appointments, loading, error } = useSelector((state) => state.patientData);
@@ -172,6 +221,53 @@ const handleReorder = (medication) => {
         return <Box textAlign="center"><ErrorAlert message={error} /></Box>;
     }
 
+    // return (
+    //     <Box sx={{ p: 2 }}>
+    //         <Grid container spacing={3}>
+    //             <Grid item xs={12}>
+    //                 <WelcomeMessage 
+    //                     name={`${profile.firstName} ${profile.lastName}`} 
+    //                     message={"Here are your latest health updates"} 
+    //                     appointmentsCount={2} 
+    //                     newMessagesCount={1} 
+    //                 />
+    //             </Grid>
+    //             <Grid item xs={12}>
+    //                 <SummaryOfAppointments 
+    //                     appointments={appointments} 
+    //                     onReschedule={handleReschedule} 
+    //                     onCancel={handleCancel} 
+    //                 />
+    //             </Grid>
+    //             <Grid item xs={12} md={6}>
+    //                 <MedicationReminders 
+    //                     medications={medications} 
+    //                     onMarkAsTaken={handleMarkAsTaken} 
+    //                     onReorder={handleReorder} 
+    //                 />
+    //             </Grid>
+    //             <Grid item xs={12} md={6}>
+    //                 <LatestMessages 
+    //                     messages={messages} 
+    //                     onReply={handleReply} 
+    //                     onMarkAsRead={handleMarkAsRead} 
+    //                 />
+    //             </Grid>
+
+    //         </Grid>
+    //         {/* <Snackbar
+    //             open={notification.open}
+    //             autoHideDuration={6000}
+    //             onClose={handleCloseNotification}
+    //             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+    //         >
+    //             <Alert onClose={handleCloseNotification} severity={notification.severity} sx={{ width: '100%' }}>
+    //                 {notification.message}
+    //             </Alert>
+    //         </Snackbar> */}
+    //     </Box>
+    // );
+
     return (
         <>
             <Container maxWidth="lg">
@@ -184,7 +280,8 @@ const handleReorder = (medication) => {
                 {/* <AppointmentsOverview appointments={appointments} /> */}
                 {/* <MedicationsOverview medications={medications} /> */}
                 <MedicationReminders medications={medications} onMarkAsTaken={handleMarkAsTaken} onReorder={handleReorder} />
-                <MessagesOverview messages={messages} />
+                {/* <MessagesOverview messages={messages} /> */}
+                <LatestMessages messages={messages} onReply={handleReply} onMarkAsRead={handleMarkAsRead} />
             </Container>
         </>
     );

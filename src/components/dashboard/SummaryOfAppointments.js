@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Chip, Modal, Paper } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Chip, Modal, Paper, IconButton } from '@mui/material';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import CancelIcon from '@mui/icons-material/Cancel';
+import EditIcon from '@mui/icons-material/Edit';
 import { format } from 'date-fns';
 
 /**
@@ -51,10 +54,10 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel }) => {
             <Typography 
                 variant="h5"
                 mb={2}
-                // component="h2" 
                 gutterBottom 
                 sx={{ fontWeight: 'bold', color: 'primary.main' }}
             >
+                <CalendarTodayIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
                 Your Upcoming Appointments
             </Typography>
             <List>
@@ -64,6 +67,12 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel }) => {
                         divider 
                         button
                         onClick={() => handleViewDetails(appointment)}
+                        sx={{ 
+                            cursor: 'pointer', 
+                            '&:hover': { bgcolor: 'action.hover' },
+                            '&:focus': { outline: 'none', bgcolor: 'action.selected' },
+                            '&:active': { bgcolor: 'action.selected' }
+                        }}
                     >
                         <ListItemText
                             primary={`${format(new Date(appointment.startTime), 'PPP')} at ${format(new Date(appointment.startTime), 'p')}`}
@@ -71,6 +80,26 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel }) => {
                         />
                         <ListItemSecondaryAction>
                             {getStatusChip(appointment.status)}
+                            {appointment.status === 'scheduled' && (
+                                <>
+                                    <IconButton 
+                                        edge="end" 
+                                        color="primary"
+                                        onClick={(e) => { e.stopPropagation(); onReschedule(appointment); }}
+                                        sx={{ ml: 1 }}
+                                    >
+                                        <EditIcon />
+                                    </IconButton>
+                                    <IconButton 
+                                        edge="end" 
+                                        color="secondary"
+                                        onClick={(e) => { e.stopPropagation(); onCancel(appointment); }}
+                                        sx={{ ml: 1 }}
+                                    >
+                                        <CancelIcon />
+                                    </IconButton>
+                                </>
+                            )}
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}
@@ -98,28 +127,6 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel }) => {
                             <Typography variant="body1">
                                 <strong>Status:</strong> {selectedAppointment.status}
                             </Typography>
-                            {selectedAppointment.status === 'scheduled' && (
-                                <Box mt={2} display="flex" justifyContent="space-between">
-                                    <Button 
-                                        onClick={() => { onReschedule(selectedAppointment); handleCloseDetails(); }} 
-                                        variant="outlined" 
-                                        color="primary"
-                                        fullWidth
-                                        sx={{ mr: 1 }}
-                                    >
-                                        Reschedule
-                                    </Button>
-                                    <Button 
-                                        onClick={() => { onCancel(selectedAppointment); handleCloseDetails(); }} 
-                                        variant="outlined" 
-                                        color="secondary"
-                                        fullWidth
-                                        sx={{ ml: 1 }}
-                                    >
-                                        Cancel
-                                    </Button>
-                                </Box>
-                            )}
                             <Box mt={2}>
                                 <Button onClick={handleCloseDetails} variant="contained" color="primary" fullWidth>
                                     Close

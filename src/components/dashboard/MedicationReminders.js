@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Chip, Modal, Paper } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Chip, Modal, Paper, IconButton } from '@mui/material';
 import { format } from 'date-fns';
+import PillIcon from '@mui/icons-material/LocalPharmacy'; // Icon for medication
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'; // Icon for marking as taken
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'; // Icon for reordering medication
 
 /**
  * MedicationReminders component
@@ -75,6 +78,7 @@ const MedicationReminders = ({ medications, onMarkAsTaken, onReorder }) => {
                 gutterBottom 
                 sx={{ fontWeight: 'bold', color: 'primary.main' }}
             >
+                <PillIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
                 Daily Medication Schedule
             </Typography>
             <List>
@@ -84,6 +88,12 @@ const MedicationReminders = ({ medications, onMarkAsTaken, onReorder }) => {
                         divider 
                         button
                         onClick={() => handleViewDetails(medication)}
+                        sx={{ 
+                            cursor: 'pointer', 
+                            '&:hover': { bgcolor: 'action.hover' },
+                            '&:focus': { outline: 'none', bgcolor: 'action.selected' },
+                            '&:active': { bgcolor: 'action.selected' }
+                        }}
                     >
                         <ListItemText
                             primary={`${medication.name} (${medication.dosage})`}
@@ -91,6 +101,22 @@ const MedicationReminders = ({ medications, onMarkAsTaken, onReorder }) => {
                         />
                         <ListItemSecondaryAction>
                             {getStatusChip(medication.time, medication.taken)}
+                            <IconButton 
+                                edge="end" 
+                                color="primary"
+                                onClick={(e) => { e.stopPropagation(); onMarkAsTaken(medication); }}
+                                sx={{ ml: 1 }}
+                            >
+                                <CheckCircleIcon />
+                            </IconButton>
+                            <IconButton 
+                                edge="end" 
+                                color="secondary"
+                                onClick={(e) => { e.stopPropagation(); onReorder(medication); }}
+                                sx={{ ml: 1 }}
+                            >
+                                <AddShoppingCartIcon />
+                            </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}
@@ -112,27 +138,6 @@ const MedicationReminders = ({ medications, onMarkAsTaken, onReorder }) => {
                             <Typography variant="body1">
                                 <strong>Scheduled Time:</strong> {selectedMedication.time}
                             </Typography>
-                            <Box mt={2} display="flex" justifyContent="space-between">
-                                <Button 
-                                    onClick={() => { onMarkAsTaken(selectedMedication); handleCloseDetails(); }} 
-                                    variant="outlined" 
-                                    color="primary"
-                                    fullWidth
-                                    sx={{ mr: 1 }}
-                                    disabled={selectedMedication.taken}
-                                >
-                                    Mark as Taken
-                                </Button>
-                                <Button 
-                                    onClick={() => { onReorder(selectedMedication); handleCloseDetails(); }} 
-                                    variant="outlined" 
-                                    color="secondary"
-                                    fullWidth
-                                    sx={{ ml: 1 }}
-                                >
-                                    Reorder
-                                </Button>
-                            </Box>
                             <Box mt={2}>
                                 <Button onClick={handleCloseDetails} variant="contained" color="primary" fullWidth>
                                     Close
