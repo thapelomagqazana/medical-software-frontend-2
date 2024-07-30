@@ -7,6 +7,7 @@ import AppointmentsOverview from "../components/dashboard/AppointmentsOverview";
 import MedicationsOverview from "../components/dashboard/MedicationsOverview";
 import MessagesOverview from "../components/dashboard/MessagesOverview";
 import SummaryOfAppointments from "../components/dashboard/SummaryOfAppointments";
+import MedicationReminders from "../components/dashboard/MedicationReminders";
 import { fetchUpcomingAppointments } from "../redux/patientDataSlice";
 import { fetchProfile } from "../redux/profileSlice";
 import { fetchPrescriptions } from "../redux/medicationsSlice";
@@ -69,38 +70,73 @@ const PatientDashboardPage = () => {
     
 
     // Sample hardcoded prescriptions for testing
-    const medications = [
-        {
-            id: "1",
-            name: "Aspirin",
-            dosage: "100mg",
-            frequency: "Once daily",
-            doctor: {
-                firstName: "John",
-                lastName: "Doe"
-            }
-        },
-        {
-            id: "2",
-            name: "Metformin",
-            dosage: "500mg",
-            frequency: "Twice daily",
-            doctor: {
-                firstName: "Jane",
-                lastName: "Smith"
-            }
-        },
-        {
-            id: "3",
-            name: "Lisinopril",
-            dosage: "20mg",
-            frequency: "Once daily",
-            doctor: {
-                firstName: "Robert",
-                lastName: "Brown"
-            }
-        }
-    ];
+    // const medications = [
+    //     {
+    //         id: "1",
+    //         name: "Aspirin",
+    //         dosage: "100mg",
+    //         frequency: "Once daily",
+    //         doctor: {
+    //             firstName: "John",
+    //             lastName: "Doe"
+    //         }
+    //     },
+    //     {
+    //         id: "2",
+    //         name: "Metformin",
+    //         dosage: "500mg",
+    //         frequency: "Twice daily",
+    //         doctor: {
+    //             firstName: "Jane",
+    //             lastName: "Smith"
+    //         }
+    //     },
+    //     {
+    //         id: "3",
+    //         name: "Lisinopril",
+    //         dosage: "20mg",
+    //         frequency: "Once daily",
+    //         doctor: {
+    //             firstName: "Robert",
+    //             lastName: "Brown"
+    //         }
+    //     }
+    // ];
+
+    // Mock data for medications
+const medications = [
+    {
+        _id: "1",
+        name: "Aspirin",
+        dosage: "100mg",
+        time: "08:00 AM",
+        taken: false,
+    },
+    {
+        _id: "2",
+        name: "Vitamin D",
+        dosage: "50mg",
+        time: "12:00 PM",
+        taken: false,
+    },
+    {
+        _id: "3",
+        name: "Metformin",
+        dosage: "500mg",
+        time: "06:00 PM",
+        taken: false,
+    }
+];
+
+// Mock functions for marking as taken and reordering
+const handleMarkAsTaken = (medication) => {
+    console.log('Mark as taken:', medication);
+};
+
+const handleReorder = (medication) => {
+    console.log('Reorder medication:', medication);
+};
+
     const messages = [
         { id: 1, doctorName: 'Smith', content: 'Your lab results are ready.' },
         { id: 2, doctorName: 'Johnson', content: 'Please schedule a follow-up appointment.' },
@@ -146,7 +182,8 @@ const PatientDashboardPage = () => {
                     onCancel={handleCancel} 
                 />
                 {/* <AppointmentsOverview appointments={appointments} /> */}
-                <MedicationsOverview medications={medications} />
+                {/* <MedicationsOverview medications={medications} /> */}
+                <MedicationReminders medications={medications} onMarkAsTaken={handleMarkAsTaken} onReorder={handleReorder} />
                 <MessagesOverview messages={messages} />
             </Container>
         </>
