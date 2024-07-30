@@ -49,8 +49,9 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel }) => {
             boxShadow={3}
         >
             <Typography 
-                variant="h6" 
-                component="h2" 
+                variant="h5"
+                mb={2}
+                // component="h2" 
                 gutterBottom 
                 sx={{ fontWeight: 'bold', color: 'primary.main' }}
             >
