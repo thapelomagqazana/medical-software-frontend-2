@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, CircularProgress, Typography, Alert } from "@mui/material";
-import { updateAppointment } from "../../redux/appointmentsSlice";
+import { updateAppointment } from "../../redux/slices/appointmentsSlice";
 
 const CancelModal = ({ appointment, open, handleClose }) => {
     const dispatch = useDispatch();

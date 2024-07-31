@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { TextField, Button, Container, Box, Typography, Link as MuiLink, Alert, LinearProgress, Stepper, Step, StepLabel } from "@mui/material";
 import { Formik, Form, Field, FieldArray } from "formik";
 import * as Yup from "yup";
-import { register, clearRegistrationSuccess } from "../../redux/authSlice";
+import { register, clearRegistrationSuccess } from "../../redux/slices/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 
 // Validation schema for the sign-up form

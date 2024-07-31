@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import RescheduleModal from './RescheduleModal';
 import CancelModal from './CardModal';
-import { fetchAppointments } from '../../redux/patientDataSlice';
+import { fetchAppointments } from '../../redux/slices/patientDataSlice';
 import { useDispatch } from 'react-redux';
 
 const AppointmentTable = ({ appointments }) => {

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Box, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, CircularProgress, Alert } from '@mui/material';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { updateAppointment } from '../../redux/appointmentsSlice';
+import { updateAppointment } from '../../redux/slices/appointmentsSlice';
 
 const RescheduleModal = ({ appointment, open, handleClose }) => {
     const dispatch = useDispatch();

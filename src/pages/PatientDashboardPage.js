@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import { Container } from "@mui/material";
 import ErrorAlert from "../components/global/ErrorAlert";
 import WelcomeMessage from "../components/dashboard/WelcomeMessage";
 import SummaryOfAppointments from "../components/dashboard/SummaryOfAppointments";
 import MedicationReminders from "../components/dashboard/MedicationReminders";
 import LatestMessages from "../components/dashboard/LatestMessages";
-import { fetchUpcomingAppointments } from "../redux/patientDataSlice";
-import { fetchProfile } from "../redux/profileSlice";
-import { fetchPrescriptions } from "../redux/medicationsSlice";
+import { fetchUpcomingAppointments } from "../redux/slices/patientDataSlice";
+import { fetchProfile } from "../redux/slices/profileSlice";
+import { fetchPrescriptions } from "../redux/slices/medicationsSlice";
 import { jwtDecode } from "jwt-decode";
 import { CircularProgress, Box } from '@mui/material';
 
@@ -164,7 +165,7 @@ const PatientDashboardPage = () => {
         }
     ];
 
-
+    const navigate = useNavigate();
     // Mock functions for marking as taken and reordering
     const handleMarkAsTaken = (medication) => {
         console.log('Mark as taken:', medication);
@@ -180,6 +181,10 @@ const PatientDashboardPage = () => {
     
     const handleMarkAsRead = (message) => {
         console.log('Mark as read:', message);
+    };
+
+    const handleScheduleAppointment = () => {
+        navigate('/schedule-appointment');
     };
 
     const dispatch = useDispatch();
@@ -213,13 +218,14 @@ const PatientDashboardPage = () => {
     }
 
     return (
-        <>
+        <Box  sx={{ paddingBottom: '150px' }}>
             <Container maxWidth="lg">
                 <WelcomeMessage name={`${profile.firstName} ${profile.lastName}`} message={"Here are your latest health updates"} appointmentsCount={appointments.length} newMessagesCount={messages.length} />
                 <SummaryOfAppointments 
                     appointments={appointments} 
                     onReschedule={handleReschedule} 
-                    onCancel={handleCancel} 
+                    onCancel={handleCancel}
+                    onSchedule={handleScheduleAppointment} 
                 />
                 {/* <AppointmentsOverview appointments={appointments} /> */}
                 {/* <MedicationsOverview medications={medications} /> */}
@@ -227,7 +233,9 @@ const PatientDashboardPage = () => {
                 {/* <MessagesOverview messages={messages} /> */}
                 <LatestMessages messages={messages} onReply={handleReply} onMarkAsRead={handleMarkAsRead} />
             </Container>
-        </>
+        </Box>
+
+    
     );
 };
 

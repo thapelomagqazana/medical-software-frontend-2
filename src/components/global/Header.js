@@ -13,7 +13,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../redux/authSlice';
+import { logout } from '../../redux/slices/authSlice';
 
 /**
  * Header component for the HealthHub application.

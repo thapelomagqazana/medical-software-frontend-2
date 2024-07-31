@@ -5,12 +5,12 @@
  */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
+import axiosInstance from "../axiosInstance";
 
 /**
  * API URL for authentication endpoints.
  */
-const API_URL = "http://localhost:5000/api/patients";
+const API_URL = "/patients";
 
 /**
  * Async thunk for user registration.
@@ -20,7 +20,7 @@ const API_URL = "http://localhost:5000/api/patients";
  */
 export const register = createAsyncThunk("auth/register", async (user, { rejectWithValue }) => {
     try {
-        const response = await axios.post(`${API_URL}/register`, user);
+        const response = await axiosInstance.post(`${API_URL}/register`, user);
         return response.data;
     } catch (error) {
         console.log(error.response.data);
@@ -36,8 +36,7 @@ export const register = createAsyncThunk("auth/register", async (user, { rejectW
  */
 export const login = createAsyncThunk("auth/login", async (user, { rejectWithValue }) => {
     try {
-        const response = await axios.post(`${API_URL}/login`, user);
-        // console.log(response.data.token);
+        const response = await axiosInstance.post(`${API_URL}/login`, user);
         localStorage.setItem("token", response.data.token);
         return response.data;
     } catch (error) {
@@ -93,8 +92,6 @@ const authSlice = createSlice({
                 state.error = action.payload;
             })
             .addCase(login.fulfilled, (state, action) => {
-                // state.user = action.payload;
-                // console.log(state.user);
                 state.user = jwtDecode(action.payload.token);
                 state.isAuthenticated = true;
                 state.error = null;

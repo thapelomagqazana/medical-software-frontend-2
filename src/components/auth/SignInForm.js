@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, TextField, CircularProgress, Alert, Link as MuiLink, Container } from "@mui/material";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { login } from "../../redux/authSlice";
+import { login } from "../../redux/slices/authSlice";
 
 const validationSchema = Yup.object({
     email: Yup.string().email("Invalid email").required("Email is required"),

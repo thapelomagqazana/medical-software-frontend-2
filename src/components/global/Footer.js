@@ -3,7 +3,19 @@ import { Box, Typography, Link } from '@mui/material';
 
 const Footer = () => {
     return (
-        <Box sx={{ backgroundColor: 'primary.dark', color: 'white', py: 4, mt: 4 }}>
+        <Box 
+            sx={{ 
+                backgroundColor: 'primary.dark', 
+                color: 'white', 
+                py: 4, 
+                mt: 4, 
+                position: 'fixed', 
+                bottom: 0, 
+                width: '100%', 
+                textAlign: 'center',
+                height: '80px' // define the height of the footer
+            }}
+        >
             <Typography variant="body2" align="center" sx={{ fontWeight: 'bold' }}>
                 © 2024 HealthHub. All rights reserved.
             </Typography>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProfile } from "../redux/profileSlice";
+import { fetchProfile } from "../redux/slices/profileSlice";
 import { CircularProgress, Box } from "@mui/material";
 import ProfileDisplay from "../components/profile/ProfileDisplay";
 import ProfileEditForm from "../components/profile/ProfileEditForm";

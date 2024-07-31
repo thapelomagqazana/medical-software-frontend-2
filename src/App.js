@@ -14,7 +14,8 @@ import AppointmentScheduling from './pages/AppointmentScheduling';
 // import PrivateRoute from './components/PrivateRoute';
 import YourAppointmentsPage from './pages/YourAppointmentsPage';
 
-import { setUserFromToken } from './redux/authSlice';
+import { setUserFromToken, logout } from './redux/slices/authSlice';
+import { jwtDecode } from 'jwt-decode';
 
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -27,8 +28,15 @@ const App = () => {
   useEffect(() => {
       const token = localStorage.getItem("token");
       if (token) {
-          dispatch(setUserFromToken(token)); // Assuming you have a function to set user from token
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+        if (decodedToken.exp < currentTime) {
+          dispatch(logout());
+        } else {
+          dispatch(setUserFromToken(token));
+        }
       }
+      
   }, [dispatch]);
 
   return (

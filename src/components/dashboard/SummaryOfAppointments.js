@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Chip, Modal, Paper, IconButton } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Chip, Modal, Paper, IconButton, Fab } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import CancelIcon from '@mui/icons-material/Cancel';
 import EditIcon from '@mui/icons-material/Edit';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { format } from 'date-fns';
 
 /**
@@ -22,7 +23,7 @@ import { format } from 'date-fns';
  *    onCancel={handleCancel} 
  * />
  */
-const SummaryOfAppointments = ({ appointments, onReschedule, onCancel }) => {
+const SummaryOfAppointments = ({ appointments, onReschedule, onCancel, onSchedule }) => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
 
     const handleViewDetails = (appointment) => {
@@ -51,15 +52,25 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel }) => {
             borderRadius={2} 
             boxShadow={3}
         >
-            <Typography 
-                variant="h5"
-                mb={2}
-                gutterBottom 
-                sx={{ fontWeight: 'bold', color: 'primary.main' }}
-            >
-                <CalendarTodayIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
-                Your Upcoming Appointments
-            </Typography>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <Typography 
+                    variant="h5"
+                    mb={2}
+                    gutterBottom 
+                    sx={{ fontWeight: 'bold', color: 'primary.main' }}
+                >
+                    <CalendarTodayIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
+                    Your Upcoming Appointments
+                </Typography>
+                <Fab 
+                    color="primary" 
+                    aria-label="add" 
+                    size="small" 
+                    onClick={onSchedule}
+                >
+                    <AddCircleOutlineIcon />
+                </Fab>
+            </Box>
             {appointments.length > 0 ? (
                 <List>
                     {appointments.slice(0, 3).map((appointment, index) => (

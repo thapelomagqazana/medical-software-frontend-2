@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAppointments } from "../redux/patientDataSlice";
+import { fetchAppointments } from "../redux/slices/patientDataSlice";
 import { Box, Typography, CircularProgress } from "@mui/material";
 import ErrorAlert from "../components/global/ErrorAlert";
 import AppointmentTable from "../components/appointments/AppointmentTable";
