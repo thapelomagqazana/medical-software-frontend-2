@@ -1,22 +1,24 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../axiosInstance";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/doctors";
+const API_URL = "/doctors";
 
 export const fetchDoctors = createAsyncThunk("doctors/fetchDoctors", async (_, { rejectWithValue }) => {
     try {
-        // Get token from the state or localStorage
-        const token = localStorage.getItem("token");
-        
-        // Set up headers
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        };
-
-        const response = await axios.get(API_URL, config);
+        const response = await axiosInstance.get(`${API_URL}`);
         return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response.data);
+    }
+});
+
+export const fetchDoctorSlots = createAsyncThunk("doctor/fetchDoctorSlots", async ({ date, doctorId }, { rejectWithValue }) => {
+    try {
+        const response = await axiosInstance.get(`${API_URL}/slots`, {
+            params: { date, doctorId },
+        });
+        return { doctorId, slots: response.data.slots };
     } catch (error) {
         return rejectWithValue(error.response.data);
     }
@@ -39,9 +41,10 @@ export const fetchPatients = createAsyncThunk("doctors/fetchPatients",
 });
 
 const doctorsSlice = createSlice({
-    name: "doctors",
+    name: "doctor",
     initialState: {
         doctors: [],
+        slots: {},
         patients: [],
         loading: false,
         error: null,
@@ -56,7 +59,7 @@ const doctorsSlice = createSlice({
             state.loading = false;
         })
         .addCase(fetchDoctors.rejected, (state, action) => {
-            state.error = action.payload;
+            state.error = action.error.message;
             state.loading = false;
         })
         .addCase(fetchPatients.pending, (state) => {
@@ -69,6 +72,17 @@ const doctorsSlice = createSlice({
         .addCase(fetchPatients.rejected, (state, action) => {
             state.error = action.payload;
             state.loading = false;
+        })
+        .addCase(fetchDoctorSlots.pending, (state) => {
+            state.loading = true;
+        })
+        .addCase(fetchDoctorSlots.fulfilled, (state, action) => {
+            state.loading = false;
+            state.slots[action.payload.doctorId] = action.payload.slots;
+        })
+        .addCase(fetchDoctorSlots.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.error.message;
         });
     },
 });

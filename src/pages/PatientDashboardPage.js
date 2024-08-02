@@ -23,83 +23,6 @@ const handleCancel = (appointment) => {
 };
 
 const PatientDashboardPage = () => {
-    // const appointments = [];
-    // const appointments = [
-    //     {
-    //         _id: "1",
-    //         patientId: "60c72b2f5f1b2c001c8e4b1a",
-    //         doctorId: {
-    //             _id: "doctor1",
-    //             firstName: "Alice",
-    //             lastName: "Smith"
-    //         },
-    //         startTime: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
-    //         endTime: new Date(new Date().setDate(new Date().getDate() + 1) + 3600000).toISOString(), // 1 hour later
-    //         reason: "General Checkup",
-    //         status: "scheduled"
-    //     },
-    //     {
-    //         _id: "2",
-    //         patientId: "60c72b2f5f1b2c001c8e4b1a",
-    //         doctorId: {
-    //             _id: "doctor2",
-    //             firstName: "Bob",
-    //             lastName: "Johnson"
-    //         },
-    //         startTime: new Date(new Date().setDate(new Date().getDate() + 3)).toISOString(),
-    //         endTime: new Date(new Date().setDate(new Date().getDate() + 3) + 3600000).toISOString(),
-    //         reason: "Follow-up",
-    //         status: "pending"
-    //     },
-    //     {
-    //         _id: "3",
-    //         patientId: "60c72b2f5f1b2c001c8e4b1a",
-    //         doctorId: {
-    //             _id: "doctor3",
-    //             firstName: "Carol",
-    //             lastName: "Williams"
-    //         },
-    //         startTime: new Date(new Date().setDate(new Date().getDate() + 5)).toISOString(),
-    //         endTime: new Date(new Date().setDate(new Date().getDate() + 5) + 3600000).toISOString(),
-    //         reason: "Dental Cleaning",
-    //         status: "completed"
-    //     }
-    // ];
-    
-
-    // Sample hardcoded prescriptions for testing
-    // const medications = [
-    //     {
-    //         id: "1",
-    //         name: "Aspirin",
-    //         dosage: "100mg",
-    //         frequency: "Once daily",
-    //         doctor: {
-    //             firstName: "John",
-    //             lastName: "Doe"
-    //         }
-    //     },
-    //     {
-    //         id: "2",
-    //         name: "Metformin",
-    //         dosage: "500mg",
-    //         frequency: "Twice daily",
-    //         doctor: {
-    //             firstName: "Jane",
-    //             lastName: "Smith"
-    //         }
-    //     },
-    //     {
-    //         id: "3",
-    //         name: "Lisinopril",
-    //         dosage: "20mg",
-    //         frequency: "Once daily",
-    //         doctor: {
-    //             firstName: "Robert",
-    //             lastName: "Brown"
-    //         }
-    //     }
-    // ];
 
     // Mock data for medications
     const medications = [
@@ -198,7 +121,7 @@ const PatientDashboardPage = () => {
     const decodedToken = jwtDecode(localStorage.getItem("token"));
 
     const patientId = decodedToken.user.id;
-    // console.log(patientId);
+    console.log(appointments);
 
     useEffect(() => {
         if (user && decodedToken) {
@@ -218,7 +141,7 @@ const PatientDashboardPage = () => {
     }
 
     return (
-        <Box  sx={{ paddingBottom: '150px' }}>
+        <Box sx={{ paddingBottom: '150px' }}>
             <Container maxWidth="lg">
                 <WelcomeMessage name={`${profile.firstName} ${profile.lastName}`} message={"Here are your latest health updates"} appointmentsCount={appointments.length} newMessagesCount={messages.length} />
                 <SummaryOfAppointments 
@@ -227,10 +150,7 @@ const PatientDashboardPage = () => {
                     onCancel={handleCancel}
                     onSchedule={handleScheduleAppointment} 
                 />
-                {/* <AppointmentsOverview appointments={appointments} /> */}
-                {/* <MedicationsOverview medications={medications} /> */}
                 <MedicationReminders medications={medications} onMarkAsTaken={handleMarkAsTaken} onReorder={handleReorder} />
-                {/* <MessagesOverview messages={messages} /> */}
                 <LatestMessages messages={messages} onReply={handleReply} onMarkAsRead={handleMarkAsRead} />
             </Container>
         </Box>

@@ -28,6 +28,11 @@
   color: #61dafb;
 }
 
+.scrollable-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

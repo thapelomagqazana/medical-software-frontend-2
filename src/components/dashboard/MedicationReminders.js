@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Chip, Modal, Paper, IconButton } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Chip, Modal, Paper, IconButton, Fab } from '@mui/material';
 import { format } from 'date-fns';
 import PillIcon from '@mui/icons-material/LocalPharmacy'; // Icon for medication
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'; // Icon for marking as taken
@@ -72,15 +72,17 @@ const MedicationReminders = ({ medications, onMarkAsTaken, onReorder }) => {
             borderRadius={2} 
             boxShadow={3}
         >
-            <Typography 
-                variant="h5"
-                mb={2}
-                gutterBottom 
-                sx={{ fontWeight: 'bold', color: 'primary.main' }}
-            >
-                <PillIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
-                Daily Medication Schedule
-            </Typography>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <Typography 
+                    variant="h5"
+                    mb={2}
+                    gutterBottom 
+                    sx={{ fontWeight: 'bold', color: 'primary.main' }}
+                >
+                    <PillIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
+                    Daily Medication Schedule
+                </Typography>
+            </Box>
             <List>
                 {medications.map((medication, index) => (
                     <ListItem 

@@ -1,85 +1,71 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Box, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, CircularProgress, Alert } from '@mui/material';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { updateAppointment } from '../../redux/slices/appointmentsSlice';
+import React, { useState } from "react";
+import { Box, Typography, Button, Modal, Paper, TextField, useMediaQuery, useTheme } from "@mui/material";
+import CalendarView from "./CalendarView";
+import { fromZonedTime } from "date-fns-tz";
+import { format } from 'date-fns';
+import AvailableTimeSlots from "./AvailableTimeSlots";
 
-const RescheduleModal = ({ appointment, open, handleClose }) => {
-    const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [successMessage, setSuccessMessage] = useState("");
+const timeZone = "Africa/Johannesburg";
 
-    // Convert UTC time to local time when initializing
-    const convertToLocalTime = (utcDate) => {
-        const date = new Date(utcDate);
-        return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-    };
+const RescheduleModal = ({ open, handleClose, selectedAppointment, handleReschedule }) => {
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
 
-    const convertToUTC = (localDate) => {
-        const date = new Date(localDate);
-        return new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-    };
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const [newStartTime, setNewStartTime] = useState(convertToLocalTime(new Date(appointment.startTime)));
-
-    const handleSave = () => {
-        setLoading(true);
-        const utcStartTime = convertToUTC(newStartTime);
-        const newEndTime = new Date(utcStartTime.getTime() + 90 * 60 * 1000);
-
-        dispatch(updateAppointment({ 
-            id: appointment._id, 
-            startTime: utcStartTime.toISOString(), 
-            endTime: newEndTime.toISOString(), 
-            patientId: appointment.patientId, 
-            doctorId: appointment.doctorId._id,
-            status: appointment.status
-        }))
-        .then(response => {
-            if (response.type === 'appointments/updateAppointment/fulfilled') {
-                setSuccessMessage(`Appointment: ${appointment._id} has been successfully updated.`);
-                setError("");
-                setTimeout(() => {
-                    setSuccessMessage("");
-                    handleClose();
-                }, 2000); 
-
-            } else if (response.payload === "Server Error") {
-                setError(response.payload);
-                setLoading(false);
-            } else {
-                setError(response.payload.msg);
-                setLoading(false);
-            }
-            
-        });
-    };
-
+    
     return (
-        <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-            <DialogTitle>Reschedule Appointment</DialogTitle>
-            <DialogContent sx={{ minHeight: '200px' }}>
-                <Box display="flex" flexDirection="column" gap={2}>
-                    <DatePicker
-                        selected={newStartTime}
-                        onChange={(date) => setNewStartTime(date)}
-                        showTimeSelect
-                        dateFormat="Pp"
-                        customInput={<TextField fullWidth label="New Start Time" />}
-                    />
-                    {successMessage && <Alert severity="success">{successMessage}</Alert>}
-                    {error && <Alert severity="error">{error}</Alert>}
-                </Box>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose} color="secondary" disabled={loading}>Cancel</Button>
-                <Button onClick={handleSave} color="primary" disabled={loading}>
-                    {loading ? <CircularProgress size={24} /> : 'Save'}
-                </Button>
-            </DialogActions>
-        </Dialog>
+        <Modal open={open} onClose={handleClose}>
+            <Paper
+                sx={{
+                    width: isMobile ? '90%' : 500,
+                    mx: 'auto',
+                    mt: isMobile ? 2 : 4,
+                    p: isMobile ? 2 : 3,
+                    maxHeight: isMobile ? '90vh' : 'auto',
+                    overflowY: 'auto',
+                }}
+            >
+                {selectedAppointment && (
+                    <>
+                        <Typography                                
+                            variant="h6"                     
+                            mb={2}
+                            gutterBottom 
+                            sx={{ fontWeight: 'bold', color: 'primary.main' }}
+                        >
+                            Reschedule Appointment
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            <strong>Current Date:</strong> {format(fromZonedTime(new Date(selectedAppointment.startTime), timeZone), 'PPP')}
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            <strong>Current Time:</strong> {format(fromZonedTime(new Date(selectedAppointment.startTime), timeZone), 'p')}
+                        </Typography>
+                        <CalendarView selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+                        <AvailableTimeSlots
+                            selectedDate={selectedDate}
+                            selectedDoctor={selectedAppointment.doctorId._id}
+                            setSelectedTimeSlot={setSelectedTimeSlot}
+                        />
+                        <Box mt={2} display="flex" justifyContent="space-between">
+                            <Button onClick={handleClose} variant="outlined" color="secondary">
+                                Cancel
+                            </Button>
+                            <Button
+                                onClick={() => handleReschedule(selectedAppointment, selectedDate, selectedTimeSlot)}
+                                variant="contained"
+                                color="primary"
+                                disabled={!selectedTimeSlot}
+                            >
+                                Confirm
+                            </Button>
+                        </Box>
+                    </>
+                )}
+            </Paper>
+        </Modal>
     );
 };
 

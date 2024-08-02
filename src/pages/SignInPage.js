@@ -23,19 +23,22 @@ import SignIn from "../components/auth/SignInForm";
 
 const SignInPage = () => {
     return (
-        <Container maxWidth="sm" sx={{ mt: 8 }}>
-            <Paper elevation={3} sx={{ p: 4, textAlign: 'center', boxShadow: 3 }}>
-                <Typography variant="h3" gutterBottom>
-                    Welcome Back
-                </Typography>
-                <Typography variant="h6" color="textSecondary" paragraph>
-                    Sign in to your account
-                </Typography>
-                <Box sx={{ mt: 2 }}>
-                    <SignIn />
-                </Box>
-            </Paper>
-        </Container>
+        <Box sx={{ paddingBottom: '150px' }}>
+            <Container maxWidth="sm" sx={{ mt: 8 }}>
+                <Paper elevation={3} sx={{ p: 4, textAlign: 'center', boxShadow: 3 }}>
+                    <Typography variant="h3" gutterBottom>
+                        Welcome Back
+                    </Typography>
+                    <Typography variant="h6" color="textSecondary" paragraph>
+                        Sign in to your account
+                    </Typography>
+                    <Box sx={{ mt: 2 }}>
+                        <SignIn />
+                    </Box>
+                </Paper>
+            </Container>
+        </Box>
+
     );
 };
 

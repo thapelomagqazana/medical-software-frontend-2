@@ -10,9 +10,6 @@ import Header from './components/global/Header';
 import Footer from './components/global/Footer';
 import ProfilePage from './pages/ProfilePage';
 import AppointmentScheduling from './pages/AppointmentScheduling';
-// import AppointmentSchedulingPage from './pages/AppointmentSchedulingPage2';
-// import PrivateRoute from './components/PrivateRoute';
-import YourAppointmentsPage from './pages/YourAppointmentsPage';
 
 import { setUserFromToken, logout } from './redux/slices/authSlice';
 import { jwtDecode } from 'jwt-decode';
@@ -47,7 +44,7 @@ const App = () => {
               <Route path='/patient/sign-up' element={<PatientSignUpPage />} />
               <Route path="/sign-in" element={<SignInPage />} />
               <Route path="/patient/dashboard" element={<PrivateRoute><PatientDashboardPage /></PrivateRoute>} />
-              <Route path="/your-appointments" element={<PrivateRoute><YourAppointmentsPage /></PrivateRoute>} />
+              {/* <Route path="/your-appointments" element={<PrivateRoute><YourAppointmentsPage /></PrivateRoute>} /> */}
               <Route path='/profile' element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
               <Route path="/schedule-appointment" element={<PrivateRoute><AppointmentScheduling /></PrivateRoute>} />
           </Routes>

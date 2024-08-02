@@ -1,19 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../axiosInstance";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/appointments";
+const API_URL = "/patients";
 
 // Async thunk for scheduling an appointment
-export const scheduleAppointment = createAsyncThunk("appointments/scheduleAppointment", async (appointmentData, { rejectWithValue }) => {
+export const scheduleAppointment = createAsyncThunk("appointments/scheduleAppointment",
+     async ({ patientId, appointmentData }, { rejectWithValue }) => {
     try {
-        const token = localStorage.getItem("token");
-        const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        };
-
-        const response = await axios.post(API_URL, appointmentData, config);
+        const response = await axiosInstance.post(`${API_URL}/${patientId}/appointments`, appointmentData);
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data);

@@ -1,37 +1,25 @@
-import React, { useState } from "react";
-import { Box, Typography, IconButton } from "@mui/material";
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay } from "date-fns";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import React, { useState } from 'react';
+import { Box, Typography, IconButton, Grid } from '@mui/material';
+import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, parseISO } from 'date-fns';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-const CalendarView = ({ selectedDate, setSelectedDate, availableDates }) => {
+const CalendarView = ({ selectedDate, setSelectedDate }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
 
-    const handlePrevMonth = () => {
-        setCurrentMonth(subMonths(currentMonth, 1));
-    };
-
-    const handleNextMonth = () => {
-        setCurrentMonth(addMonths(currentMonth, 1));
-    };
-
-    const handleDateClick = (day) => {
-        setSelectedDate(day);
-    };
-
-    const renderHeader = () => {
-        return (
-            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                <IconButton onClick={handlePrevMonth}>
-                    <ArrowBackIcon />
-                </IconButton>
-                <Typography variant="h6">{format(currentMonth, 'MMMM yyyy')}</Typography>
-                <IconButton onClick={handleNextMonth}>
-                    <ArrowForwardIcon />
-                </IconButton>
-            </Box>
-        );
-    };
+    const renderHeader = () => (
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+            <IconButton onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}>
+                <ChevronLeftIcon />
+            </IconButton>
+            <Typography variant="h6">
+                {format(currentMonth, 'MMMM yyyy')}
+            </Typography>
+            <IconButton onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}>
+                <ChevronRightIcon />
+            </IconButton>
+        </Box>
+    );
 
     const renderDays = () => {
         const days = [];
@@ -45,29 +33,27 @@ const CalendarView = ({ selectedDate, setSelectedDate, availableDates }) => {
         }
 
         return (
-            <Box display="grid" gridTemplateColumns="repeat(7, 1fr)" gap={1}>
+            <Grid container spacing={1}>
                 {days.map((day, index) => (
-                    <Box
-                        key={index}
-                        onClick={() => handleDateClick(day)}
-                        sx={{
-                            padding: 2,
-                            textAlign: 'center',
-                            cursor: 'pointer',
-                            backgroundColor: isSameMonth(day, currentMonth) ? (isSameDay(day, selectedDate) ? 'primary.main' : (availableDates.some(date => isSameDay(date, day)) ? 'success.light' : 'grey.300')) : 'grey.100',
-                            color: isSameMonth(day, currentMonth) ? 'text.primary' : 'text.disabled',
-                            borderRadius: 2
-                        }}
-                    >
-                        {format(day, 'd')}
-                    </Box>
+                    <Grid item xs={12 / 7} key={index} onClick={() => setSelectedDate(day)}>
+                        <Box
+                            textAlign="center"
+                            p={2}
+                            bgcolor={isSameDay(day, selectedDate) ? 'primary.main' : 'background.paper'}
+                            color={isSameDay(day, selectedDate) ? 'white' : isSameMonth(day, currentMonth) ? 'text.primary' : 'text.disabled'}
+                            borderRadius="4px"
+                            sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'action.hover' } }}
+                        >
+                            {format(day, 'd')}
+                        </Box>
+                    </Grid>
                 ))}
-            </Box>
+            </Grid>
         );
     };
 
     return (
-        <Box>
+        <Box p={2} borderRadius="8px" boxShadow={3}>
             {renderHeader()}
             {renderDays()}
         </Box>

@@ -42,14 +42,17 @@ const LatestMessages = ({ messages, onReply, onMarkAsRead }) => {
             borderRadius={2} 
             boxShadow={3}
         >
-            <Typography 
-                variant="h5"
-                mb={2}
-                gutterBottom 
-                sx={{ fontWeight: 'bold', color: 'primary.main' }}
-            >
-                Latest Messages from Doctors
-            </Typography>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <Typography 
+                    variant="h5"
+                    mb={2}
+                    gutterBottom 
+                    sx={{ fontWeight: 'bold', color: 'primary.main' }}
+                >
+                    <MailIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
+                    Latest Messages from Doctors
+                </Typography>
+            </Box>
             <List>
                 {messages.slice(0, 5).map((message, index) => (
                     <ListItem 
