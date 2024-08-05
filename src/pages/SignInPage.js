@@ -13,20 +13,18 @@ import SignIn from "../components/auth/SignInForm";
  * - Combines the header, sign-in form, and footer sections.
  * - Uses React fragments (<></>) to group multiple elements.
  */
-// const SignUpPage = () => (
-//     <>
-//         <Header />
-//         <SignIn />
-//         <Footer />
-//     </>
-// );
 
 const SignInPage = () => {
     return (
         <Box sx={{ paddingBottom: '150px' }}>
             <Container maxWidth="sm" sx={{ mt: 8 }}>
                 <Paper elevation={3} sx={{ p: 4, textAlign: 'center', boxShadow: 3 }}>
-                    <Typography variant="h3" gutterBottom>
+                    <Typography 
+                        variant="h3"
+                        mb={2}
+                        gutterBottom 
+                        sx={{ fontWeight: 'bold', color: 'primary.main' }}
+                    >
                         Welcome Back
                     </Typography>
                     <Typography variant="h6" color="textSecondary" paragraph>

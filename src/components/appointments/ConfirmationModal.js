@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { fromZonedTime } from "date-fns-tz";
 import { Box, Typography, Button, Modal, Paper, TextField } from '@mui/material';
 
-const timeZone = "Africa/Johannesburg";
+const timeZone = process.env.REACT_APP_TIME_ZONE;
 
 const ConfirmationModal = ({ open, handleClose, selectedDate, selectedTimeSlot, handleConfirm }) => {
     const [specialInstructions, setSpecialInstructions] = useState('');

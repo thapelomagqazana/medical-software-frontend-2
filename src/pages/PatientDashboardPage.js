@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { Container } from "@mui/material";
+import { Container, Snackbar, Alert } from "@mui/material";
 import ErrorAlert from "../components/global/ErrorAlert";
 import WelcomeMessage from "../components/dashboard/WelcomeMessage";
 import SummaryOfAppointments from "../components/dashboard/SummaryOfAppointments";
@@ -9,18 +9,10 @@ import MedicationReminders from "../components/dashboard/MedicationReminders";
 import LatestMessages from "../components/dashboard/LatestMessages";
 import { fetchUpcomingAppointments } from "../redux/slices/patientDataSlice";
 import { fetchProfile } from "../redux/slices/profileSlice";
+import { rescheduleAppointment } from "../redux/slices/appointmentsSlice";
 import { fetchPrescriptions } from "../redux/slices/medicationsSlice";
 import { jwtDecode } from "jwt-decode";
 import { CircularProgress, Box } from '@mui/material';
-
-// Mock functions for rescheduling and canceling
-const handleReschedule = (appointment) => {
-    console.log('Reschedule appointment:', appointment);
-};
-
-const handleCancel = (appointment) => {
-    console.log('Cancel appointment:', appointment);
-};
 
 const PatientDashboardPage = () => {
 
@@ -121,7 +113,11 @@ const PatientDashboardPage = () => {
     const decodedToken = jwtDecode(localStorage.getItem("token"));
 
     const patientId = decodedToken.user.id;
-    console.log(appointments);
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+    // console.log(appointments);
 
     useEffect(() => {
         if (user && decodedToken) {
@@ -131,6 +127,34 @@ const PatientDashboardPage = () => {
         }
         
     }, [dispatch, user]);
+
+    const handleReschedule = (appointment, selectedDate, selectedTimeSlot) => {
+        dispatch(rescheduleAppointment({ patientId, appointmentId: appointment._id, newDate: selectedDate, newTimeSlot: selectedTimeSlot }))
+            .then(() => {
+                setSnackbarMessage("Appointment rescheduled successfully!");
+                setSnackbarSeverity("success");
+                setSnackbarOpen(true);
+
+                // Redirect to the dashboard or appointment summary page after a short delay
+                // setTimeout(() => {
+                //     navigate('/patient/dashboard');
+                // }, 2000);
+            })
+            .catch((err) => {
+                console.log(err);
+                setSnackbarMessage("Failed to reschedule appointment. Please try again.");
+                setSnackbarSeverity("error");
+                setSnackbarOpen(true);
+            });
+    };
+
+    const handleCancel = (appointment) => {
+        console.log('Cancel appointment:', appointment);
+    };
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
 
     if (loading) {
         return <Box textAlign="center"><CircularProgress /></Box>;
@@ -153,6 +177,11 @@ const PatientDashboardPage = () => {
                 <MedicationReminders medications={medications} onMarkAsTaken={handleMarkAsTaken} onReorder={handleReorder} />
                 <LatestMessages messages={messages} onReply={handleReply} onMarkAsRead={handleMarkAsRead} />
             </Container>
+            <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
+                <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Box>
 
     

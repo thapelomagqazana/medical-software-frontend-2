@@ -12,7 +12,12 @@ const PatientSignUpPage = () => {
         <Box sx={{ paddingBottom: '150px' }}>
             <Container maxWidth="sm" sx={{ mt: 8 }}>
                 <Paper elevation={3} sx={{ p: 4, textAlign: 'center', boxShadow: 3 }}>
-                    <Typography variant="h3" gutterBottom>
+                    <Typography 
+                        variant="h3"
+                        mb={2}
+                        gutterBottom 
+                        sx={{ fontWeight: 'bold', color: 'primary.main' }}
+                    >
                         Create an account
                     </Typography>
                     <Typography variant="h6" color="textSecondary" paragraph>

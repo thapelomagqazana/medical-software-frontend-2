@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../axiosInstance";
-import axios from "axios";
 
 const API_URL = "/patients";
 
 // Async thunk for scheduling an appointment
 export const scheduleAppointment = createAsyncThunk("appointments/scheduleAppointment",
-     async ({ patientId, appointmentData }, { rejectWithValue }) => {
+    async ({ patientId, appointmentData }, { rejectWithValue }) => {
     try {
         const response = await axiosInstance.post(`${API_URL}/${patientId}/appointments`, appointmentData);
         return response.data;
@@ -15,26 +14,19 @@ export const scheduleAppointment = createAsyncThunk("appointments/scheduleAppoin
     }
 });
 
-// Async thunk for updating an appointment
-export const updateAppointment = createAsyncThunk(
-    "appointments/updateAppointment", async ({ id, startTime, endTime, patientId, doctorId, status }, { rejectWithValue }) => {
-        try {
-            const token = localStorage.getItem("token");
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-            const response = await axios.put(
-                `${API_URL}/${id}`,
-                { startTime, endTime, patientId, doctorId, status },
-                config
-            );
-
-            return response.data;
-        } catch (error) {
-            return rejectWithValue(error.response.data);
-        }
+// Async thunk reschedule appointment
+export const rescheduleAppointment = createAsyncThunk("appointments/rescheduleAppointment",
+    async ({ patientId, appointmentId, newDate, newTimeSlot }, { rejectWithValue }) => {
+    try {       
+        const response = await axiosInstance.put(`${API_URL}/${patientId}/appointments/${appointmentId}`, {
+            startTime: newTimeSlot.time,
+            endTime: new Date(new Date(newTimeSlot.time).getTime() + 60 * 60 * 1000).toISOString(),
+            date: newDate.toISOString()
+        });
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response.data);
+    }
 });
 
 const appointmentsSlice = createSlice({
@@ -58,18 +50,18 @@ const appointmentsSlice = createSlice({
                 state.error = action.payload;
                 state.loading = false;
             })
-            .addCase(updateAppointment.pending, (state) => {
+            .addCase(rescheduleAppointment.pending, (state) => {
                 state.loading = true;
+                state.error = null;
             })
-            .addCase(updateAppointment.fulfilled, (state, action) => {
+            .addCase(rescheduleAppointment.fulfilled, (state, action) => {
                 const index = state.appointments.findIndex(appointment => appointment._id === action.payload._id);
-
                 if (index !== -1) {
                     state.appointments[index] = action.payload;
                 }
                 state.loading = false;
             })
-            .addCase(updateAppointment.rejected, (state, action) => {
+            .addCase(rescheduleAppointment.rejected, (state, action) => {
                 state.error = action.payload;
                 state.loading = false;
             });

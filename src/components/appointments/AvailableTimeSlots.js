@@ -5,7 +5,7 @@ import { fetchDoctorSlots } from '../../redux/slices/doctorsSlice';
 import { format } from 'date-fns';
 import { fromZonedTime } from "date-fns-tz";
 
-const timeZone = "Africa/Johannesburg";
+const timeZone = process.env.REACT_APP_TIME_ZONE;
 
 const AvailableTimeSlots = ({ selectedDate, selectedDoctor, setSelectedTimeSlot }) => {
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const AvailableTimeSlots = ({ selectedDate, selectedDoctor, setSelectedTimeSlot 
             <Typography variant="h6" mb={2}>
                 Available Time Slots for {format(selectedDate, 'PPP')}
             </Typography>
-            <Box sx={{ maxHeight:"200px", overflowY: "auto" }}>
+            <Box sx={{ maxHeight:"150px", overflowY: "auto" }}>
               <List>
                   {slots.map((slot, index) => {
                       const localTime = fromZonedTime(new Date(slot.time), timeZone);

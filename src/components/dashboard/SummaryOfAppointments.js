@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 import { fromZonedTime } from "date-fns-tz";
 import RescheduleModal from '../appointments/RescheduleModal';
 
-const timeZone = "Asia/Dubai";
+const timeZone = process.env.REACT_APP_TIME_ZONE;
 
 const SummaryOfAppointments = ({ appointments, onReschedule, onCancel, onSchedule }) => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -38,8 +38,8 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel, onSchedul
         setIsModalOpen(true);
     };
 
-    const handleReschedule = () => {
-        onReschedule(selectedAppointment, selectedDate, selectedTimeSlot);
+    const handleReschedule = (appointment, newDate, newTimeSlot) => {
+        onReschedule(appointment, newDate, newTimeSlot);
         handleCloseModal();
     };
 

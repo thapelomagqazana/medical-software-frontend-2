@@ -1,15 +1,22 @@
-import React, { useState } from "react";
-import { Box, Typography, Button, Modal, Paper, TextField, useMediaQuery, useTheme } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, Typography, Button, Modal, Paper, useMediaQuery, useTheme } from "@mui/material";
 import CalendarView from "./CalendarView";
 import { fromZonedTime } from "date-fns-tz";
 import { format } from 'date-fns';
 import AvailableTimeSlots from "./AvailableTimeSlots";
 
-const timeZone = "Africa/Johannesburg";
+const timeZone = process.env.REACT_APP_TIME_ZONE;
 
 const RescheduleModal = ({ open, handleClose, selectedAppointment, handleReschedule }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+
+    useEffect(() => {
+        if (selectedAppointment) {
+            const localTime = fromZonedTime(new Date(selectedAppointment.startTime), timeZone);
+            setSelectedDate(new Date(localTime));
+        }
+    }, [selectedAppointment]);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));

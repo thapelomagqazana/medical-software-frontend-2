@@ -7,8 +7,6 @@ import DoctorSelection from '../components/appointments/DoctorSelection';
 import ConfirmationModal from '../components/appointments/ConfirmationModal';
 import { scheduleAppointment } from '../redux/slices/appointmentsSlice';
 import { useNavigate } from 'react-router-dom';
-// import UnifiedCalendarView from '../components/appointments/UnifiedCalendarView';
-// import AvailableTimeSlots2 from '../components/appointments/AvailableTimeSlots2';
 import { format } from 'date-fns';
 
 const AppointmentScheduling = () => {
