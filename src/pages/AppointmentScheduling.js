@@ -43,7 +43,7 @@ const AppointmentScheduling = () => {
                 navigate('/patient/dashboard');
             }, 2000);
         } catch (error) {
-            setSnackbarMessage('Failed to schedule appointment. Please try again.');
+            setSnackbarMessage(error.message);
             setSnackbarSeverity('error');
             setSnackbarOpen(true);
         }

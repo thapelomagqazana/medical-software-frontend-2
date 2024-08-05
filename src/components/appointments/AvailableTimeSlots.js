@@ -11,11 +11,13 @@ const AvailableTimeSlots = ({ selectedDate, selectedDoctor, setSelectedTimeSlot 
     const dispatch = useDispatch();
     const slots = useSelector((state) => state.doctor.slots[selectedDoctor] || []);
     const loading = useSelector((state) => state.doctor.loading);
+
     useEffect(() => {
         if (selectedDoctor) {
           dispatch(fetchDoctorSlots({ date: selectedDate.toISOString(), doctorId: selectedDoctor }));
         }
       }, [selectedDate, selectedDoctor, dispatch]);
+      
     
     return (
         <Box p={2} borderRadius="8px" boxShadow={3} mt={3}>

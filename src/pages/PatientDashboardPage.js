@@ -9,7 +9,9 @@ import MedicationReminders from "../components/dashboard/MedicationReminders";
 import LatestMessages from "../components/dashboard/LatestMessages";
 import { fetchUpcomingAppointments } from "../redux/slices/patientDataSlice";
 import { fetchProfile } from "../redux/slices/profileSlice";
-import { rescheduleAppointment } from "../redux/slices/appointmentsSlice";
+import { 
+    rescheduleAppointment,
+    cancelAppointment } from "../redux/slices/appointmentsSlice";
 import { fetchPrescriptions } from "../redux/slices/medicationsSlice";
 import { jwtDecode } from "jwt-decode";
 import { CircularProgress, Box } from '@mui/material';
@@ -128,28 +130,31 @@ const PatientDashboardPage = () => {
         
     }, [dispatch, user]);
 
-    const handleReschedule = (appointment, selectedDate, selectedTimeSlot) => {
-        dispatch(rescheduleAppointment({ patientId, appointmentId: appointment._id, newDate: selectedDate, newTimeSlot: selectedTimeSlot }))
-            .then(() => {
-                setSnackbarMessage("Appointment rescheduled successfully!");
-                setSnackbarSeverity("success");
-                setSnackbarOpen(true);
+    const handleReschedule = async (appointment, selectedDate, selectedTimeSlot) => {
+        try {
+            await dispatch(rescheduleAppointment({ patientId, appointmentId: appointment._id, newDate: selectedDate, newTimeSlot: selectedTimeSlot })).unwrap();
+            setSnackbarMessage("Appointment rescheduled successfully!");
+            setSnackbarSeverity("success");
+            setSnackbarOpen(true);
 
-                // Redirect to the dashboard or appointment summary page after a short delay
-                // setTimeout(() => {
-                //     navigate('/patient/dashboard');
-                // }, 2000);
-            })
-            .catch((err) => {
-                console.log(err);
-                setSnackbarMessage("Failed to reschedule appointment. Please try again.");
-                setSnackbarSeverity("error");
-                setSnackbarOpen(true);
-            });
+        } catch (err) {
+            setSnackbarMessage(err.message);
+            setSnackbarSeverity("error");
+            setSnackbarOpen(true);
+        }
     };
 
-    const handleCancel = (appointment) => {
-        console.log('Cancel appointment:', appointment);
+    const handleCancel = async (appointment) => {
+        try {
+            await dispatch(cancelAppointment({ patientId, appointmentId: appointment._id })).unwrap();
+            setSnackbarMessage("Appointment cancelled successfully!");
+            setSnackbarSeverity("success");
+            setSnackbarOpen(true);
+        } catch (err) {
+            setSnackbarMessage(err.message);
+            setSnackbarSeverity("error");
+            setSnackbarOpen(true);
+        }
     };
 
     const handleSnackbarClose = () => {

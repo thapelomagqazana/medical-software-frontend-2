@@ -1,46 +1,40 @@
 import React, { useState } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Chip, Modal, Paper, IconButton, Fab, Menu, MenuItem } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Fab, Menu, MenuItem, Modal, Paper, Chip, Button } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import EditIcon from '@mui/icons-material/Edit';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { format } from 'date-fns';
-import { fromZonedTime } from "date-fns-tz";
+import { fromZonedTime } from 'date-fns-tz';
 import RescheduleModal from '../appointments/RescheduleModal';
+import CancelModal from '../appointments/CancelModal';
 
 const timeZone = process.env.REACT_APP_TIME_ZONE;
 
 const SummaryOfAppointments = ({ appointments, onReschedule, onCancel, onSchedule }) => {
     const [selectedAppointment, setSelectedAppointment] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalContent, setModalContent] = useState(null);  // 'view', 'reschedule', or 'cancel'
     const [anchorEl, setAnchorEl] = useState(null);
-    const [modalContent, setModalContent] = useState('view'); // 'view' or 'reschedule'
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
 
     const handleViewDetails = (appointment) => {
         setSelectedAppointment(appointment);
         setModalContent('view');
-        setIsModalOpen(true);
     };
 
     const handleCloseModal = () => {
-        setIsModalOpen(false);
         setSelectedAppointment(null);
-        setSelectedTimeSlot(null);
+        setModalContent(null);
     };
 
     const handleOpenReschedule = (appointment) => {
         setSelectedAppointment(appointment);
-        setSelectedDate(new Date());
         setModalContent('reschedule');
-        setIsModalOpen(true);
     };
 
-    const handleReschedule = (appointment, newDate, newTimeSlot) => {
-        onReschedule(appointment, newDate, newTimeSlot);
-        handleCloseModal();
+    const handleOpenCancel = (appointment) => {
+        setSelectedAppointment(appointment);
+        setModalContent('cancel');
     };
 
     const handleOptionsClick = (event, appointment) => {
@@ -51,6 +45,11 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel, onSchedul
 
     const handleOptionsClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleReschedule = (appointment, newDate, newTimeSlot) => {
+        onReschedule(appointment, newDate, newTimeSlot);
+        handleCloseModal();
     };
 
     const getStatusChip = (status) => {
@@ -108,7 +107,7 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel, onSchedul
                                 }}
                             >
                                 <ListItemText
-                                    primary={`${format(new Date(localTime), 'PPP')} at ${format(new Date(localTime), 'p')}`}
+                                    primary={`${format(localTime, 'PPP')} at ${format(localTime, 'p')}`}
                                     secondary={`with Dr. ${appointment.doctorId.firstName} ${appointment.doctorId.lastName}`}
                                 />
                                 <ListItemSecondaryAction>
@@ -128,7 +127,7 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel, onSchedul
                                         <MenuItem onClick={() => { handleOptionsClose(); handleOpenReschedule(selectedAppointment); }}>
                                             <EditIcon fontSize="small" sx={{ mr: 1 }} /> Reschedule
                                         </MenuItem>
-                                        <MenuItem onClick={() => { handleOptionsClose(); onCancel(selectedAppointment); }}>
+                                        <MenuItem onClick={() => { handleOptionsClose(); handleOpenCancel(selectedAppointment); }}>
                                             <CancelIcon fontSize="small" sx={{ mr: 1 }} /> Cancel
                                         </MenuItem>
                                     </Menu>
@@ -143,7 +142,7 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel, onSchedul
                 </Typography>
             )}
 
-            <Modal open={isModalOpen} onClose={handleCloseModal}>
+            <Modal open={Boolean(modalContent)} onClose={handleCloseModal}>
                 <Paper sx={{ maxWidth: 400, mx: 'auto', mt: 4, p: 2 }}>
                     {selectedAppointment && (
                         modalContent === 'view' ? (
@@ -177,15 +176,22 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel, onSchedul
                                     </Button>
                                 </Box>
                             </>
+                        ) : modalContent === "reschedule" ? (
+                            <RescheduleModal
+                                open={Boolean(modalContent)}
+                                handleClose={handleCloseModal}
+                                selectedAppointment={selectedAppointment}
+                                handleReschedule={handleReschedule}
+                            />
                         ) : (
-                            <>
-                                <RescheduleModal
-                                    open={isModalOpen}
-                                    handleClose={handleCloseModal}
-                                    selectedAppointment={selectedAppointment}
-                                    handleReschedule={handleReschedule}
-                                />
-                            </>
+                            <CancelModal 
+                                open={Boolean(modalContent)}
+                                handleClose={handleCloseModal}
+                                handleConfirm={() => {
+                                    onCancel(selectedAppointment);
+                                    handleCloseModal();
+                                }}
+                            />
                         )
                     )}
                 </Paper>
@@ -195,5 +201,3 @@ const SummaryOfAppointments = ({ appointments, onReschedule, onCancel, onSchedul
 };
 
 export default SummaryOfAppointments;
-
-
