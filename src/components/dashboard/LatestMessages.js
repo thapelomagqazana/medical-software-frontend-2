@@ -1,32 +1,30 @@
 import React, { useState } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Modal, Paper, IconButton } from '@mui/material';
+import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Modal, Paper, Menu, MenuItem, Button } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import MailIcon from '@mui/icons-material/Mail';
 import ReplyIcon from '@mui/icons-material/Reply';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { format } from 'date-fns';
 
-/**
- * LatestMessages component
- * 
- * This component displays the latest messages from doctors, with visual indicators for new/unread messages and quick action buttons to reply or mark as read.
- *
- * Props:
- * - messages (array): A list of message objects containing doctorName, content, timestamp, and read status.
- * - onReply (function): Function to handle replying to a message.
- * - onMarkAsRead (function): Function to handle marking a message as read.
- *
- * Example usage:
- * <LatestMessages 
- *    messages={[{ doctorName: "Dr. Alice Smith", content: "Please remember to take your medication.", timestamp: "2021-09-15T14:48:00.000Z", read: false }]} 
- *    onReply={handleReply} 
- *    onMarkAsRead={handleMarkAsRead} 
- * />
- */
 const LatestMessages = ({ messages, onReply, onMarkAsRead }) => {
     const [selectedMessage, setSelectedMessage] = useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
 
-    const handleViewDetails = (message) => {
+    const handleOptionsClick = (event, message) => {
+        if (event) {
+            event.stopPropagation();
+        }
         setSelectedMessage(message);
+        setAnchorEl(event ? event.currentTarget : null);
+    };
+
+    const handleOptionsClose = () => {
+        setAnchorEl(null);
+        setSelectedMessage(null); // Reset selected message when the menu is closed
+    };
+
+    const handleViewDetails = () => {
+        setAnchorEl(null); // Close the menu before opening the modal
     };
 
     const handleCloseDetails = () => {
@@ -59,7 +57,7 @@ const LatestMessages = ({ messages, onReply, onMarkAsRead }) => {
                         key={index} 
                         divider 
                         button
-                        onClick={() => handleViewDetails(message)}
+                        onClick={() => handleOptionsClick(null, message)} // Handle click to view message details
                         sx={{ 
                             cursor: 'pointer', 
                             '&:hover': { bgcolor: 'action.hover' },
@@ -82,18 +80,30 @@ const LatestMessages = ({ messages, onReply, onMarkAsRead }) => {
                             </IconButton>
                             <IconButton 
                                 edge="end" 
-                                color="primary"
-                                onClick={(e) => { e.stopPropagation(); onReply(message); }}
+                                color="inherit"
+                                onClick={(e) => handleOptionsClick(e, message)}
                                 sx={{ ml: 2 }}
                             >
-                                <ReplyIcon />
+                                <MoreVertIcon />
                             </IconButton>
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl) && selectedMessage === message}
+                                onClose={handleOptionsClose}
+                            >
+                                <MenuItem onClick={handleViewDetails}>
+                                    <ReplyIcon fontSize="small" sx={{ mr: 1 }} /> Reply
+                                </MenuItem>
+                                <MenuItem onClick={handleViewDetails}>
+                                    <MailIcon fontSize="small" sx={{ mr: 1 }} /> View Details
+                                </MenuItem>
+                            </Menu>
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}
             </List>
 
-            <Modal open={!!selectedMessage} onClose={handleCloseDetails}>
+            <Modal open={!!selectedMessage && !anchorEl} onClose={handleCloseDetails}>
                 <Paper sx={{ maxWidth: 400, mx: 'auto', mt: 4, p: 2 }}>
                     {selectedMessage && (
                         <>

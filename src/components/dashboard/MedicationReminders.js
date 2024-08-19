@@ -1,30 +1,15 @@
 import React, { useState } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Chip, Modal, Paper, IconButton, Fab } from '@mui/material';
-import { format } from 'date-fns';
-import PillIcon from '@mui/icons-material/LocalPharmacy'; // Icon for medication
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'; // Icon for marking as taken
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'; // Icon for reordering medication
+import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Modal, Paper, Chip, Menu, MenuItem, Button } from '@mui/material';
+import PillIcon from '@mui/icons-material/LocalPharmacy';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-/**
- * MedicationReminders component
- * 
- * This component displays a daily medication schedule with time and dosage, visual reminders for upcoming medication times, and quick action buttons to mark as taken or reorder.
- *
- * Props:
- * - medications (array): A list of medication objects containing name, dosage, time, and taken status.
- * - onMarkAsTaken (function): Function to handle marking medication as taken.
- * - onReorder (function): Function to handle reordering medication.
- *
- * Example usage:
- * <MedicationReminders 
- *    medications={[{ name: "Aspirin", dosage: "100mg", time: "08:00 AM", taken: false }]} 
- *    onMarkAsTaken={handleMarkAsTaken} 
- *    onReorder={handleReorder} 
- * />
- */
 const MedicationReminders = ({ medications, onMarkAsTaken, onReorder }) => {
     const [currentTime, setCurrentTime] = useState(new Date());
     const [selectedMedication, setSelectedMedication] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
 
     // Update current time every minute
     React.useEffect(() => {
@@ -57,10 +42,22 @@ const MedicationReminders = ({ medications, onMarkAsTaken, onReorder }) => {
 
     const handleViewDetails = (medication) => {
         setSelectedMedication(medication);
+        setIsModalOpen(true);
+        setAnchorEl(null); // Close the options menu when viewing details
     };
 
     const handleCloseDetails = () => {
-        setSelectedMedication(null);
+        setIsModalOpen(false);
+    };
+
+    const handleOptionsClick = (event, medication) => {
+        event.stopPropagation();
+        setSelectedMedication(medication);
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleOptionsClose = () => {
+        setAnchorEl(null);
     };
 
     return (
@@ -105,26 +102,29 @@ const MedicationReminders = ({ medications, onMarkAsTaken, onReorder }) => {
                             {getStatusChip(medication.time, medication.taken)}
                             <IconButton 
                                 edge="end" 
-                                color="primary"
-                                onClick={(e) => { e.stopPropagation(); onMarkAsTaken(medication); }}
-                                sx={{ ml: 1 }}
+                                color="inherit"
+                                onClick={(e) => handleOptionsClick(e, medication)}
                             >
-                                <CheckCircleIcon />
+                                <MoreVertIcon />
                             </IconButton>
-                            <IconButton 
-                                edge="end" 
-                                color="secondary"
-                                onClick={(e) => { e.stopPropagation(); onReorder(medication); }}
-                                sx={{ ml: 1 }}
+                            <Menu
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl) && selectedMedication === medication}
+                                onClose={handleOptionsClose}
                             >
-                                <AddShoppingCartIcon />
-                            </IconButton>
+                                <MenuItem onClick={() => { handleOptionsClose(); onMarkAsTaken(medication); }}>
+                                    <CheckCircleIcon fontSize="small" sx={{ mr: 1 }} /> Mark as Taken
+                                </MenuItem>
+                                <MenuItem onClick={() => { handleOptionsClose(); onReorder(medication); }}>
+                                    <AddShoppingCartIcon fontSize="small" sx={{ mr: 1 }} /> Reorder
+                                </MenuItem>
+                            </Menu>
                         </ListItemSecondaryAction>
                     </ListItem>
                 ))}
             </List>
 
-            <Modal open={!!selectedMedication} onClose={handleCloseDetails}>
+            <Modal open={isModalOpen} onClose={handleCloseDetails}>
                 <Paper sx={{ maxWidth: 400, mx: 'auto', mt: 4, p: 2 }}>
                     {selectedMedication && (
                         <>

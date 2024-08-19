@@ -23,7 +23,7 @@ export const register = createAsyncThunk("auth/register", async (user, { rejectW
         const response = await axiosInstance.post(`${API_URL}/register`, user);
         return response.data;
     } catch (error) {
-        console.log(error.response.data);
+        // console.log(error.response.data);
         return rejectWithValue(error.response.data);
     }
 });
@@ -81,6 +81,9 @@ const authSlice = createSlice({
             state.user = jwtDecode(action.payload);
             state.isAuthenticated = true;
         },
+        clearError: (state) => {
+            state.error = null;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -105,7 +108,7 @@ const authSlice = createSlice({
 /**
  * Exporting actions for logout and clearRegistrationSuccess.
  */
-export const { logout, clearRegistrationSuccess, setUserFromToken } = authSlice.actions;
+export const { logout, clearRegistrationSuccess, setUserFromToken, clearError } = authSlice.actions;
 
 /**
  * Exporting the auth reducer as the default export.

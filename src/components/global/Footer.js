@@ -7,24 +7,37 @@ const Footer = () => {
             sx={{ 
                 backgroundColor: 'primary.dark', 
                 color: 'white', 
-                py: 4, 
+                py: { xs: 2, sm: 4 },  // Adjust padding for different screen sizes
                 mt: 4, 
                 position: 'fixed', 
                 bottom: 0, 
                 width: '100%', 
                 textAlign: 'center',
-                height: '80px' // define the height of the footer
+                height: { xs: 'auto', sm: '80px' }, // Make height auto for mobile, fixed for larger screens
+                display: 'flex', 
+                flexDirection: { xs: 'column', sm: 'row' }, // Stack links vertically on mobile, horizontally on larger screens
+                alignItems: 'center',
+                justifyContent: 'center'
             }}
         >
-            <Typography variant="body2" align="center" sx={{ fontWeight: 'bold' }}>
+            <Typography variant="body2" align="center" sx={{ fontWeight: 'bold', mb: { xs: 1, sm: 0 } }}>
                 © 2024 HealthHub. All rights reserved.
             </Typography>
-            <Box sx={{ textAlign: 'center', mt: 2 }}>
+            <Box 
+                sx={{ 
+                    textAlign: 'center', 
+                    mt: { xs: 1, sm: 0 }, 
+                    ml: { sm: 4 }, 
+                    display: 'flex', 
+                    flexDirection: { xs: 'column', sm: 'row' } 
+                }}
+            >
                 <Link 
                     href="#" 
                     color="inherit" 
                     sx={{ 
-                        mx: 2, 
+                        mx: { xs: 0, sm: 2 }, 
+                        my: { xs: 0.5, sm: 0 }, 
                         textDecoration: 'none', 
                         '&:hover': {
                             textDecoration: 'underline',
@@ -37,7 +50,8 @@ const Footer = () => {
                     href="#" 
                     color="inherit" 
                     sx={{ 
-                        mx: 2, 
+                        mx: { xs: 0, sm: 2 }, 
+                        my: { xs: 0.5, sm: 0 }, 
                         textDecoration: 'none', 
                         '&:hover': {
                             textDecoration: 'underline',
@@ -50,7 +64,8 @@ const Footer = () => {
                     href="#" 
                     color="inherit" 
                     sx={{ 
-                        mx: 2, 
+                        mx: { xs: 0, sm: 2 }, 
+                        my: { xs: 0.5, sm: 0 }, 
                         textDecoration: 'none', 
                         '&:hover': {
                             textDecoration: 'underline',

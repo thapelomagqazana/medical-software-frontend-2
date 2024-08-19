@@ -133,6 +133,7 @@ const PatientDashboardPage = () => {
     const handleReschedule = async (appointment, selectedDate, selectedTimeSlot) => {
         try {
             await dispatch(rescheduleAppointment({ patientId, appointmentId: appointment._id, newDate: selectedDate, newTimeSlot: selectedTimeSlot })).unwrap();
+            dispatch(fetchUpcomingAppointments(patientId));
             setSnackbarMessage("Appointment rescheduled successfully!");
             setSnackbarSeverity("success");
             setSnackbarOpen(true);
@@ -147,6 +148,7 @@ const PatientDashboardPage = () => {
     const handleCancel = async (appointment) => {
         try {
             await dispatch(cancelAppointment({ patientId, appointmentId: appointment._id })).unwrap();
+            dispatch(fetchUpcomingAppointments(patientId));
             setSnackbarMessage("Appointment cancelled successfully!");
             setSnackbarSeverity("success");
             setSnackbarOpen(true);

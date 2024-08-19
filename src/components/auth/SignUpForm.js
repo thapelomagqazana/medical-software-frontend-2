@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TextField, Button, Container, Box, Typography, Link as MuiLink, Alert, LinearProgress, Stepper, Step, StepLabel } from "@mui/material";
+import { TextField, Button, Container, Box, Typography, Link as MuiLink, Alert, LinearProgress, Stepper, Step, StepLabel, useMediaQuery, useTheme } from "@mui/material";
 import { Formik, Form, Field, FieldArray } from "formik";
 import * as Yup from "yup";
-import { register, clearRegistrationSuccess } from "../../redux/slices/authSlice";
+import { register, clearRegistrationSuccess, clearError } from "../../redux/slices/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 
-// Validation schema for the sign-up form
 const SignUpSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
@@ -32,6 +31,8 @@ const SignUp = () => {
     const navigate = useNavigate();
     const error = useSelector((state) => state.auth.error);
     const registrationSuccess = useSelector((state) => state.auth.registrationSuccess);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     const [activeStep, setActiveStep] = useState(0);
 
@@ -42,6 +43,9 @@ const SignUp = () => {
                 navigate("/sign-in");
             }, 2000); // Redirect after 2 seconds
         }
+        return () => {
+            dispatch(clearError());
+        };
     }, [registrationSuccess, dispatch, navigate]);
 
     const handleNext = () => setActiveStep((prevStep) => prevStep + 1);
@@ -188,7 +192,7 @@ const SignUp = () => {
                                     render={(arrayHelpers) => (
                                         <div>
                                             {values.emergencyContacts.map((contact, index) => (
-                                                <Box key={index} sx={{ display: 'flex', alignItems: 'center', marginBottom: 2 }}>
+                                                <Box key={index} sx={{ display: 'flex', alignItems: 'center', flexDirection: isMobile ? 'column' : 'row', marginBottom: 2 }}>
                                                     <Field
                                                         as={TextField}
                                                         name={`emergencyContacts.${index}.name`}
@@ -197,7 +201,7 @@ const SignUp = () => {
                                                         margin="normal"
                                                         error={touched.emergencyContacts?.[index]?.name && !!errors.emergencyContacts?.[index]?.name}
                                                         helperText={touched.emergencyContacts?.[index]?.name && errors.emergencyContacts?.[index]?.name}
-                                                        sx={{ marginRight: 2 }}
+                                                        sx={{ marginRight: isMobile ? 0 : 2 }}
                                                     />
                                                     <Field
                                                         as={TextField}
@@ -211,7 +215,7 @@ const SignUp = () => {
                                                     <Button
                                                         type="button"
                                                         onClick={() => arrayHelpers.remove(index)}
-                                                        sx={{ marginLeft: 2 }}
+                                                        sx={{ marginLeft: isMobile ? 0 : 2, mt: isMobile ? 2 : 0 }}
                                                     >
                                                         Remove
                                                     </Button>
@@ -231,18 +235,18 @@ const SignUp = () => {
                             </div>
                         )}
 
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
+                        <Box sx={{ display: 'flex', justifyContent: isMobile ? 'center' : 'space-between', marginTop: 2, flexDirection: isMobile ? 'column-reverse' : 'row' }}>
                             {activeStep > 0 && (
-                                <Button onClick={handleBack} variant="contained" color="secondary">
+                                <Button onClick={handleBack} variant="contained" color="secondary" sx={{ mt: isMobile ? 2 : 0 }}>
                                     Back
                                 </Button>
                             )}
                             {activeStep < steps.length - 1 ? (
-                                <Button onClick={handleNext} variant="contained" color="primary">
+                                <Button onClick={handleNext} variant="contained" color="primary" sx={{ mt: isMobile ? 2 : 0 }}>
                                     Next
                                 </Button>
                             ) : (
-                                <Button type="submit" variant="contained" color="primary" disabled={!isValid}>
+                                <Button type="submit" variant="contained" color="primary" disabled={!isValid} sx={{ mt: isMobile ? 2 : 0 }}>
                                     Submit
                                 </Button>
                             )}
